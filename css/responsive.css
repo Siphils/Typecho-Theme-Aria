@@ -1,0 +1,128 @@
+
+@media (max-width:799px)  {
+    #nav-right a {
+        display: none;
+    }
+
+    #nav-btns #nav-menu-btn {
+        display: inline-block;
+    }
+}
+
+@media (max-width: 768px) {
+    #comment-info {
+        display: block;
+        width: 100%;
+    }
+
+    #comment-form .comment-input {
+        width: 100%;
+    }
+}
+
+@media (max-width: 1440px) and (min-width: 768px) {
+    #site-meta {
+        width: 550px;
+    }
+
+}
+
+@media (max-width: 768px) and (min-width: 450px) {
+    #site-meta {
+        width: 450px;
+    }
+}
+
+@media (max-width: 450px) and (min-width: 425px)  {
+    #site-meta {
+        width: 350px;
+    }
+
+    #site-avatar img {
+        width: 100px;
+    }
+
+    #site-name h1{
+        font-size: 45px;
+    }
+
+    #site-description {
+        font-size: 25px;
+    }
+
+    .card-header {
+        height: 200px;
+    }
+}
+
+@media (max-width: 425px) {
+
+    #site-meta {
+        width: 250px;
+    }
+
+    #site-avatar img {
+        width: 90px;
+    }
+
+    #site-name h1{
+        font-size: 35px;
+    }
+
+    #site-description {
+        font-size: 18px;
+    }
+
+    .card-header {
+        height: 160px;
+    }
+
+    .card-preview {
+        max-height: 180px;
+    }
+
+    .card-title {
+        line-height: 20px;
+        font-size: 1.1rem;
+        overflow-y: hidden;
+    }
+
+    .card-content {
+        font-size: 13px;
+    }
+
+    .card-meta i {
+    font-size: .75rem;
+    }
+
+    .post-thumbnail {
+        max-height: 200px;
+    }
+
+    .post-meta-label i {
+        font-size: 13px;
+    }
+
+    .post-tags a {
+        font-size: 13px;
+    }
+
+    .post-tags span{
+        font-size: 15px;
+    }
+
+    #comment-form textarea {
+        background-size: 100px 100px;
+    }
+
+    #go-top {
+        width: 40px;
+        height: 40px;
+    }
+
+    #scroll-percentage {
+        width: 40px;
+        height: 40px
+    }
+}
+
