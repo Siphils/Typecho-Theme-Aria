@@ -1,10 +1,14 @@
 <?php
 if (!defined('__TYPECHO_ROOT_DIR__')) exit;
 
+require_once 'UserAgent/Browser.php';
+require_once 'UserAgent/OperatingSystem.php';
+$gravatarSource = 'https://cn.gravatar.org/avatar/';  //更换gravatar头像源
+
 function themeConfig($form) {
     $avatarUrl = new Typecho_Widget_Helper_Form_Element_Text('avatarUrl', NULL, NULL, _t('站点头像'), _t('在这里填入一个图片URL地址, 以在网站标题前加上一个头像,需要带上http(s)://'));
 
-    $defaultThumbnail = new Typecho_Widget_Helper_Form_Element_Text('defaultThumbnail', NULL, NULL, _t('默认文章缩略图'), _t('填入默认的缩略图地址，未设置缩略图字段时调用此地址，需要带http(s)://'));
+    $defaultThumbnail = new Typecho_Widget_Helper_Form_Element_Textarea('defaultThumbnail', NULL, NULL, _t('默认文章缩略图'), _t('填入默认的缩略图地址，未设置缩略图字段时调用此地址，需要带http(s)://，每一行写一个URL，随机展示'));
     $backgroundUrl = new Typecho_Widget_Helper_Form_Element_Textarea('backgroundUrl', NULL, NULL, _t('首页背景图片'),_t('需要输入http(s)://，每一行写一个URL，随机展示'));
     $OwOJson = new Typecho_Widget_Helper_Form_Element_Text('OwOJson', NULL, NULL, _t('OwO'), _t('OwO表情JSON文件的URL'));
     $googleAnalysis = new Typecho_Widget_Helper_Form_Element_Textarea('googleAnalysis', NULL, NULL, _t('谷歌统计'), _t('谷歌统计代码'));
@@ -18,6 +22,18 @@ function themeConfig($form) {
     $form->addInput($baiduAnalysis);
 }
 
+
+function themeFields($layout) {
+    $thumbnail = new Typecho_Widget_Helper_Form_Element_Text('thumbnail', NULL, NULL, _t('文章/页面缩略图Url'), _t('需要带上http(s)://， 默认会调用主题img目录下的postThumnail.jpg'));
+    $previewContent = new Typecho_Widget_Helper_Form_Element_Text('previewContent', NULL, NULL, _t('文章预览内容'), _t('设置文章的预览内容，留空自动截取文章前300个字。'));
+    
+    $layout->addItem($thumbnail);
+    $layout->addItem($previewContent);
+}
+
+/**
+ * 文章浏览次数
+ */
 function getPostView($archive){
     $cid    = $archive->cid;
     $db     = Typecho_Db::get();
@@ -44,50 +60,9 @@ function getPostView($archive){
     }
     echo $row['views'];
 }
-
-function themeFields($layout) {
-    $thumbnail = new Typecho_Widget_Helper_Form_Element_Text('thumbnail', NULL, NULL, _t('文章/页面缩略图Url'), _t('需要带上http(s)://， 默认会调用主题img目录下的postThumnail.jpg'));
-    $previewContent = new Typecho_Widget_Helper_Form_Element_Text('previewContent', NULL, NULL, _t('文章预览内容'), _t('设置文章的预览内容，留空自动截取文章前300个字。'));
-    
-    $layout->addItem($thumbnail);
-    $layout->addItem($previewContent);
-}
-
-/*
-function themeFields($layout) {
-    $logoUrl = new Typecho_Widget_Helper_Form_Element_Text('logoUrl', NULL, NULL, _t('站点LOGO地址'), _t('在这里填入一个图片URL地址, 以在网站标题前加上一个LOGO'));
-    $layout->addItem($logoUrl);
-}
-*/
-
-function getPrevOrNextThumbnail($archive, $type = "prev") {
-            $content = $archive->db->fetchRow($archive->select()->where('table.contents.created > ? AND table.contents.created < ?',
-            $archive->created, $archive->options->gmtTime)
-            ->where('table.contents.status = ?', 'publish')
-            ->where('table.contents.type = ?', $archive->type)
-            ->where('table.contents.password IS NULL')
-            ->order('table.contents.created', Typecho_Db::SORT_ASC)
-            ->limit(1));
-
-        if ($content) {
-            $content = $archive->filter($content);
-            $default = array(
-                'title' => NULL,
-                'tagClass' => NULL
-            );
-            $custom = array_merge($default, $custom);
-            extract($custom);
-
-            $linkText = empty($title) ? $content['title'] : $title;
-            $linkClass = empty($tagClass) ? '' : 'class="' . $tagClass . '" ';
-            $link = '<a ' . $linkClass . 'href="' . $content['permalink'] . '" title="' . $content['title'] . '">' . $linkText . '</a>';
-
-            echo $content['cid'];
-        } else {
-            echo $default;
-        }
-}
-
+/**
+ * 根据$coid获取链接
+ */
 function getPermalinkFromCoid($coid) {
     $db = Typecho_Db::get();
     $options = Typecho_Widget::widget('Widget_Options');
@@ -116,62 +91,9 @@ function getPermalinkFromCoid($coid) {
     return array("author" => $row['author'], "text" => $row['text'], "href" => "{$permalink}{$page}#{$row['type']}-{$coid}");
 } 
 
-function printCommentContent($coid) {
-    $db = Typecho_Db::get();
-    $result=$db->fetchRow($db->select('text')->from('table.comments')->where('coid = ? AND status = ?', $coid, 'approved'));
-    $text=$result['text'];
-    $atStr = commentAtContent($coid);
-    $_content=Markdown::convert($text);
-    //<p>
-    if($atStr!==''){
-        $content = substr_replace($_content, $atStr,0,3);
-        echo $content;
-    }
-    else
-    {
-        $content=$_content;
-        echo $content;
-    }
-}
-
-function commentAtContent($coid) {
-    $db = Typecho_Db::get();
-    $prow = $db->fetchRow($db->select('parent')->from('table.comments')->where('coid = ? AND status = ?', $coid, 'approved'));
-    $parent = $prow['parent'];
-    if ($parent != "0") {
-        $arow = $db->fetchRow($db->select('author')->from('table.comments')
-                                     ->where('coid = ? AND status = ?', $parent, 'approved'));
-        $author = $arow['author'];
-        $href   = '<p><a href="#comment-' . $parent . '">@' . $author . '</a><br>';
-        return $href;
-    } else {
-        return '';
-    }
-}
-
-function printCommentAddr($ip) {
-    //echo $ip.''.gettype($ip);
-    if ((!$ip) || (strchr($ip, '127.0.')) || (strchr($ip, '192.168')) || ($ip === '::1')) {
-        //这部分为真则返回‘火星’类似的地址
-        echo "火星";
-    } else {
-        $url = 'http://ip.taobao.com/service/getIpInfo.php?ip=' . $ip;
-        $content = file_get_contents($url);
-        $data = json_decode($content, true);
-        if ($data['code'] == '0') {
-            $addr = '';
-            foreach ($data['data'] as $key => $value) {
-                if ($key === 'ip' || $key === 'country_id' || $key === 'area_id' || $key === 'region_id' || $key === 'city_id' || $key === 'county_id' || $key === 'isp_id' || !$value || $value == "XX") continue;
-                else $addr.= ' ' . $value;
-            }
-            echo $addr;
-        } else {
-            echo '火星';
-        }
-    }
-}
-
-
+/**
+ * page-archives.php 归档页输出时光轴
+ */
 function archives($day, $_month, $year, $title, $time, $link) {
     static $date = array();
     $__month = array(
@@ -199,7 +121,7 @@ function archives($day, $_month, $year, $title, $time, $link) {
         if (!in_array($month, $date[$year])) {
             //不存在就放入并且输出标签
             array_push($date[$year], $month);
-            $html.= '<div class="timeline-month timeline-item">' . $month . '</div>';
+            $html.= '<div class="timeline-month timeline-item">' . $month . '</div><div class="timeline-box"><div class="timeline-post timeline-item">' . '<a href="' . $link . '">' . $title . '</a><span class="timeline-post-time">'. $time .'</span></div></div>';
         } else {
             //存在就直接输出标题
             $html.= '<div class="timeline-box"><div class="timeline-post timeline-item">' . '<a href="' . $link . '">' . $title . '</a><span class="timeline-post-time">'. $time .'</span></div></div>';
@@ -208,6 +130,9 @@ function archives($day, $_month, $year, $title, $time, $link) {
     echo $html;
 };
 
+/**
+ * 获取背景图片
+ */
 function getBackground() {
     $options = Typecho_Widget::widget('Widget_Options');
     if($options->backgroundUrl) {
@@ -221,7 +146,191 @@ function getBackground() {
         $options->themeUrl('img/background.jpg');
 }
 
-function getCommentAvatar($email,$author='') {
+/**
+ * 获取随机默认缩略图
+ */
+function getThumbnail() {
+    $options = Typecho_Widget::widget('Widget_Options');
+    if($options->defaultThumbnail) {
+        $str = $options->defaultThumbnail;
+        $imgs = trim($str);
+        $urls = explode("\r\n", $imgs);
+        $n = mt_rand(0, count($urls)-1);
+        return $urls[$n];
+    }
+    else
+        return $options->themeUrl.'img/thumbnail.jpg';
+}
+
+/**
+ * 显示上一篇详情
+ * @return array
+ */
+function thePrev($widget)
+{
+    $name='thumbnail';
+    $thumbnail='str_value';
+    $options = Typecho_Widget::widget('Widget_Options');
+    $db = Typecho_Db::get();
+    $query = $db->select()->from('table.contents')
+    ->where('table.contents.created < ?', $widget->created)
+    ->where('table.contents.status = ?', 'publish')
+    ->where('table.contents.type = ?', $widget->type)
+    ->where('table.contents.password IS NULL')
+    ->order('table.contents.created', Typecho_Db::SORT_DESC)
+    ->limit(1);
+    $content = $db->fetchRow($query);
+    if($content) {
+        $content=$widget->filter($content);
+        $title=$content['title'];
+        $link=$content['permalink'];
+
+        $query=$db->select()->from('table.fields')
+        ->where('table.fields.cid = ?', $content['cid'])
+        ->where('table.fields.name = ?', $name)
+        ->limit(1);
+
+        $content = $db->fetchRow($query);
+        if($content) {
+            $img = $content[$thumbnail] ? $content[$thumbnail] : getThumbnail();
+        }
+    }
+    else {
+        $img = getThumbnail();
+        $title='没有了';
+        $link='#';
+    }
+    $result=array('img'=>$img,'title'=>$title,'link'=>$link);
+    return $result;
+}
+
+/**
+ * 显示下一篇详情
+ * @return array
+ */
+function theNext($widget)
+{
+    $name='thumbnail';
+    $thumbnail='str_value';
+    $options = Typecho_Widget::widget('Widget_Options');
+    $db = Typecho_Db::get();
+    $query = $db->select()->from('table.contents')
+    ->where('table.contents.created > ?', $widget->created)
+    ->where('table.contents.status = ?', 'publish')
+    ->where('table.contents.type = ?', $widget->type)
+    ->where('table.contents.password IS NULL')
+    ->order('table.contents.created', Typecho_Db::SORT_ASC)
+    ->limit(1);
+    $content = $db->fetchRow($query);
+    if($content) {
+        $content=$widget->filter($content);
+        $title=$content['title'];
+        $link=$content['permalink'];
+
+        $query=$db->select()->from('table.fields')
+        ->where('table.fields.cid = ?', $content['cid'])
+        ->where('table.fields.name = ?', $name)
+        ->limit(1);
+        $content = $db->fetchRow($query);
+        if($content) {
+            $img = $content[$thumbnail] ? $content[$thumbnail] : getThumbnail();
+        }
+    }
+    else {
+        $img = getThumbnail();
+        $title='没有了';
+        $link='#';
+    }
+    $result=array('img'=>$img,'title'=>$title,'link'=>$link);
+    return $result;
+}
+
+//
+
+/**
+ * 输出评论回复内容，配合 commentAtContent($coid)一起使用
+ */
+function printCommentContent($coid) {
+    $db = Typecho_Db::get();
+    $result=$db->fetchRow($db->select('text')->from('table.comments')->where('coid = ? AND status = ?', $coid, 'approved'));
+    $text=$result['text'];
+    $atStr = commentAtContent($coid);
+    $_content=Markdown::convert($text);
+    //<p>
+    if($atStr!==''){
+        $content = substr_replace($_content, $atStr,0,3);
+        echo $content;
+    }
+    else
+    {
+        $content=$_content;
+        echo $content;
+    }
+}
+
+/**
+ * 评论回复加@
+ */
+function commentAtContent($coid) {
+    $db = Typecho_Db::get();
+    $prow = $db->fetchRow($db->select('parent')->from('table.comments')->where('coid = ? AND status = ?', $coid, 'approved'));
+    $parent = $prow['parent'];
+    if ($parent != "0") {
+        $arow = $db->fetchRow($db->select('author')->from('table.comments')
+                                     ->where('coid = ? AND status = ?', $parent, 'approved'));
+        $author = $arow['author'];
+        $href   = '<p><a href="#comment-' . $parent . '">@' . $author . '</a><br>';
+        return $href;
+    } else {
+        return '';
+    }
+}
+
+/**
+ * 评论地址显示
+ */
+function printCommentAddr($ip) {
+    //echo $ip.''.gettype($ip);
+    if ((!$ip) || (strchr($ip, '127.0.')) || (strchr($ip, '192.168')) || ($ip === '::1')) {
+        //这部分为真则返回‘火星’类似的地址
+        echo "火星";
+    } else {
+        $url = 'http://ip.taobao.com/service/getIpInfo.php?ip=' . $ip;
+        $content = file_get_contents($url);
+        $data = json_decode($content, true);
+        if ($data['code'] == '0') {
+            $addr = '';
+            foreach ($data['data'] as $key => $value) {
+                if ($key === 'ip' || $key === 'country_id' || $key === 'area_id' || $key === 'region_id' || $key === 'city_id' || $key === 'county_id' || $key === 'isp_id' || !$value || $value == "XX") continue;
+                else $addr.= ' ' . $value;
+            }
+            echo $addr;
+        } else {
+            echo '火星';
+        }
+    }
+}
+
+/**
+ * 获取评论者头像
+ */
+
+function commentGravatar( $email, $author , $s = 80 ) {
+    $d = 'mp'; $r = 'g';
+    $size=$s;
+    $url = 'https://cn.gravatar.com/avatar/';
+    $url .= md5( strtolower( trim( $email ) ) );
+    $url .= "?s=$s&d=$d&r=$r";
+    echo '<img class="avatar" src="' . $url . '" alt="' . 
+    $author . '" width="' . $size . '" height="' . $size . '" />';
+}
+
+
+/**
+ * 评论判断gravatar是否存在
+ */
+
+function judgeGravatar($email,$author='') {
     $hash = md5(strtolower(trim($email)));
     $uri = 'http://www.gravatar.com/avatar/' . $hash . '?d=404';
     $headers = @get_headers($uri);
@@ -242,6 +351,10 @@ function getCommentAvatar($email,$author='') {
     $tag.='src="'.$url.'">';
     echo $tag;
 }
+
+/**
+ * 输出评论回复/取消回复按钮
+ */
 
 function commentReply($archive) {
     echo "<script type=\"text/javascript\">
@@ -332,4 +445,69 @@ function commentReply($archive) {
 })();
 </script>
 ";
+}
+
+/**
+ * 显示评论者的ua信息,直接输出html标签
+ */
+function printCommentUA($userAgent)
+{
+    $browser=useragent_detect_browser::analyze($userAgent);
+    $os=useragent_detect_os::analyze($userAgent);
+    $html='';
+    //匹配浏览器
+    if(preg_match('/QQ/i', $browser['name'])) {
+        $html.='<i class="iconfont">&#xe608;';
+    }
+    else if(preg_match('/UC/i', $browser['name'])) {
+        $html.='<i class="iconfont">&#xe64a;';
+    }
+    else if(preg_match('/Internet Explorer/i', $browser['name'])) {
+        $html.='<i class="iconfont">&#xe646;';
+    }
+    else if(preg_match('/Safari/i', $browser['name'])) {
+        $html.='<i class="iconfont">&#xe6ef;';
+    }
+    else if(preg_match('/Opera/i', $browser['name'])) {
+        $html.='<i class="iconfont">&#xe6d4;';
+    }
+    else if(preg_match('/Firefox/i', $browser['name'])) {
+        $html.='<i class="iconfont">&#xe67f;';
+    }
+    else if($browser['name']==='Google Chrome') {
+        $html.='<i class="iconfont">&#xe691;';
+    }
+    else {
+        $html.='<i class="iconfont">&#xe601;';
+    }
+    //匹配os
+    $html.=" ";
+    if($os['name']==='Fedora') {
+        $html.='&#xe655;';
+    }
+    else if(preg_match('/Android|ADR /i', $os['name'])) {
+        $html.="&#xe632;";
+    }
+    else if(preg_match('/Ubuntu/i',$os['name'])) {
+        $html.='&#xe681;';
+    }
+    else if($os['name']==='Debian GNU/Linux') {
+        $html.='&#xe679;';
+    }
+    else if($os['name']==='CentOS') {
+        $html.='&#xe676;';
+    }
+    else if(preg_match('/Windows|Win(NT|32|95|98|16)|ZuneWP7|WPDesktop/i', $os['name'])) {
+        $html.='&#xe86f;';
+    }
+    else if(preg_match('/Mac/i', $os['name'])||$os['name']==='iOS') {
+        $html.='&#xe631;';
+    }
+    else if($os['name']==='Arch Linux') {
+        $html.='&#xe600;';
+    }
+    else 
+        $html.='&#xe613;';
+    $html.="</i> ";
+    echo $html;
 }

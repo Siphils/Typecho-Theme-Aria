@@ -20,12 +20,30 @@
                     <?php $this->tags(' ', true, '<a>No tags</a>'); ?>
                     <span class="iconfont">&#xe671;</span>
                 </div>
-                <div class="post-footer">
-                    <span class="post-prev webfont">
-                        <?php $this->thePrev('%s','没有了~'); ?></span>
-                    <hr style="width: 50%;color:opacity: .4;">
-                    <span class="post-next webfont">
-                        <?php $this->theNext('%s','没有了~'); ?></span>
+                <?php $prev=thePrev($this);$next=theNext($this); ?>
+                <div class="post-footer nextprev">
+                    <div class="post-footer-box half previous"> 
+                        <a href="<?php echo $prev['link']; ?>" rel="prev">
+                            <div class="post-footer-thumbnail"> 
+                                <img src="<?php echo $prev['img']; ?>">
+                            </div>
+                            <span class="post-footer-label">Previous Post</span>
+                            <div class="post-footer-title">
+                                <h3><?php echo $prev['title']; ?></h3>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="post-footer-box half next"> 
+                        <a href="<?php echo $next['link']; ?>" rel="next">
+                            <div class="post-footer-thumbnail"> 
+                                <img src="<?php echo $next['img']; ?>">
+                            </div>
+                            <span class="post-footer-label">Next Post</span>
+                            <div class="post-footer-title">
+                                <h3><?php echo $next['title']; ?></h3>
+                            </div>
+                        </a>
+                    </div>
                 </div>
             </article>
     <?php $this->need('comments.php'); ?>

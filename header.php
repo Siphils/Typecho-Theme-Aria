@@ -55,7 +55,8 @@
                         if(!empty($this->fields->thumbnail))
                             $this->fields->thumbnail(); 
                         else
-                            $this->options->themeUrl('img/thumbnail.jpg');
+                            //$this->options->themeUrl('img/thumbnail.jpg');
+                            echo getThumbnail();
                     else 
                         getBackground();
                 ?>

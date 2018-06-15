@@ -93,7 +93,7 @@ body {
 
 a {
     text-shadow: 0 1px 2px rgba(0, 0, 0, .15);
-    font-family: -apple-system, BlinkMacSystemFont, "Pingfang SC", Roboto, "Open Sans", "Microsoft Yahei Light", "Microsoft YaHei", "Helvetica Neue", Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+    font-family: -apple-system,  "Pingfang SC", Roboto, "Open Sans", "Microsoft Yahei Light", "Microsoft YaHei", "Helvetica Neue", Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
     -webkit-transition: all .24s ease;
     transition: all .24s ease;
     /*color: rgb(47, 98, 194);*/
@@ -776,16 +776,106 @@ table {
 }
 
 .post-footer {
-    border-bottom: 1px dashed #dadada;
+    overflow:hidden;
+    width:100%;
+    margin:0;
+    margin-top: 40px;
+    background:#000;
 }
-.post-footer span:first-child {
-/*     margin-top: 5px; */
+.post-footer .post-footer-thumbnail {
+    position:absolute;
+    z-index:50;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    opacity:.4;
+    background-size:cover;
+    -webkit-transition:opacity .15s ease-out;
+    -moz-transition:opacity .15s ease-out;
+    transition:opacity .15s ease-out;
 }
-.post-footer span {
-    text-align: center;
-    display: block;
-/*     height: 40px; */
-    line-height: 40px;
+.post-footer>.post-footer-box>a>.post-footer-thumbnail>img {
+    width: 100%;height: 100%;object-fit: cover;pointer-events: none;
+}
+.post-footer.nextprev a{
+    height:150px;
+    padding:0;
+    text-align:left;
+}
+.post-footer .post-footer-title {
+    position:relative;
+    z-index:98;
+}
+.post-footer a{
+    position:relative;
+    display:block;
+    float:left;
+    overflow:hidden;
+    height:100%;
+    padding:55px 25px;
+    text-align:center;
+}
+.post-footer a:hover>.post-footer-thumbnail{
+    opacity:.6;
+}
+.post-footer h3 {
+    font-size:17px;
+    font-weight:400;
+    line-height:30px;
+    margin:20px 0;
+    color:#fff;
+    overflow:hidden;
+    white-space:nowrap;
+    text-overflow:ellipsis;
+    display:block;
+}
+.post-footer .post-footer-label {
+    font-size:13px;
+    display:block;
+    text-transform:uppercase;
+    color:rgba(255,255,255,.7);
+}
+.post-footer .half {
+    width:50%;
+    float:left;
+}
+.post-footer.nextprev a {
+    width:100%;
+}
+.post-footer.nextprev .post-footer-label {
+    position:absolute;
+    z-index:100;
+    top:0;
+}
+.post-footer.nextprev .post-footer-title {
+    position:absolute;
+    width:70%;
+}
+.post-footer.nextprev .next h3,.post-footer.nextprev .previous h3 {
+    font-size:14px;
+}
+.post-footer.nextprev .previous {
+    text-align:left;
+}
+.post-footer.nextprev .previous .post-footer-title {
+    bottom:40px;
+    left:40px;
+}
+.post-footer.nextprev .previous .post-footer-label {
+    top:40px;
+    left:40px;
+}
+.post-footer.nextprev .next .post-footer-title {
+    text-align:right;
+}
+.post-footer.nextprev .next .post-footer-title {
+    right:40px;
+    bottom:40px;
+}
+.post-footer.nextprev .next .post-footer-label {
+    top:40px;
+    right:40px;
 }
 
 #comments {

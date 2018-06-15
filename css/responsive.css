@@ -18,6 +18,7 @@
     #comment-form .comment-input {
         width: 100%;
     }
+
 }
 
 @media (max-width: 1440px) and (min-width: 768px) {
@@ -30,6 +31,21 @@
 @media (max-width: 768px) and (min-width: 450px) {
     #site-meta {
         width: 450px;
+    }
+    #search-box {
+        background-size: 55%;
+    }
+    #search-img {
+        width: 32px;
+        height: 32px;
+    }
+    #search-text {
+        width: 300px;
+        height: 50px;
+    }
+    #search-button {
+        height: 55px;
+        width: 55px;
     }
 }
 
@@ -55,7 +71,7 @@
     }
 }
 
-@media (max-width: 425px) {
+@media (max-width: 450px) {
 
     #site-meta {
         width: 250px;
@@ -124,5 +140,47 @@
         width: 40px;
         height: 40px
     }
+    #search-box>form {
+        min-width: 190px;
+    }
+    #search-box {
+        background-size: 80%;
+    }
+
+    #search-img {
+        width: 32px;
+        height: 32px;
+    }
+    #search-text {
+        width: 150px;
+        height: 40px;
+        font-size: 20px;
+    }
+    #search-button {
+        height: 30px;
+        width: 30px;
+    }
 }
 
+@media (max-width:860px) {
+    .post-footer .third {
+        width:100%;
+    }
+}
+@media (max-width:760px) {
+    .post-footer .half {
+        float:none;
+        width:100%;
+    }
+}
+@media (max-width:900px) {
+    .post-footer.post-footer-featured {
+        display:none;
+    }
+}
+@media (max-width:760px) {
+    .post-footer.nextprev article {
+        height:150px;
+        width:100%;
+    }
+}

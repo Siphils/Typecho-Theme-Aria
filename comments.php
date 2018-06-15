@@ -25,14 +25,14 @@ echo $commentClass;
     <div id="<?php $comments->theId(); ?>" class="comment-content">
         <span class="comment-reply"><?php $comments->reply('Reply'); ?></span>
         <div class="comment-author">
-            <?php $comments->gravatar('128', ''); ?>
-            <?php //getCommentAvatar($comments->mail,$comments->author); ?>
+            <?php commentGravatar($comments->mail,$comments->author,128); ?>
+            <?php //judgeGravatar($comments->mail,$comments->author); ?>
             <cite class="fn"><?php $comments->author(); ?></cite>
             <div class="comment-meta">
             <a href="<?php $comments->permalink(); ?>">
                 <?php $comments->dateWord(); ?>
             </a>
-            <?php printCommentAddr($comments->ip); ?>
+            <?php printCommentAddr($comments->ip);echo" ";printCommentUA($comments->agent); ?>
         </div>
         </div>
         <div class="comment-main">
@@ -102,7 +102,7 @@ echo $commentClass;
                 function changeGravatar() {
                     email_value = email.value;
                     email_md5 = hex_md5(email_value);
-                    new_ga = "http://www.gravatar.com/avatar/" + email_md5 + "?s=128&r=G";
+                    new_ga = "http://cn.gravatar.com/avatar/" + email_md5 + "?s=128&r=G";
                     newGravatar(new_ga);
                 }
                 function newGravatar(new_ga) {
@@ -145,6 +145,7 @@ echo $commentClass;
              ?>
 
     <?php else: ?>
+        <style>.comment-reply {display:none;}</style>
     <span class="webfont" style="font-size: 20px;display: block;user-select: none;"><i class="iconfont">&#xe604;</i> 评论关闭了哟</span>
     <?php endif; ?>
 </div>

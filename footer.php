@@ -11,7 +11,7 @@
         <div class="span6" id="footer-div">
             <p>
             &copy; <span><?php echo date('Y'); ?></span> <span><a href="<?php $this->options->siteUrl(); ?>"><?php $this->options->title(); ?></a>.</span></p>
-            <p id="coder">Made By <i class="with-love iconfont">&#xe671;</i> <a href="https://siphils.com/">Siphils</a>.</p>
+            <p id="coder">Theme By <i class="with-love iconfont">&#xe671;</i> <a href="https://siphils.com/">Siphils</a>.</p>
             <p id="typecho">Powered by <a href="http://www.typecho.org">Typecho</a>.</p>
 
         </div>

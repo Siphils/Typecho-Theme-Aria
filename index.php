@@ -5,7 +5,7 @@
  * @package Aria
  * @author Siphils
  * @version 1.0 Beta
- * @link http://siphils.com/typecho-theme-aria
+ * @link https://siphils.com/typecho-theme-Aria
  */
 
 if (!defined('__TYPECHO_ROOT_DIR__')) exit;
@@ -18,18 +18,15 @@ if (!defined('__TYPECHO_ROOT_DIR__')) exit;
     			<header class="card-header evenflow_scale" style="background: url(
                     <?php if(!empty($this->fields->thumbnail))
                             $this->fields->thumbnail();
-                        else if($this->options->defaultThumbnail)
-                            $this->options->defaultThumbnail();
                         else
-                            $this->options->themeUrl('/img/thumbnail.jpg');
+                            echo getThumbnail();
                         ?>) center center no-repeat;background-size: 100% auto;">
                     <h3 class="card-title"><a href="<?php $this->permalink() ?>" class="card-link"><?php $this->title() ?></a></h3>
                     <div class="card-meta">
-                    <!--a href="#popup-article" class="card-link card-readmore" title="read more"><i class="iconfont">&#xe625;&#xe625;</i></a-->
-                            <span class="card-meta-label card-meta-comments"><i class="iconfont">&#xe6f3;</i> <a href="<?php $this->permalink(); ?>" title="comments"><i class="webfont"><?php $this->commentsNum('%d'); ?></i></a></span>
-                            <span class="card-meta-label card-meta-views"><i class="iconfont">&#xe619;</i> <i class="webfont"><?php getPostView($this); ?></i></span>
-                            <span class="card-meta-label card-meta-cate"><i class="iconfont">&#xe609;</i> <i class="webfont"><?php $this->category(' '); ?></i></span>
-                            <span class="card-meta-label card-meta-date"><i class="iconfont">&#xe65f;</i> <i class="webfont"><?php $this->date('F jS, Y'); ?></i></span>
+                        <span class="card-meta-label card-meta-comments"><i class="iconfont">&#xe6f3;</i> <a href="<?php $this->permalink(); ?>" title="comments"><i class="webfont"><?php $this->commentsNum('%d'); ?></i></a></span>
+                        <span class="card-meta-label card-meta-views"><i class="iconfont">&#xe619;</i> <i class="webfont"><?php getPostView($this); ?></i></span>
+                        <span class="card-meta-label card-meta-cate"><i class="iconfont">&#xe609;</i> <i class="webfont"><?php $this->category(' '); ?></i></span>
+                        <span class="card-meta-label card-meta-date"><i class="iconfont">&#xe65f;</i> <i class="webfont"><?php $this->date('F jS, Y'); ?></i></span>
                     </div>   
                 </header>
                 <div class="card-body">
