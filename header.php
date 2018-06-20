@@ -15,6 +15,8 @@
 
     <!-- 使用url函数转换相关路径 -->
     
+    <link href="https://cdn.bootcss.com/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/fancybox/3.3.5/jquery.fancybox.min.css" rel="stylesheet">
     <link href="<?php $this->options->themeUrl('css/animate.min.css'); ?>" rel="stylesheet">
     <link href="<?php $this->options->themeUrl('css/normalize.min.css'); ?>" rel="stylesheet">
     <link href="<?php $this->options->themeUrl('OwO/OwO.min.css'); ?>" rel="stylesheet">
@@ -22,7 +24,6 @@
     <link href="<?php $this->options->themeUrl('css/grid.css'); ?>" rel="stylesheet">
     <link href="<?php $this->options->themeUrl('css/style.css'); ?>" rel="stylesheet">
     <link href="<?php $this->options->themeUrl('css/responsive.css'); ?>" rel="stylesheet">
-    <link href="https://cdn.bootcss.com/fancybox/3.3.5/jquery.fancybox.min.css" rel="stylesheet">
     
     <!--[if lt IE 9]>
     <script src="http://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
@@ -32,6 +33,7 @@
     <!-- 通过自有函数输出HTML头部信息 -->
     <?php $this->header("generator=&template=&commentReply="); ?>
     <div class="pjax-container">
+        <script src="<?php $this->options->themeUrl('OwO/OwO.min.js') ?>"></script>
     <?php commentReply($this); ?>
     <style>
         <?php if($this->is('post') || $this->is('page') || $this->is('single')):; ?>
@@ -77,13 +79,13 @@
         <a class="evenflow_scale" href="<?php $this->options->siteUrl(); ?>"><i class="webfont"><?php $this->options->title(); ?></i></a>
     </div>
     <div id="nav-right">
-        <a class="evenflow_scale" href="<?php $this->options->siteUrl(); ?>"><i class="iconfont">&#xe69e;首页</i></a>
-        <a class="evenflow_scale" href="<?php $this->options->siteUrl('archives.html'); ?>"><i class="iconfont">&#xe612;归档</i></a>
-        <!--a class="evenflow_scale" href="<?php $this->options->siteUrl('books.html'); ?>"><i class="iconfont">&#xe615;书籍</i></a-->
+        <a data-pjax=true class="evenflow_scale" href="<?php $this->options->siteUrl(); ?>"><i class="iconfont">&#xe69e;首页</i></a>
+        <a data-pjax=true class="evenflow_scale" href="<?php $this->options->siteUrl('archives.html'); ?>"><i class="iconfont">&#xe612;归档</i></a>
+        <!--a data-pjax=true class="evenflow_scale" href="<?php $this->options->siteUrl('books.html'); ?>"><i class="iconfont">&#xe615;书籍</i></a-->
         <!--a class="evenflow_scale" href="<?php $this->options->siteUrl('music.html'); ?>"><i class="iconfont">&#xe6a9;歌单</i></a-->
-        <a class="evenflow_scale" href="<?php $this->options->siteUrl('guestbook.html'); ?>"><i class="iconfont">&#xe6ac;留言</i></a>
-        <a class="evenflow_scale" href="<?php $this->options->siteUrl('friends.html'); ?>"><i class="iconfont">&#xe65e;朋友</i></a>
-        <a class="evenflow_scale" href="<?php $this->options->siteUrl('about.html'); ?>"><i class="iconfont">&#xe648;关于</i></a>
+        <a data-pjax=true class="evenflow_scale" href="<?php $this->options->siteUrl('guestbook.html'); ?>"><i class="iconfont">&#xe6ac;留言</i></a>
+        <a data-pjax=true class="evenflow_scale" href="<?php $this->options->siteUrl('friends.html'); ?>"><i class="iconfont">&#xe65e;朋友</i></a>
+        <a data-pjax=true class="evenflow_scale" href="<?php $this->options->siteUrl('about.html'); ?>"><i class="iconfont">&#xe648;关于</i></a>
     <div id="nav-btns">
         <i class="iconfont" id="nav-menu-btn">&#xe6ad;</i>
         <i class="iconfont" id="nav-search-btn">&#xe601;</i>
@@ -100,13 +102,13 @@
 <div id="nav-vertical">
     <span class="close"><i class="iconfont">&#xe604;</i></span>
     <div id="nav-avatar"><img src="<?php if($this->options->avatarUrl) $this->options->avatarUrl();else $this->options->themeUrl('img/avatar.jpg'); ?>"></div>
-    <a class="evenflow_scale" href="<?php $this->options->siteUrl(); ?>"><i class="iconfont">&#xe69e;首页</i></a>
-    <a class="evenflow_scale" href="<?php $this->options->siteUrl('archives.html'); ?>"><i class="iconfont">&#xe612;归档</i></a>
-    <!--a class="evenflow_scale" href="<?php $this->options->siteUrl('books.html'); ?>"><i class="iconfont">&#xe615;书籍</i></a>
-    <a class="evenflow_scale" href="<?php $this->options->siteUrl('music.html'); ?>"><i class="iconfont">&#xe6a9;歌单</i></a-->
-    <a class="evenflow_scale" href="<?php $this->options->siteUrl('guestbook.html'); ?>"><i class="iconfont">&#xe6ac;留言</i></a>
-    <a class="evenflow_scale" href="<?php $this->options->siteUrl('friends.html'); ?>"><i class="iconfont">&#xe65e;朋友</i></a>
-    <a class="evenflow_scale" href="<?php $this->options->siteUrl('about.html'); ?>"><i class="iconfont">&#xe648;关于</i></a>
+    <a data-pjax=true class="evenflow_scale" href="<?php $this->options->siteUrl(); ?>"><i class="iconfont">&#xe69e;首页</i></a>
+    <a data-pjax=true class="evenflow_scale" href="<?php $this->options->siteUrl('archives.html'); ?>"><i class="iconfont">&#xe612;归档</i></a>
+    <!--a data-pjax=true class="evenflow_scale" href="<?php $this->options->siteUrl('books.html'); ?>"><i class="iconfont">&#xe615;书籍</i></a>
+    <a data-pjax=true class="evenflow_scale" href="<?php $this->options->siteUrl('music.html'); ?>"><i class="iconfont">&#xe6a9;歌单</i></a-->
+    <a data-pjax=true class="evenflow_scale" href="<?php $this->options->siteUrl('guestbook.html'); ?>"><i class="iconfont">&#xe6ac;留言</i></a>
+    <a data-pjax=true class="evenflow_scale" href="<?php $this->options->siteUrl('friends.html'); ?>"><i class="iconfont">&#xe65e;朋友</i></a>
+    <a data-pjax=true class="evenflow_scale" href="<?php $this->options->siteUrl('about.html'); ?>"><i class="iconfont">&#xe648;关于</i></a>
 </div>
 
 <header id="header" class="clearfix">

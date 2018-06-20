@@ -18,23 +18,18 @@
     </div>
 </footer><!-- end #footer -->
 <script src="https://cdn.bootcss.com/jquery/1.8.3/jquery.min.js"></script>
-<div class="pjax-container">
-<script src="<?php $this->options->themeUrl('js/main.js'); ?>"></script>
-<script src="<?php $this->options->themeUrl('js/prism.js'); ?>"></script>
-</div>
-<script src="https://cdn.bootcss.com/fancybox/3.3.5/jquery.fancybox.min.js"></script>
+<script src="https://cdn.bootcss.com/nprogress/0.2.0/nprogress.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script>
 <script src="https://cdn.bootcss.com/headroom/0.9.4/headroom.min.js"></script>
+<div class="pjax-container">
+<script src="https://cdn.bootcss.com/fancybox/3.3.5/jquery.fancybox.min.js"></script>
+<script src="<?php $this->options->themeUrl('js/prism.js'); ?>"></script>
+<script src="<?php $this->options->themeUrl('js/main.js'); ?>"></script>
 <script>
-  var myElement = document.querySelector("#nav-menu");
-// construct an instance of Headroom, passing the element
-var headroom  = new Headroom(myElement);
-// initialise
-headroom.init();
-window.onload = function() { Aria.init(); }
+    Aria.init();
 </script>
-<?php if($this->options->googleAnalysis) $this->options->googleAnalysis(); ?>
-<?php if($this->options->baiduAnalysis) $this->options->baiduAnalysis(); ?>
+</div>
+<?php if($this->options->statistics) $this->options->statistics(); ?>
 <?php $this->footer(); ?>
 </body>
 </html>

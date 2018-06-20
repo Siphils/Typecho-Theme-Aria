@@ -11,15 +11,13 @@ function themeConfig($form) {
     $defaultThumbnail = new Typecho_Widget_Helper_Form_Element_Textarea('defaultThumbnail', NULL, NULL, _t('默认文章缩略图'), _t('填入默认的缩略图地址，未设置缩略图字段时调用此地址，需要带http(s)://，每一行写一个URL，随机展示'));
     $backgroundUrl = new Typecho_Widget_Helper_Form_Element_Textarea('backgroundUrl', NULL, NULL, _t('首页背景图片'),_t('需要输入http(s)://，每一行写一个URL，随机展示'));
     $OwOJson = new Typecho_Widget_Helper_Form_Element_Text('OwOJson', NULL, NULL, _t('OwO'), _t('OwO表情JSON文件的URL'));
-    $googleAnalysis = new Typecho_Widget_Helper_Form_Element_Textarea('googleAnalysis', NULL, NULL, _t('谷歌统计'), _t('谷歌统计代码'));
-    $baiduAnalysis = new Typecho_Widget_Helper_Form_Element_Textarea('baiduAnalysis', NULL, NULL, _t('百度统计'), _t('百度统计代码'));
+    $statistics = new Typecho_Widget_Helper_Form_Element_Textarea('statistics', NULL, NULL, _t('统计代码'), _t('在此填入统计的代码'));
 
     $form->addInput($avatarUrl);
     $form->addInput($defaultThumbnail);
     $form->addInput($backgroundUrl);
     $form->addInput($OwOJson);
-    $form->addInput($googleAnalysis);
-    $form->addInput($baiduAnalysis);
+    $form->addInput($statistics);
 }
 
 
@@ -94,7 +92,7 @@ function getPermalinkFromCoid($coid) {
 /**
  * page-archives.php 归档页输出时光轴
  */
-function archives($day, $_month, $year, $title, $time, $link) {
+function pageArchives($day, $_month, $year, $title, $time, $link) {
     static $date = array();
     $__month = array(
         '01' => 'Jan', 
@@ -129,6 +127,24 @@ function archives($day, $_month, $year, $title, $time, $link) {
     }
     echo $html;
 };
+
+/**
+ * page-friends.php 友情链接页面输出
+ */
+
+function pageFriends($archive) {
+    $string=$archive->content;
+    $pattern=array(
+        '/\[link-box\]/',
+        '/\[\/link-box\]/',
+        '/\[link-item href=(.*?)(\s)title=(.*?)(\s)img=(.*?)(\s)name=(.*?)\]/'
+    );
+    $replacement=array(
+        '<div class="link-box">',
+        '</div><!--end .link-box-->',
+        '<a href=$1 title=$3 target="_blank"><div class="link-item"><img class="link-avatar" src=$5><span class="link-name">$7</span></div></a>');
+    echo preg_replace($pattern, $replacement, $string);
+}
 
 /**
  * 获取背景图片

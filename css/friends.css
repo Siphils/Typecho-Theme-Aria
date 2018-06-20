@@ -3,8 +3,13 @@
     margin: 20px 0;
 }
 
+.link-box a {
+    display: inline-block;
+    width: 20%;
+}
+
 .link-item {
-    width: 19%;
+    width: 100%;
     background-color: rgba(119, 183, 234, 0.1);
     border: 1.3px solid #ededed;
     border-radius: 20px;
@@ -45,11 +50,16 @@
 @media (max-width: 1250px) {
     .link-item {
         border-radius: 10px;
-        width: 18%;
     }
 
     .link-avatar {
         border-radius: 10px;
+    }
+}
+
+@media (max-width: 450px) {
+    .link-box a {
+        width: 33%;
     }
 }
 

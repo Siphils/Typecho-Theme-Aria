@@ -93,7 +93,7 @@ echo $commentClass;
             </div>
             <script type="text/javascript" src="<?php $this->options->themeUrl('js/js-md5.js'); ?>"></script>
             <script type="text/javascript">
-                var ga = document.getElementById("comment-cur-avatar");
+                var gravatar = document.getElementById("comment-cur-avatar");
                 var email = document.getElementById("mail");
                 var Ka = navigator.userAgent.toLowerCase();
                 var chrome = Ka.indexOf('webkit') != -1;
@@ -102,11 +102,11 @@ echo $commentClass;
                 function changeGravatar() {
                     email_value = email.value;
                     email_md5 = hex_md5(email_value);
-                    new_ga = "http://cn.gravatar.com/avatar/" + email_md5 + "?s=128&r=G";
-                    newGravatar(new_ga);
+                    new_gravatar = "http://cn.gravatar.com/avatar/" + email_md5 + "?s=128&r=G";
+                    newGravatar(new_gravatar);
                 }
-                function newGravatar(new_ga) {
-                    ga.setAttribute('src', new_ga);
+                function newGravatar(new_gravatar) {
+                    gravatar.setAttribute('src', new_gravatar);
                 }
             </script>
             <?php endif; ?>
@@ -126,7 +126,6 @@ echo $commentClass;
             </p>
         </form>
     </div>
-            <script src="<?php $this->options->themeUrl('OwO/OwO.min.js') ?>"></script>
             <?php 
                 $url=$this->options->OwOUrl ? $this->options->OwOUrl : $this->options->themeUrl."/OwO/OwO.json";
                 echo "
@@ -143,7 +142,6 @@ echo $commentClass;
                 </script>
                 ";
              ?>
-
     <?php else: ?>
         <style>.comment-reply {display:none;}</style>
     <span class="webfont" style="font-size: 20px;display: block;user-select: none;"><i class="iconfont">&#xe604;</i> 评论关闭了哟</span>

@@ -15,7 +15,7 @@ if (!defined('__TYPECHO_ROOT_DIR__')) exit;
         <?php $this->widget('Widget_Metas_Tag_Cloud', 'ignoreZeroCount=1')->to($tags); ?>
         <ul id="archives-tags-list">
         <?php while($tags->next()): ?>
-            <li class="archives-tags-item"><a href="<?php $tags->permalink(); ?>"title='<?php $tags->name(); ?>'><?php $tags->name(); ?></a></li>
+            <li class="archives-tags-item"><a data-pjax=true href="<?php $tags->permalink(); ?>"title='<?php $tags->name(); ?>'><?php $tags->name(); ?></a></li>
         <?php endwhile; ?>
         </ul>
     </div>
@@ -24,7 +24,7 @@ if (!defined('__TYPECHO_ROOT_DIR__')) exit;
         <?php $this->widget('Widget_Metas_Category_List')->to($category); ?>
         <ul id="archives-cate-list">
             <?php while ($category->next()): ?>
-            <li class="archives-cate-item"><a href="<?php $category->permalink(); ?>"><?php $category->name(); ?></a></li>
+            <li class="archives-cate-item"><a data-pjax=true href="<?php $category->permalink(); ?>"><?php $category->name(); ?></a></li>
             <?php endwhile; ?>
         </ul>
     </div>
@@ -39,7 +39,7 @@ if (!defined('__TYPECHO_ROOT_DIR__')) exit;
             $time=date('jS',$post->created);
             $link=$post->permalink;
             $html='';
-            archives($day,$month,$year,$title,$time,$link);
+            pageArchives($day,$month,$year,$title,$time,$link);
             //$this->widget('Widget_Contents_Post_Date', 'type=year&format=F Y')->parse('<a href="{permalink}">{date}</a>');
          ?>
     <?php endwhile; ?>

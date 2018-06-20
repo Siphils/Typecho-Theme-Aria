@@ -2,17 +2,36 @@ window.Aria = {
     init: function() {
         Aria.action();
         Aria.fancyBox();
+        Aria.headroom();
+        Aria.pjax();
     },
-    fancyBox:function() {
-        $(document).ready(function() {         
-            $("a.fancyBox_group").fancybox({  
-                'transitionIn'  :   'elastic',  
-                'transitionOut' :   'elastic',  
-                'speedIn'       :   600,   
-                'speedOut'      :   200,   
-                'overlayShow'   :   true  
-            });  
-        });  
+    pjax: function() {
+        var pjax = new Pjax({
+            elements: "a[data-pjax=true]",
+            selectors: ["title","#main", ".pjax-container"],
+            debug: true,
+            cacheBust: false
+        });
+        document.addEventListener('pjax:send', function() {NProgress.start()});
+        document.addEventListener('pjax:complete', function(){
+            NProgress.done();
+        });
+    },
+    headroom: function() {
+        var myElement = document.querySelector("#nav-menu");
+        // construct an instance of Headroom, passing the element
+        var headroom  = new Headroom(myElement);
+        // initialise
+        headroom.init();
+    },
+    fancyBox:function() {       
+        $("a.fancyBox_group").fancybox({  
+            'transitionIn'  :   'elastic',  
+            'transitionOut' :   'elastic',  
+            'speedIn'       :   600,   
+            'speedOut'      :   200,   
+            'overlayShow'   :   true  
+        });   
     },
     action: function() {
         /* menu */
