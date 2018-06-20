@@ -3,7 +3,6 @@ if (!defined('__TYPECHO_ROOT_DIR__')) exit;
 
 require_once 'UserAgent/Browser.php';
 require_once 'UserAgent/OperatingSystem.php';
-$gravatarSource = 'https://cn.gravatar.org/avatar/';  //更换gravatar头像源
 
 function themeConfig($form) {
     $avatarUrl = new Typecho_Widget_Helper_Form_Element_Text('avatarUrl', NULL, NULL, _t('站点头像'), _t('在这里填入一个图片URL地址, 以在网站标题前加上一个头像,需要带上http(s)://'));
@@ -210,6 +209,9 @@ function thePrev($widget)
         if($content) {
             $img = $content[$thumbnail] ? $content[$thumbnail] : getThumbnail();
         }
+        else {
+            $img = getThumbnail();
+        }
     }
     else {
         $img = getThumbnail();
@@ -250,6 +252,9 @@ function theNext($widget)
         $content = $db->fetchRow($query);
         if($content) {
             $img = $content[$thumbnail] ? $content[$thumbnail] : getThumbnail();
+        }
+        else {
+            $img = getThumbnail();
         }
     }
     else {
@@ -357,7 +362,7 @@ function judgeGravatar($email,$author='') {
     }
     $tag='<img class="avatar" alt="'.$author.'" ';
     if($has_valid_avatar) {
-        $url = 'https://www.gravatar.com/avatar/';
+        $url = 'https://cn.gravatar.com/avatar/';
         $url .= md5( strtolower( trim( $email ) ) );
         $url .= "?s=128&r=g";
     }
@@ -494,7 +499,7 @@ function printCommentUA($userAgent)
         $html.='<i class="iconfont">&#xe691;';
     }
     else {
-        $html.='<i class="iconfont">&#xe601;';
+        $html.='<i class="iconfont">&#xe602;';
     }
     //匹配os
     $html.=" ";

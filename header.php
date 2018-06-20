@@ -79,13 +79,13 @@
         <a class="evenflow_scale" href="<?php $this->options->siteUrl(); ?>"><i class="webfont"><?php $this->options->title(); ?></i></a>
     </div>
     <div id="nav-right">
-        <a data-pjax=true class="evenflow_scale" href="<?php $this->options->siteUrl(); ?>"><i class="iconfont">&#xe69e;首页</i></a>
-        <a data-pjax=true class="evenflow_scale" href="<?php $this->options->siteUrl('archives.html'); ?>"><i class="iconfont">&#xe612;归档</i></a>
-        <!--a data-pjax=true class="evenflow_scale" href="<?php $this->options->siteUrl('books.html'); ?>"><i class="iconfont">&#xe615;书籍</i></a-->
+        <a class="evenflow_scale" href="<?php $this->options->siteUrl(); ?>"><i class="iconfont">&#xe69e;首页</i></a>
+        <a class="evenflow_scale" href="<?php $this->options->siteUrl('archives.html'); ?>"><i class="iconfont">&#xe612;归档</i></a>
+        <!--a class="evenflow_scale" href="<?php $this->options->siteUrl('books.html'); ?>"><i class="iconfont">&#xe615;书籍</i></a-->
         <!--a class="evenflow_scale" href="<?php $this->options->siteUrl('music.html'); ?>"><i class="iconfont">&#xe6a9;歌单</i></a-->
-        <a data-pjax=true class="evenflow_scale" href="<?php $this->options->siteUrl('guestbook.html'); ?>"><i class="iconfont">&#xe6ac;留言</i></a>
-        <a data-pjax=true class="evenflow_scale" href="<?php $this->options->siteUrl('friends.html'); ?>"><i class="iconfont">&#xe65e;朋友</i></a>
-        <a data-pjax=true class="evenflow_scale" href="<?php $this->options->siteUrl('about.html'); ?>"><i class="iconfont">&#xe648;关于</i></a>
+        <a class="evenflow_scale" href="<?php $this->options->siteUrl('guestbook.html'); ?>"><i class="iconfont">&#xe6ac;留言</i></a>
+        <a class="evenflow_scale" href="<?php $this->options->siteUrl('friends.html'); ?>"><i class="iconfont">&#xe65e;朋友</i></a>
+        <a class="evenflow_scale" href="<?php $this->options->siteUrl('about.html'); ?>"><i class="iconfont">&#xe648;关于</i></a>
     <div id="nav-btns">
         <i class="iconfont" id="nav-menu-btn">&#xe6ad;</i>
         <i class="iconfont" id="nav-search-btn">&#xe601;</i>
@@ -102,13 +102,13 @@
 <div id="nav-vertical">
     <span class="close"><i class="iconfont">&#xe604;</i></span>
     <div id="nav-avatar"><img src="<?php if($this->options->avatarUrl) $this->options->avatarUrl();else $this->options->themeUrl('img/avatar.jpg'); ?>"></div>
-    <a data-pjax=true class="evenflow_scale" href="<?php $this->options->siteUrl(); ?>"><i class="iconfont">&#xe69e;首页</i></a>
-    <a data-pjax=true class="evenflow_scale" href="<?php $this->options->siteUrl('archives.html'); ?>"><i class="iconfont">&#xe612;归档</i></a>
-    <!--a data-pjax=true class="evenflow_scale" href="<?php $this->options->siteUrl('books.html'); ?>"><i class="iconfont">&#xe615;书籍</i></a>
-    <a data-pjax=true class="evenflow_scale" href="<?php $this->options->siteUrl('music.html'); ?>"><i class="iconfont">&#xe6a9;歌单</i></a-->
-    <a data-pjax=true class="evenflow_scale" href="<?php $this->options->siteUrl('guestbook.html'); ?>"><i class="iconfont">&#xe6ac;留言</i></a>
-    <a data-pjax=true class="evenflow_scale" href="<?php $this->options->siteUrl('friends.html'); ?>"><i class="iconfont">&#xe65e;朋友</i></a>
-    <a data-pjax=true class="evenflow_scale" href="<?php $this->options->siteUrl('about.html'); ?>"><i class="iconfont">&#xe648;关于</i></a>
+    <a class="evenflow_scale" href="<?php $this->options->siteUrl(); ?>"><i class="iconfont">&#xe69e;首页</i></a>
+    <a class="evenflow_scale" href="<?php $this->options->siteUrl('archives.html'); ?>"><i class="iconfont">&#xe612;归档</i></a>
+    <!--a class="evenflow_scale" href="<?php $this->options->siteUrl('books.html'); ?>"><i class="iconfont">&#xe615;书籍</i></a>
+    <a class="evenflow_scale" href="<?php $this->options->siteUrl('music.html'); ?>"><i class="iconfont">&#xe6a9;歌单</i></a-->
+    <a class="evenflow_scale" href="<?php $this->options->siteUrl('guestbook.html'); ?>"><i class="iconfont">&#xe6ac;留言</i></a>
+    <a class="evenflow_scale" href="<?php $this->options->siteUrl('friends.html'); ?>"><i class="iconfont">&#xe65e;朋友</i></a>
+    <a class="evenflow_scale" href="<?php $this->options->siteUrl('about.html'); ?>"><i class="iconfont">&#xe648;关于</i></a>
 </div>
 
 <header id="header" class="clearfix">

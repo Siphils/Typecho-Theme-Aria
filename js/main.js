@@ -7,7 +7,7 @@ window.Aria = {
     },
     pjax: function() {
         var pjax = new Pjax({
-            elements: "a[data-pjax=true]",
+            elements: "a",
             selectors: ["title","#main", ".pjax-container"],
             debug: true,
             cacheBust: false

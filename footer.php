@@ -28,8 +28,8 @@
 <script>
     Aria.init();
 </script>
-</div>
 <?php if($this->options->statistics) $this->options->statistics(); ?>
+</div>
 <?php $this->footer(); ?>
 </body>
 </html>

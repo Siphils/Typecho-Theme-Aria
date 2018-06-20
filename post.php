@@ -4,7 +4,7 @@
 <div id="main" class="col-mb-12 col-8 col-offset-2 index-main">
     <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
                 <div class="post-header">
-                    <h3 class="post-title"><a data-pjax=true href="<?php $this->permalink() ?>" class="post-link"><?php $this->title() ?></a></h3>
+                    <h3 class="post-title"><a href="<?php $this->permalink() ?>" class="post-link"><?php $this->title() ?></a></h3>
                     <div class="post-meta">
                         <span class="post-meta-label post-meta-views"><i class="webfont"><?php getPostView($this); ?>次阅读</i></span>
                         <span class="post-meta-label post-meta-cate"><i class="webfont"><?php $this->category(' '); ?></i></span>
@@ -23,7 +23,7 @@
                 <?php $prev=thePrev($this);$next=theNext($this); ?>
                 <div class="post-footer nextprev">
                     <div class="post-footer-box half previous"> 
-                        <a data-pjax=true href="<?php echo $prev['link']; ?>" rel="prev">
+                        <a href="<?php echo $prev['link']; ?>" rel="prev">
                             <div class="post-footer-thumbnail"> 
                                 <img src="<?php echo $prev['img']; ?>">
                             </div>
@@ -34,7 +34,7 @@
                         </a>
                     </div>
                     <div class="post-footer-box half next"> 
-                        <a data-pjax=true href="<?php echo $next['link']; ?>" rel="next">
+                        <a href="<?php echo $next['link']; ?>" rel="next">
                             <div class="post-footer-thumbnail"> 
                                 <img src="<?php echo $next['img']; ?>">
                             </div>
