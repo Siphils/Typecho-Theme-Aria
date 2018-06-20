@@ -175,7 +175,7 @@ function getThumbnail() {
         return $urls[$n];
     }
     else
-        return $options->themeUrl.'img/thumbnail.jpg';
+        return $options->themeUrl.'/img/thumbnail.jpg';
 }
 
 /**
