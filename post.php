@@ -17,7 +17,7 @@
                     </div>
                 </div>
                 <div class="post-tags">
-                    <?php $this->tags(' ', true, '<a>No tags</a>'); ?>
+                    <?php $this->tags(' ', true, '<a>None</a>'); ?>
                     <span class="iconfont">&#xe671;</span>
                 </div>
                 <?php $prev=thePrev($this);$next=theNext($this); ?>
