@@ -87,7 +87,7 @@
 body {
     background-color: #FFF;
     color: #444;
-    font-family: "Open Sans", -apple-system, "Helvetica Neue", Arial, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
+    font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
     font-size: 95%;
 }
 
@@ -180,7 +180,7 @@ input[type="text"], input[type="email"], input[type="url"], input[type="password
 
 #nav-menu, #nav-vertical {
     position: fixed;
-    z-index: 11;
+    z-index: 100;
 }
 
 #nav-menu {
@@ -301,7 +301,7 @@ input[type="text"], input[type="email"], input[type="url"], input[type="password
 #search-box {
     display: none;
     position: fixed;
-    z-index: 11;
+    z-index: 110;
     width: 100%;
     height: 100%;
     background: #fff url(../img/search-bg.png) bottom left no-repeat;
@@ -1146,14 +1146,15 @@ table {
     font-family: Comic Sans MS,Consolas, Microsoft YaHei;
 }
 
-#footer > div {
+#footer>div {
+    
+    text-align: center;
 }
 
 #footer-div p {
     font-size: 1.0rem;
     color: rgba(176, 176, 176, 1);
     margin: 3px auto;
-    text-align: center;
 }
 
 #footer-div>p:last-child {

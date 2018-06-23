@@ -32,7 +32,8 @@ echo $commentClass;
             <a href="<?php $comments->permalink(); ?>">
                 <?php $comments->dateWord(); ?>
             </a>
-            <?php printCommentAddr($comments->ip);echo" ";printCommentUA($comments->agent); ?>
+            <?php //printCommentAddr($comments->ip);
+            echo" ";printCommentUA($comments->agent); ?>
         </div>
         </div>
         <div class="comment-main">

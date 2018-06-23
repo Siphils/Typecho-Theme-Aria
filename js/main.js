@@ -9,7 +9,7 @@ window.Aria = {
         var pjax = new Pjax({
             elements: "a",
             selectors: ["title","#main", ".pjax-container"],
-            debug: true,
+            debug: false,
             cacheBust: false
         });
         document.addEventListener('pjax:send', function() {NProgress.start()});

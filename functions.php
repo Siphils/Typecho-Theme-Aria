@@ -311,7 +311,6 @@ function commentAtContent($coid) {
  * 评论地址显示
  */
 function printCommentAddr($ip) {
-    //echo $ip.''.gettype($ip);
     if ((!$ip) || (strchr($ip, '127.0.')) || (strchr($ip, '192.168')) || ($ip === '::1')) {
         //这部分为真则返回‘火星’类似的地址
         echo "火星";

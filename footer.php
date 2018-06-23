@@ -6,15 +6,12 @@
   <div id="go-top"><img src="<?php $this->options->themeUrl('img/goTop.png'); ?>"><div id="scroll-percentage"></div></div>
 
 <footer id="footer" role="contentinfo">
-    <div class="sui-row-fluid">
-        <div class="span3"></div>
-        <div class="span6" id="footer-div">
+    <div id="footer-div">
             <p>
             &copy; <span><?php echo date('Y'); ?></span> <span><a href="<?php $this->options->siteUrl(); ?>"><?php $this->options->title(); ?></a>.</span></p>
             <p id="coder">Theme By <i class="with-love iconfont">&#xe671;</i> <a href="https://siphils.com/">Siphils</a>.</p>
             <p id="typecho">Powered by <a href="http://www.typecho.org">Typecho</a>.</p>
 
-        </div>
     </div>
 </footer><!-- end #footer -->
 <script src="https://cdn.bootcss.com/jquery/1.8.3/jquery.min.js"></script>
