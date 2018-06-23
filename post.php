@@ -6,14 +6,14 @@
                 <div class="post-header">
                     <h3 class="post-title"><a href="<?php $this->permalink() ?>" class="post-link"><?php $this->title() ?></a></h3>
                     <div class="post-meta">
-                        <span class="post-meta-label post-meta-views"><i class="webfont"><?php getPostView($this); ?>次阅读</i></span>
-                        <span class="post-meta-label post-meta-cate"><i class="webfont"><?php $this->category(' '); ?></i></span>
-                        <span class="post-meta-label post-meta-date"><i class="webfont"><?php $this->date('F jS, Y'); ?></i></span>
+                        <span class="post-meta-label post-meta-views"><?php getPostView($this); ?>次阅读</span>
+                        <span class="post-meta-label post-meta-cate"><?php $this->category(' '); ?></span>
+                        <span class="post-meta-label post-meta-date"><?php $this->date('F jS, Y'); ?></span>
                     </div> 
                 </div>
                 <div class="post-body">
                     <div class="post-content">
-                            <?php $this->content(); ?>
+                        <?php $this->content(); ?>
                     </div>
                 </div>
                 <div class="post-tags">

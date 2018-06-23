@@ -6,11 +6,11 @@
   <div id="go-top"><img src="<?php $this->options->themeUrl('img/goTop.png'); ?>"><div id="scroll-percentage"></div></div>
 
 <footer id="footer" role="contentinfo">
-    <div id="footer-div">
+    <div>
             <p>
             &copy; <span><?php echo date('Y'); ?></span> <span><a href="<?php $this->options->siteUrl(); ?>"><?php $this->options->title(); ?></a>.</span></p>
-            <p id="coder">Theme By <i class="with-love iconfont">&#xe671;</i> <a href="https://siphils.com/">Siphils</a>.</p>
-            <p id="typecho">Powered by <a href="http://www.typecho.org">Typecho</a>.</p>
+            <p id="hitokoto"></p>
+            <p id="footer-info"><span><a href="http://www.typecho.org" title="念念不忘，必有回响。">Typecho</a></span><span><a href="https://siphils.com/typecho-theme-Aria.html" title="typecho-theme-Aria">Theme-Aria</a></span></p>
 
     </div>
 </footer><!-- end #footer -->
@@ -23,7 +23,7 @@
 <script src="<?php $this->options->themeUrl('js/prism.js'); ?>"></script>
 <script src="<?php $this->options->themeUrl('js/main.js'); ?>"></script>
 <script>
-    Aria.init();
+    window.onload=Aria.init();
 </script>
 <?php if($this->options->statistics) $this->options->statistics(); ?>
 </div>

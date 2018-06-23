@@ -71,7 +71,7 @@ echo $commentClass;
         <?php $comments->cancelReply('Cancel'); ?>
         </div>
     
-        <span id="new-response" class="webfont"><i class="iconfont">&#xe6ac;</i> 开始你的表演 </span>
+        <span id="new-response"><i class="iconfont">&#xe6ac;</i> 开始你的表演 </span>
         <!-- New Comments begin -->
         <form method="post" action="<?php $this->commentUrl() ?>" id="comment-form" role="form">
             <?php if($this->user->hasLogin()): ?>

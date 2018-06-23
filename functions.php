@@ -521,7 +521,7 @@ function printCommentUA($userAgent)
         $html.='&#xe86f;';
     }
     else if(preg_match('/Mac/i', $os['name'])||$os['name']==='iOS') {
-        $html.='&#xe631;';
+        $html.='&#xe605;';
     }
     else if($os['name']==='Arch Linux') {
         $html.='&#xe600;';

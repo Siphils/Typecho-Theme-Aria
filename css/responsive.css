@@ -65,10 +65,6 @@
     #site-description {
         font-size: 25px;
     }
-
-    .card-header {
-        height: 200px;
-    }
 }
 
 @media (max-width: 450px) {
@@ -89,30 +85,8 @@
         font-size: 18px;
     }
 
-    .card-header {
-        height: 160px;
-    }
-
-    .card-preview {
-        max-height: 180px;
-    }
-
-    .card-title {
-        line-height: 20px;
-        font-size: 1.1rem;
-        overflow-y: hidden;
-    }
-
-    .card-content {
-        font-size: 13px;
-    }
-
-    .card-meta i {
-    font-size: .75rem;
-    }
-
-    .post-thumbnail {
-        max-height: 200px;
+    .card-thumbnail {
+        height: 180px;
     }
 
     .post-meta-label i {

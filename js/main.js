@@ -4,12 +4,13 @@ window.Aria = {
         Aria.fancyBox();
         Aria.headroom();
         Aria.pjax();
+        Aria.hitokoto();
     },
     pjax: function() {
         var pjax = new Pjax({
             elements: "a",
             selectors: ["title","#main", ".pjax-container"],
-            debug: false,
+            debug: true,
             cacheBust: false
         });
         document.addEventListener('pjax:send', function() {NProgress.start()});
@@ -33,10 +34,19 @@ window.Aria = {
             'overlayShow'   :   true  
         });   
     },
+    hitokoto: function() {
+        $.ajax({
+            type: 'GET',
+            url: 'https://v1.hitokoto.cn/?c=a&encode=text',
+            success: function(r) {
+                $("#hitokoto").html(r);
+            }
+        })
+    },
     action: function() {
         /* menu */
-        $("#nav-menu-btn").on("click", function() { $("#nav-vertical").slideDown(); })
-        $("#nav-vertical>.close").on("click", function() { $("#nav-vertical").slideUp(); });
+        $("#nav-menu-btn").on("click", function() { $("#nav-vertical").fadeIn(); })
+        $("#nav-vertical>.close").on("click", function() { $("#nav-vertical").fadeOut(); });
         $("#search-box>.close").on("click", function() { $("#search-box").fadeOut(); });
         $("#nav-search-btn").on("click", function() { $("#search-box").fadeIn(); });
 
