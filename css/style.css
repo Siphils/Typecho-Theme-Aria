@@ -492,7 +492,7 @@ input[type="text"], input[type="email"], input[type="url"], input[type="password
 
 .post-title {
     text-align: center;
-    font-size: 1.9rem;
+    font-size: 1.5rem;
 }
 
 .post-meta {
@@ -500,17 +500,16 @@ input[type="text"], input[type="email"], input[type="url"], input[type="password
 }
 .post-meta-label:before {content:"# "; } 
 .post-meta-label{margin-right: 10px;} 
-.post-meta span:last-child{margin-right: initial;}
+.post-meta-label .post-meta-date:last-child{margin-right: initial;}
 
 .post-content {
     font-size: 105%;
     line-height: 1.5rem;
     word-wrap: break-word;
     word-break: break-all;
-    border-bottom: 1px dashed #dadada;
     border-top: 1px dashed #dadada;
-    padding: 20px 0;
-    margin-top: 35px;
+    padding: 0;
+    margin-top: 25px;
 }
 
 /* 文章内样式开始 */
@@ -656,8 +655,17 @@ table {
 
 /* 文章内样式结束 */
 
+.post-update {
+    margin: 10px 0;
+    display: block;
+    font-size: .8rem;
+    color: #14141494;
+    text-align: right;
+}
+
 .post-tags {
     height: 50px;
+    border-top: 1px dashed #dadada;
     border-bottom: 1px dashed #dadada;
 }
 

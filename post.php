@@ -15,7 +15,9 @@
                     <div class="post-content">
                         <?php $this->content(); ?>
                     </div>
+                    <div class="post-update"><i class="iconfont">&#xe74f;</i>&nbsp;最后一次更新于<?php echo $this->date("F jS, Y",$this->modified) ?></div>
                 </div>
+
                 <div class="post-tags">
                     <?php $this->tags(' ', true, '<a>None</a>'); ?>
                     <span class="iconfont">&#xe671;</span>
