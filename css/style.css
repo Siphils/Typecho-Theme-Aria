@@ -412,6 +412,13 @@ input[type="text"], input[type="email"], input[type="url"], input[type="password
 .card:hover .card-thumbnail::before {
 }
 
+.card:hover {
+    animation:card-animation 1.5s;
+    -webkit-animation:card-animation 1.5s;
+    animation-fill-mode:forwards; 
+    -webkit-animation-fill-mode:forwards;
+}
+
 .card-title {
     font-size: 20px;
     line-height: 1.4;
@@ -1145,6 +1152,26 @@ table {
 @-webkit-keyframes site-name-animation {
     0%  { background-position: 0 0;}
     100% { background-position: -100% 0;}
+}
+
+@keyframes card-animation{
+    0% {box-shadow: 0px 5px 10px 0 rgba(110, 110, 110, 0.4);}
+    100% {box-shadow: 0px 5px 10px 5px rgba(110, 110, 110, 0.4);}
+}
+
+@-moz-keyframes card-animation /* Firefox */{
+    0% {box-shadow: 0px 5px 10px 0 rgba(110, 110, 110, 0.4);}
+    100% {box-shadow: 0px 5px 10px 5px rgba(110, 110, 110, 0.4);}
+}
+
+@-webkit-keyframes card-animation /* Safari 和 Chrome */{
+    0% {box-shadow: 0px 5px 10px 0 rgba(110, 110, 110, 0.4);}
+    100% {box-shadow: 0px 5px 10px 5px rgba(110, 110, 110, 0.4);}
+}
+
+@-o-keyframes card-animation /* Opera */{
+    0% {box-shadow: 0px 5px 10px 0 rgba(110, 110, 110, 0.4);}
+    100% {box-shadow: 0px 5px 10px 5px rgba(110, 110, 110, 0.4);}
 }
 .evenflow_scale { transition:transform 0.25s ease;  }
 .evenflow_scale:hover { transform:scale(1.05,1.05); }

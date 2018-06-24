@@ -17,7 +17,6 @@
     
     <link href="https://cdn.bootcss.com/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
     <link href="https://cdn.bootcss.com/fancybox/3.3.5/jquery.fancybox.min.css" rel="stylesheet">
-    <link href="<?php $this->options->themeUrl('css/animate.min.css'); ?>" rel="stylesheet">
     <link href="<?php $this->options->themeUrl('css/normalize.min.css'); ?>" rel="stylesheet">
     <link href="<?php $this->options->themeUrl('OwO/OwO.min.css'); ?>" rel="stylesheet">
     <link href="<?php $this->options->themeUrl('css/prism.css'); ?>" rel="stylesheet">
@@ -34,9 +33,8 @@
     <?php $this->header("generator=&template=&commentReply="); ?>
     <div class="pjax-container">
         <script src="<?php $this->options->themeUrl('OwO/OwO.min.js') ?>"></script>
-    <?php commentReply($this); ?>
     <style>
-        <?php if($this->is('post') || $this->is('page') || $this->is('single')):; ?>
+        <?php if($this->is('post') || $this->is('page') || $this->is('single') || http_response_code()===404 ):; ?>
         #header {
             height: 70vh;
         }
@@ -59,7 +57,9 @@
                         else
                             //$this->options->themeUrl('img/thumbnail.jpg');
                             echo getThumbnail();
-                    else 
+                    else if(http_response_code()===404)
+                        $this->options->themeUrl('img/404.jpg');
+                    else
                         getBackground();
                 ?>
                 ) center center no-repeat;

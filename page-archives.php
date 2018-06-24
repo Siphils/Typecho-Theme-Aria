@@ -8,7 +8,7 @@
 if (!defined('__TYPECHO_ROOT_DIR__')) exit;
  $this->need('header.php');
  ?>
-<div id="main" class="col-mb-12 col-8 col-offset-2 index-main">
+<div id="main" class="col-mb-12 col-8 col-offset-2">
     <link rel="stylesheet" href="<?php $this->options->themeUrl("css/archives.css"); ?>">
     <div id="archives-tags">
         <div>Tags</div>

@@ -10,7 +10,7 @@ window.Aria = {
         var pjax = new Pjax({
             elements: "a",
             selectors: ["title","#main", ".pjax-container"],
-            debug: true,
+            debug: false,
             cacheBust: false
         });
         document.addEventListener('pjax:send', function() {NProgress.start()});
@@ -44,6 +44,10 @@ window.Aria = {
         })
     },
     action: function() {
+        if($("#nav-vertical").css("display") !== 'none')
+        {
+            $("#nav-vertical").css("display","none");
+        }
         /* menu */
         $("#nav-menu-btn").on("click", function() { $("#nav-vertical").fadeIn(); })
         $("#nav-vertical>.close").on("click", function() { $("#nav-vertical").fadeOut(); });

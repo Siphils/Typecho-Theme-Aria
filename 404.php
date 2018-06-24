@@ -1,19 +1,7 @@
 <?php if (!defined('__TYPECHO_ROOT_DIR__')) exit; ?>
 <?php $this->need('header.php'); ?>
-<style>
-        #header {
-            height: 70vh;
-        }
-        .filter:before {
-            height: 70vh;
-        }
-        #site-meta {
-            display: none;
-        }
-        #background {
-            background: url(<?php $this->options->themeUrl('img/404.jpg') ?>) center bottom no-repeat;
-            background-size: 100% auto;
-        } 
+    <div id="main" class="col-mb-12 col-8 col-offset-2">
+        <style>
         .error-page {
             margin-bottom: 30px;
         }
@@ -24,9 +12,7 @@
             width: 50%;
             max-width: 200px;
         }
-</style>
-    <div class="col-mb-12 col-tb-8 col-tb-offset-2">
-
+        </style>
         <div class="error-page">
             <h2 class="post-title">404</h2>
             <p><?php _e('来到了一个不存在的位置, 要不要搜索看看: '); ?></p>

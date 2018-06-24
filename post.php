@@ -1,7 +1,7 @@
 <?php if (!defined('__TYPECHO_ROOT_DIR__')) exit; ?>
 <?php $this->need('header.php'); ?>
 
-<div id="main" class="col-mb-12 col-8 col-offset-2 index-main">
+<div id="main" class="col-mb-12 col-8 col-offset-2">
     <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
                 <div class="post-header">
                     <h3 class="post-title"><a href="<?php $this->permalink() ?>" class="post-link"><?php $this->title() ?></a></h3>

@@ -1,4 +1,3 @@
-<!--test-->
 <?php function threadedComments($comments, $options) {
     $commentClass = '';
     if ($comments->authorId) {
@@ -51,6 +50,8 @@ echo $commentClass;
 <?php } ?>
 
 <?php if (!defined('__TYPECHO_ROOT_DIR__')) exit; ?>
+
+<?php commentReply($this); ?>
 <div id="comments">
     <?php $this->comments()->to($comments); ?>
     <span id="response"><i class="iconfont">&#xe6f3;</i> <?php $this->commentsNum(_t('0 Comment'), _t('1 Comment'), _t('%d Comments')); ?></span>
