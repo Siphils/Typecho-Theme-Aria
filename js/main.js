@@ -64,7 +64,8 @@ window.Aria = {
             hljs.highlightBlock(block);
         });
         
-        $('pre>code').each(function () {
+        if($("ol.line-number")!==undefined) {
+            $('pre>code').each(function () {
             var current = $(this),
                 lineStart = parseInt(current.data('line-start')),
                 lineFocus = parseInt(current.data('line-focus')),
@@ -82,9 +83,10 @@ window.Aria = {
 
                 result += items[i] + '</li>';
             }
-            result += '</ol>';
-            var items = current.empty().append(result);
-        });
+                result += '</ol>';
+                var items = current.empty().append(result);
+            });
+        } 
     },
     action: function() {
         if($("#nav-vertical").css("display") !== 'none')
