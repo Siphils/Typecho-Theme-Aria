@@ -1,22 +1,62 @@
 <?php
 if (!defined('__TYPECHO_ROOT_DIR__')) exit;
 
-require_once 'UserAgent/Browser.php';
-require_once 'UserAgent/OperatingSystem.php';
+require_once('UserAgent/Browser.php');
+require_once('UserAgent/OperatingSystem.php');
 
 function themeConfig($form) {
+
+    echo <<<EOF
+EOF;
+
     $avatarUrl = new Typecho_Widget_Helper_Form_Element_Text('avatarUrl', NULL, NULL, _t('站点头像'), _t('在这里填入一个图片URL地址, 以在网站标题前加上一个头像,需要带上http(s)://'));
+    $form->addInput($avatarUrl);
 
     $defaultThumbnail = new Typecho_Widget_Helper_Form_Element_Textarea('defaultThumbnail', NULL, NULL, _t('默认文章缩略图'), _t('填入默认的缩略图地址，未设置缩略图字段时调用此地址，需要带http(s)://，每一行写一个URL，随机展示'));
-    $backgroundUrl = new Typecho_Widget_Helper_Form_Element_Textarea('backgroundUrl', NULL, NULL, _t('首页背景图片'),_t('需要输入http(s)://，每一行写一个URL，随机展示'));
-    $OwOJson = new Typecho_Widget_Helper_Form_Element_Text('OwOJson', NULL, NULL, _t('OwO'), _t('OwO表情JSON文件的URL'));
-    $statistics = new Typecho_Widget_Helper_Form_Element_Textarea('statistics', NULL, NULL, _t('统计代码'), _t('在此填入统计的代码'));
-
-    $form->addInput($avatarUrl);
     $form->addInput($defaultThumbnail);
+
+    $backgroundUrl = new Typecho_Widget_Helper_Form_Element_Textarea('backgroundUrl', NULL, NULL, _t('首页背景图片'),_t('需要输入http(s)://，每一行写一个URL，随机展示'));
     $form->addInput($backgroundUrl);
+
+    $OwOJson = new Typecho_Widget_Helper_Form_Element_Text('OwOJson', NULL, NULL, _t('OwO'), _t('OwO表情JSON文件的URL'));
     $form->addInput($OwOJson);
+
+    $statistics = new Typecho_Widget_Helper_Form_Element_Textarea('statistics', NULL, NULL, _t('统计代码'), _t('在此填入统计的代码'));
     $form->addInput($statistics);
+
+    $userFooter = new Typecho_Widget_Helper_Form_Element_Textarea('userFooter', NULL, NULL, _t('自定义底部'), _t('填入底部额外的信息，加在copyright之前'));
+    $form->addInput($userFooter);
+
+    $navConfig = new Typecho_Widget_Helper_Form_Element_Textarea('navConfig', NULL, 
+        '"archives":{
+            "text":"归档",
+            "link":"#"
+        },
+        "guestbook":{
+            "text":"留言",
+            "link":"#"
+        },
+        "friends":{
+            "text":"朋友",
+            "link":"#"
+        },
+        "about":{
+            "text":"关于",
+            "link":"#"
+        }'
+    , _t('导航栏配置'), _t('输入导航栏的配置信息'));
+    $form->addInput($navConfig);
+
+    $AriaConfig = new Typecho_Widget_Helper_Form_Element_Checkbox('AriaConfig',
+        array(
+            'showHitokoto' => '页面底部显示一言',
+            'showLoadTime' => '页面底部显示加载时间(Processed in xxx second(s).)',
+            'usePjax' => '开启PJAX(需要关闭评论反垃圾保护)',
+            'useFancybox' => '文章内使用<a href="http://fancyapps.com">fancybox</a>(友情链接页面不会使用fancybox)',
+        ),
+        array('showHitokoto','showLoadTime','usePjax','useFancybox'), '其他设置'
+    );
+    $form->addInput($AriaConfig->multiMode());
 }
 
 
@@ -28,12 +68,118 @@ function themeFields($layout) {
     $layout->addItem($previewContent);
 }
 
+function themeInit($archive) {
+    $AriaConfig = Typecho_Widget::widget('Widget_Options')->AriaConfig;
+
+    /** 友情链接页面 */
+    if($archive->is('page','friends'))
+        $archive->content = pageFriends($archive);
+
+    /** 文章内容处理img标签 fanybox */
+    if(!empty($AriaConfig) && in_array('useFancybox', $AriaConfig)) {
+        if(!$archive->is('page','friends')) {
+            $pattern = '/<img(.*?)src="(.*?)"(.*?)>/';
+            $replacement = '<a href="$2" data-caption="'.$archive->title.'" no-pjax class="fancyBox">$0</a>';
+            $archive->content = preg_replace($pattern, $replacement, $archive->content);
+        }
+    }
+}
+
+function AriaConfig() {
+    $AriaConfig = Typecho_Widget::widget('Widget_Options')->AriaConfig;
+    //print_r($AriaConfig);
+    $showHitokoto = (!empty($AriaConfig) && in_array('showHitokoto', $AriaConfig)) ? 1 : 0;
+    $showLoadTime = (!empty($AriaConfig) && in_array('showLoadTime', $AriaConfig)) ? 1 : 0;
+    $usePjax = (!empty($AriaConfig) && in_array('usePjax', $AriaConfig)) ? 1 : 0;
+    $useFancybox = (!empty($AriaConfig) && in_array('useFancybox', $AriaConfig)) ? 1 : 0;
+    echo '<script>
+        window.THEME_CONFIG = {
+            SHOW_HITOKOTO : '.$showHitokoto.',
+            SHOW_LOADTIME : '.$showLoadTime.',
+            USE_PJAX : '.$usePjax.',
+            USE_FANCYBOX : '.$useFancybox.'
+        }
+    </script>';
+}
+
+
+/**
+ * 根据配置的JSON数据输出导航栏
+ * @param $mode 
+ *  {
+        "archives":{
+            "text":"归档",
+            "link":"https://xxx.com"
+        },
+        "guestbook":{
+            "text":"留言",
+            "link":"https://xxx.com"
+        }
+    }
+    目前可配置的有'archives','guestbook','friends','about'
+ */
+function showNav($mode) {
+    //$archive->widget('Widget_Contents_Page_List')->to($pages);
+    //print_r($pages->stack[0]['slug']);
+    //$options = Typecho_Widget::widget('Widget_Options')->navConfig;
+    //$options = Typecho_Widget::widget('Widget_Options');
+    //$data = $options->navConfig ? $options->navConfig : "";
+    //if($data) 
+    //    $data = json_decode(trim('{'.$data.'}'),true);
+    $data = convertToJSON('navConfig',0);
+    if($data) {
+        $html = '';
+        if($mode) {
+            //输出水平导航栏
+            if(array_key_exists('archives', $data)) {
+                //输出‘归档’
+                $html.='<li class="nav-right-item"><a href="'.$data['archives']['link'].'"><i class="iconfont">&#xe612;</i>'.$data['archives']['text'].'</a></li>';
+            }
+            if(array_key_exists('guestbook', $data)) {
+                //输出‘留言’
+                $html.='<li class="nav-right-item"><a href="'.$data['guestbook']['link'].'"><i class="iconfont">&#xe6ac;</i>'.$data['guestbook']['text'].'</a></li>';
+            }
+            if(array_key_exists('friends', $data)) {
+                //输出‘朋友’
+                $html.='<li class="nav-right-item"><a href="'.$data['friends']['link'].'"><i class="iconfont">&#xe65e;</i>'.$data['friends']['text'].'</a></li>';
+            }
+            if(array_key_exists('about', $data)) {
+                //输出‘关于’
+                $html.='<li class="nav-right-item"><a href="'.$data['about']['link'].'"><i class="iconfont">&#xe648;</i>'.$data['about']['text'].'</a></li>';
+            }
+        }
+        else {
+            //输出垂直导航栏
+            if(array_key_exists('archives', $data)) {
+                //输出‘归档’
+                $html.='<a href="'.$data['archives']['link'].'"><i class="iconfont">&#xe612;</i>'.$data['archives']['text'].'</a>';
+            }
+            if(array_key_exists('guestbook', $data)) {
+                //输出‘留言’
+                $html.='<a href="'.$data['guestbook']['link'].'"><i class="iconfont">&#xe6ac;</i>'.$data['guestbook']['text'].'</a>';
+            }
+            if(array_key_exists('friends', $data)) {
+                //输出‘朋友’
+                $html.='<a href="'.$data['friends']['link'].'"><i class="iconfont">&#xe65e;</i>'.$data['friends']['text'].'</a>';
+            }
+            if(array_key_exists('about', $data)) {
+                //输出‘关于’
+                $html.='<a href="'.$data['about']['link'].'"><i class="iconfont">&#xe648;</i>'.$data['about']['text'].'</a>';
+            }
+        }
+        
+        echo $html;
+    }
+    //转换失败
+    echo false;
+}
+
 /**
  * 文章浏览次数
  */
 function getPostView($archive){
-    $cid    = $archive->cid;
-    $db     = Typecho_Db::get();
+    $cid  = $archive->cid;
+    $db   = Typecho_Db::get();
     $prefix = $db->getPrefix();
     if (!array_key_exists('views', $db->fetchRow($db->select()->from('table.contents')))) {
         $db->query('ALTER TABLE `' . $prefix . 'contents` ADD `views` INT(10) DEFAULT 0;');
@@ -102,7 +248,7 @@ function pageArchives($day, $_month, $year, $title, $time, $link) {
         '06' => 'June', 
         '07' => 'July', 
         '08' => 'Aug', 
-        '09' => 'Sept', 
+        '09' => 'Sep', 
         '10' => 'Oct', 
         '11' => 'Nov', 
         '12' => 'Dec');
@@ -142,7 +288,7 @@ function pageFriends($archive) {
         '<div class="link-box">',
         '</div><!--end .link-box-->',
         '<a href=$1 title=$3 target="_blank"><div class="link-item"><img class="link-avatar" src=$5><span class="link-name">$7</span></div></a>');
-    echo preg_replace($pattern, $replacement, $string);
+    return preg_replace($pattern, $replacement, $string);
 }
 
 /**
@@ -341,7 +487,7 @@ function commentGravatar( $email, $author , $s = 80 ) {
     $url = 'https://cn.gravatar.com/avatar/';
     $url .= md5( strtolower( trim( $email ) ) );
     $url .= "?s=$s&d=$d&r=$r";
-    echo '<img class="avatar" src="' . $url . '" alt="' . 
+    echo '<img class="comment-avatar" src="' . $url . '" alt="' . 
     $author . '" width="' . $size . '" height="' . $size . '" />';
 }
 
@@ -469,6 +615,7 @@ function commentReply($archive) {
 
 /**
  * 显示评论者的ua信息,直接输出html标签
+ * echo <i class="iconfont"></i>
  */
 function printCommentUA($userAgent)
 {
@@ -530,4 +677,45 @@ function printCommentUA($userAgent)
         $html.='&#xe613;';
     $html.="</i> ";
     echo $html;
+}
+
+/**
+ * 将主题配置中textarea内的string转换为JSON数据
+ * 用作部分配置
+ */
+function convertToJSON($item, $mode) {
+    $options = Typecho_Widget::widget('Widget_Options');
+    $data = $options->$item ? $options->$item : "";
+    if($data) {
+        if($mode)
+            $json = json_decode(trim("[".$data."]"),true);
+        else
+            $json = json_decode(trim("{".$data."}"),true);
+        return $json;
+
+    }
+    else 
+        return false;
+}
+
+/**
+ * 页面加载耗时
+ */
+function timer_start() {
+    global $timestart;
+    $mtime = explode( ' ', microtime() );
+    $timestart = $mtime[1] + $mtime[0];
+    return true;
+}
+timer_start();
+ 
+function timer_stop( $display = 0, $precision = 3 ) {
+    global $timestart, $timeend;
+    $mtime = explode( ' ', microtime() );
+    $timeend = $mtime[1] + $mtime[0];
+    $timetotal = $timeend - $timestart;
+    $r = number_format( $timetotal, $precision );
+    if ( $display )
+    echo $r;
+    return $r;
 }

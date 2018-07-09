@@ -15,7 +15,6 @@
         </style>
         <div class="error-page">
             <h2 class="post-title">404</h2>
-            <?php echo $this->_archiveSingle;echo $this->_archiveType;echo $this->archiveSlug; ?>
             <p><?php _e('来到了一个不存在的位置, 要不要搜索看看: '); ?></p>
             <form method="post">
                 <p><input type="text" name="s" class="text" autofocus /></p>

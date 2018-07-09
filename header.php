@@ -15,11 +15,11 @@
 
     <!-- 使用url函数转换相关路径 -->
     
-    <link href="https://cdn.bootcss.com/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
-    <link href="https://cdn.bootcss.com/fancybox/3.3.5/jquery.fancybox.min.css" rel="stylesheet">
-    <link href="<?php $this->options->themeUrl('css/normalize.min.css'); ?>" rel="stylesheet">
+    <link href="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
+    <link href="//cdn.bootcss.com/fancybox/3.3.5/jquery.fancybox.min.css" rel="stylesheet">
+    <link href="//cdn.bootcss.com/normalize/8.0.0/normalize.min.css" rel="stylesheet">
     <link href="<?php $this->options->themeUrl('OwO/OwO.min.css'); ?>" rel="stylesheet">
-    <link href="<?php $this->options->themeUrl('css/prism.css'); ?>" rel="stylesheet">
+    <link href="//cdn.bootcss.com/highlight.js/9.12.0/styles/tomorrow-night-eighties.min.css" rel="stylesheet">
     <link href="<?php $this->options->themeUrl('css/grid.css'); ?>" rel="stylesheet">
     <link href="<?php $this->options->themeUrl('css/style.css'); ?>" rel="stylesheet">
     <link href="<?php $this->options->themeUrl('css/responsive.css'); ?>" rel="stylesheet">
@@ -38,9 +38,6 @@
         #header {
             height: 70vh;
         }
-        .filter:before {
-            height: 70vh;
-        }
         #site-meta {
             display: none;
         }
@@ -55,7 +52,6 @@
                         if(!empty($this->fields->thumbnail))
                             $this->fields->thumbnail(); 
                         else
-                            //$this->options->themeUrl('img/thumbnail.jpg');
                             echo getThumbnail();
                     else if(http_response_code()===404)
                         $this->options->themeUrl('img/404.jpg');
@@ -74,18 +70,17 @@
 <!--[if lt IE 8]>
     <div class="browsehappy" role="dialog"><?php _e('当前网页 <strong>不支持</strong> 你正在使用的浏览器. 为了正常的访问, 请 <a href="http://browsehappy.com/">升级你的浏览器</a>'); ?>.</div>
 <![endif]-->
-<div id="nav-menu" role="navigation" class="evenflow" >
+<div id="nav-menu" role="navigation">
     <div id="nav-left">
         <a href="<?php $this->options->siteUrl(); ?>"><?php $this->options->title(); ?></a>
     </div>
     <div id="nav-right">
-        <a href="<?php $this->options->siteUrl(); ?>"><i class="iconfont">&#xe69e;首页</i></a>
-        <a href="<?php $this->options->siteUrl('archives.html'); ?>"><i class="iconfont">&#xe612;归档</i></a>
-        <!--a href="<?php $this->options->siteUrl('books.html'); ?>"><i class="iconfont">&#xe615;书籍</i></a-->
-        <!--a href="<?php $this->options->siteUrl('music.html'); ?>"><i class="iconfont">&#xe6a9;歌单</i></a-->
-        <a href="<?php $this->options->siteUrl('guestbook.html'); ?>"><i class="iconfont">&#xe6ac;留言</i></a>
-        <a href="<?php $this->options->siteUrl('friends.html'); ?>"><i class="iconfont">&#xe65e;朋友</i></a>
-        <a href="<?php $this->options->siteUrl('about.html'); ?>"><i class="iconfont">&#xe648;关于</i></a>
+        <ul class="nav-right-list">
+            <li class="nav-right-item">
+                <a href="<?php $this->options->siteUrl(); ?>"><i class="iconfont">&#xe69e;</i>首页</a>
+            </li>
+            <?php showNav(1); ?>
+        </ul>
     <div id="nav-btns">
         <i class="iconfont" id="nav-menu-btn">&#xe6ad;</i>
         <i class="iconfont" id="nav-search-btn">&#xe601;</i>
@@ -102,13 +97,8 @@
 <div id="nav-vertical">
     <span class="close"><i class="iconfont">&#xe604;</i></span>
     <div id="nav-avatar"><img src="<?php if($this->options->avatarUrl) $this->options->avatarUrl();else $this->options->themeUrl('img/avatar.jpg'); ?>"></div>
-    <a href="<?php $this->options->siteUrl(); ?>"><i class="iconfont">&#xe69e;首页</i></a>
-    <a href="<?php $this->options->siteUrl('archives.html'); ?>"><i class="iconfont">&#xe612;归档</i></a>
-    <!--a href="<?php $this->options->siteUrl('books.html'); ?>"><i class="iconfont">&#xe615;书籍</i></a>
-    <a href="<?php $this->options->siteUrl('music.html'); ?>"><i class="iconfont">&#xe6a9;歌单</i></a-->
-    <a href="<?php $this->options->siteUrl('guestbook.html'); ?>"><i class="iconfont">&#xe6ac;留言</i></a>
-    <a href="<?php $this->options->siteUrl('friends.html'); ?>"><i class="iconfont">&#xe65e;朋友</i></a>
-    <a href="<?php $this->options->siteUrl('about.html'); ?>"><i class="iconfont">&#xe648;关于</i></a>
+    <a href="<?php $this->options->siteUrl(); ?>"><i class="iconfont">&#xe69e;</i>首页</a>
+    <?php showNav(0); ?>
 </div>
 
 <header id="header" class="clearfix">
@@ -129,9 +119,7 @@
             <?php $this->options->description(); ?>
         </div>
     </div>
-    <div class="filter"></div>
     <div id="background"></div>
-    
 
 </header><!-- end #header -->
 <div id="body">

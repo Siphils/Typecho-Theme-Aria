@@ -1,6 +1,6 @@
 
 @media (max-width:799px)  {
-    #nav-right a {
+    .nav-right-list {
         display: none;
     }
 

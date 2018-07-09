@@ -4,8 +4,8 @@
  * 
  * @package Aria
  * @author Siphils
- * @version 1.3 
- * @link https://siphils.com/typecho-theme-Aria
+ * @version 1.4
+ * @link https://siphils.com/Typecho-Theme-Aria
  */
 
 if (!defined('__TYPECHO_ROOT_DIR__')) exit;
@@ -26,7 +26,7 @@ if (!defined('__TYPECHO_ROOT_DIR__')) exit;
                             $this->fields->thumbnail();
                         else
                             echo getThumbnail();
-                        ?>) center center no-repeat;background-size: 100% auto;">
+                    ?>) center center no-repeat;background-size: 100% auto;">
                 </a>
                 <div class="card-body">
                     <?php 
@@ -38,7 +38,7 @@ if (!defined('__TYPECHO_ROOT_DIR__')) exit;
                 </div>
                 <ul class="card-meta-bottom">
                     <li class="card-meta-label card-meta-more">
-                        <a href="<?php $this->permalink(); ?>"><i class="iconfont">&#xe625;&#xe625;</i></a>
+                        <a href="<?php $this->permalink(); ?>" title="Read More" ><i class="iconfont">&#xe625;&#xe625;</i></a>
                     </li>
                     <li class="card-meta-label card-meta-views card-meta-right">
                         <i class="iconfont">&#xe619;</i> <?php getPostView($this); ?>

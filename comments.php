@@ -23,23 +23,23 @@ echo $commentClass;
 ?>">
     <div id="<?php $comments->theId(); ?>" class="comment-content">
         <span class="comment-reply"><?php $comments->reply('Reply'); ?></span>
+        <?php commentGravatar($comments->mail,$comments->author,128); ?>
         <div class="comment-author">
-            <?php commentGravatar($comments->mail,$comments->author,128); ?>
             <?php //judgeGravatar($comments->mail,$comments->author); ?>
             <cite class="fn"><?php $comments->author(); ?></cite>
-            <div class="comment-meta">
+            <!--span><?php printCommentUA($comments->agent); ?></span>
+            <span><?php //printCommentAddr($comments->ip); ?></span-->
+        </div>
+        <div class="comment-meta">
             <a href="<?php $comments->permalink(); ?>">
                 <?php $comments->dateWord(); ?>
             </a>
-            <?php //printCommentAddr($comments->ip);
-            echo" ";printCommentUA($comments->agent); ?>
-        </div>
+            <?php printCommentUA($comments->agent); ?>
         </div>
         <div class="comment-main">
             <?php printCommentContent($comments->coid); ?>
             <div class="comment-arrow"></div>
         </div>
-
     </div>
 <?php if ($comments->children) { ?>
     <div class="comment-children">
@@ -123,13 +123,13 @@ echo $commentClass;
             </p-->            
             <p>
                 <center>
-                    <button type="submit" class="submit"><i class="iconfont">&#xe600;</i> 发射</button>
+                    <button type="submit" class="submit"><i class="iconfont">&#xe642;</i> 发射</button>
                 </center>
             </p>
         </form>
     </div>
             <?php 
-                $url=$this->options->OwOUrl ? $this->options->OwOUrl : $this->options->themeUrl."/OwO/OwO.json";
+                $url=$this->options->OwOJson ? $this->options->OwOJson : $this->options->themeUrl."/OwO/OwO.json";
                 echo "
                 <script>
                     var OwO = new OwO({
@@ -146,6 +146,6 @@ echo $commentClass;
              ?>
     <?php else: ?>
         <style>.comment-reply {display:none;}</style>
-    <span class="webfont" style="font-size: 20px;display: block;user-select: none;"><i class="iconfont">&#xe604;</i> 评论关闭了哟</span>
+    <span style="font-size: 20px;display: block;user-select: none;"><i class="iconfont">&#xe604;</i> 评论关闭了哟</span>
     <?php endif; ?>
 </div>

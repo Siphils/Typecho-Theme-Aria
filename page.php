@@ -7,6 +7,7 @@
         <div class="post-content" itemprop="articleBody">
             <?php $this->content(); ?>
         </div>
+        <div class="post-update"><i class="iconfont">&#xe74f;</i>&nbsp;最后一次更新于<?php echo date("F jS, Y",$this->modified) ?></div>
     </article>
     <?php $this->need('comments.php'); ?>
 </div><!-- end #main-->

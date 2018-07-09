@@ -1,14 +1,22 @@
 window.Aria = {
     init: function() {
-        Aria.action();
-        Aria.fancyBox();
-        Aria.headroom();
-        Aria.pjax();
-        Aria.hitokoto();
+        this.action();
+        this.headroom();
+        if(THEME_CONFIG.USE_PJAX)
+            this.pjax();
+        if(THEME_CONFIG.USE_FANCYBOX)
+            this.fancyBox();
+        if(THEME_CONFIG.SHOW_HITOKOTO)
+            this.hitokoto();
+        this.hljs();
+        console.log("%cVer 1.4%cTypecho-Theme-Aria%cBy Siphils http://siphils.com/ \n", 
+            "color: #fadfa3; background: #988986; padding:8px 4px;", 
+            "color: #ffffff; background: #435561; padding:8px 4px;",
+            "color: #ffffff; background: #6fa8dc; padding:8px 4px;");
     },
     pjax: function() {
         var pjax = new Pjax({
-            elements: "a",
+            elements: 'a:not([rel~="nofollow"]):not([no-pjax])',
             selectors: ["title","#main", ".pjax-container"],
             debug: false,
             cacheBust: false
@@ -16,6 +24,15 @@ window.Aria = {
         document.addEventListener('pjax:send', function() {NProgress.start()});
         document.addEventListener('pjax:complete', function(){
             NProgress.done();
+            Aria.action();
+            Aria.headroom();
+            if(THEME_CONFIG.USE_PJAX)
+                Aria.pjax();
+            if(THEME_CONFIG.USE_FANCYBOX)
+                Aria.fancyBox();
+            if(THEME_CONFIG.SHOW_HITOKOTO)
+                Aria.hitokoto();
+            Aria.hljs();
         });
     },
     headroom: function() {
@@ -26,12 +43,11 @@ window.Aria = {
         headroom.init();
     },
     fancyBox:function() {       
-        $("a.fancyBox_group").fancybox({  
-            'transitionIn'  :   'elastic',  
-            'transitionOut' :   'elastic',  
-            'speedIn'       :   600,   
-            'speedOut'      :   200,   
-            'overlayShow'   :   true  
+        $("a.fancyBox").fancybox({
+            'animationEffect': "zoom-in-out",
+            'animationDuration': 500,
+            'transitionEffect': "tube",
+            'transitionDuration': 500,
         });   
     },
     hitokoto: function() {
@@ -42,6 +58,33 @@ window.Aria = {
                 $("#hitokoto").html(r);
             }
         })
+    },
+    hljs:function() {
+        $('pre code').each(function(i, block) {
+            hljs.highlightBlock(block);
+        });
+        
+        $('pre>code').each(function () {
+            var current = $(this),
+                lineStart = parseInt(current.data('line-start')),
+                lineFocus = parseInt(current.data('line-focus')),
+                items = current.html().split("\n"),
+                total = items.length,
+                result = '<ol class="line-number" ' + (!isNaN(lineStart) ? 'start="' + lineStart + '"' : '') + '>';
+
+            for (var i = 0; i < total; i++) {
+                if (i === (lineFocus - lineStart)) {
+                    result += '<li class="hightlight">';
+                }
+                else {
+                    result += '<li>';
+                }
+
+                result += items[i] + '</li>';
+            }
+            result += '</ol>';
+            var items = current.empty().append(result);
+        });
     },
     action: function() {
         if($("#nav-vertical").css("display") !== 'none')

@@ -1,4 +1,5 @@
 @charset "utf-8";
+
 @font-face {
   font-family: 'iconfont';  
   src: url('../iconfont/iconfont.eot');
@@ -14,6 +15,10 @@
     -webkit-font-smoothing: antialiased;
     -webkit-text-stroke-width: 0.2px;
     -moz-osx-font-smoothing: grayscale;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 ::selection {
@@ -171,8 +176,12 @@ input[type="text"], input[type="email"], input[type="url"], input[type="password
     height: 40px;
 }
 
+#nav-menu a,#nav-vertical a {
+    font-family: -apple-system,  "Pingfang SC", Roboto, "Open Sans", "Microsoft YaHei", "Helvetica Neue", Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+}
+
 #nav-menu a {
-    font-size: 20px;
+    font-size: 18px;
     display: inline-block;
     height: 40px;
     line-height: 40px;
@@ -191,12 +200,23 @@ input[type="text"], input[type="email"], input[type="url"], input[type="password
     float: right;
 }
 
+#nav-right ul {
+    list-style: none;
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-right-item {
+    display: inline-block;
+}
+
 #nav-right a {
     margin: 0 5px;;
 }
 
 #nav-right i {
-    font-size: 20px;
+    font-size: 18px;
     height: 40px;
     line-height: 40px;
     margin: 0 3px;
@@ -208,7 +228,7 @@ input[type="text"], input[type="email"], input[type="url"], input[type="password
 }
 
 #nav-btns i,#nav-vertical i {
-    font-size: 30px;
+    font-size: 25px;
     text-shadow: 0 1px 2px rgba(0, 0, 0, .15);
     -webkit-transition: all .24s ease;
     transition: all .24s ease;
@@ -263,7 +283,10 @@ input[type="text"], input[type="email"], input[type="url"], input[type="password
 #nav-vertical a {
     text-align: center;
     display: block;
-    margin: 13px;
+    margin: 1.2rem;
+    font-size: 1.7rem;
+    line-height: 1.7rem;
+    height: 1.7rem;
 }
 
 #nav-vertical i {
@@ -334,20 +357,7 @@ input[type="text"], input[type="email"], input[type="url"], input[type="password
 
 #header {
     height: 100vh;
-}
-
-.filter::before {
-    background-image: url("../img/dot.gif");
-}
-
-.filter::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    z-index: 3;
+    position: relative;
 }
 
 #site-meta {
@@ -383,18 +393,18 @@ input[type="text"], input[type="email"], input[type="url"], input[type="password
 }
 
 #site-name h1{
-    font-family: Tahoma, "Source Han Sans", Microsoft YaHei;
-    font-weight: normal;
-    color: rgba( 0, 0, 0, .8);
+    font-weight: lighter;
+    color: rgba(255, 255, 255, 0.8);
+    text-shadow: 8px 8px 20px #000;
     margin-top: 5px;
     margin-bottom: 7px;
     font-size: 64px;
 }
 
 #site-description {
-    font-family: Consolas, "Source Han Sans", Microsoft YaHei;
     font-size: 24px;
-    color: rgba(255,255,255,.7);
+    color: rgb(67, 67, 67);
+    text-shadow: 5px 5px 8px #000000;
     font-style: italic;
 }
 
@@ -515,22 +525,37 @@ input[type="text"], input[type="email"], input[type="url"], input[type="password
 /* 文章内样式开始 */
 
 .post-content h1:before,.post-content h2:before,.post-content h3:before,.post-content h4:before,.post-content h5:before,.post-content h6:before {
-    content: "#";
-    margin-right: 10px;
 }
 
 .post-content h1,.post-content h2,.post-content h3,.post-content h4,.post-content h5,.post-content h6 {
-    font-weight: 500;
-    margin: 15px 0;
+    margin: 0;
+    padding: 0;
+    font-weight: 400;
+    line-height: 1;
+    border-left: 3px solid #333;
+    padding-left: 15px;
+    margin: 20px 0 10px;
 }
 
-.post-content a {
-    text-decoration: underline;
+.post-content h1 {
+    font-size: 24px;
+}
+
+.post-content h2 {
+    font-size: 22px;
+}
+
+.post-content a:not([class~="fancyBox"]) {
+    border-bottom: 1px solid #333;
 }
 
 .post-content hr {
-    margin: 30px auto;
     width: 80%;
+    margin: 40px auto;
+    height: 3px;
+    border: none;
+    background-color: #ddd;
+    background-image: repeating-linear-gradient(-45deg, #fff, #fff 4px, transparent 4px, transparent 8px);
 }
 
 .post-content p{
@@ -538,7 +563,7 @@ input[type="text"], input[type="email"], input[type="url"], input[type="password
 }
 
 .post-content strong, .post-content b{
-    color: red;
+    font-weight: 700;
 }
 
 .post-content em {
@@ -563,14 +588,38 @@ input[type="text"], input[type="email"], input[type="url"], input[type="password
     list-style: circle;
 }
 
-.post-content img {
-    max-width: 100%;
+.post-content img:not([class~="link-avatar"]){
+    max-width: 90%;
     box-sizing: border-box;
+    margin: 15px auto;
+    display: block;
+    box-shadow: 0px 5px 10px 5px rgba(110, 110, 110, 0.4);
 }
 
-.post-content code,.post-content pre {
+code,pre {
     font-family: consolas, Menlo, "PingFang SC", "Microsoft YaHei", monospace;
 } 
+
+code:not([class~="hljs"]) {
+    padding: 6px 8px;
+    word-wrap: break-word;
+    color: #555;
+    background: #eee;
+    border-radius: 3px;
+    font-size: 14px;
+}
+
+code[class~="hljs"] {
+    color: #999999;
+    padding: 6px 8px;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+ol[class~="line-number"] {
+    list-style: decimal-leading-zero!important;
+    color: #fff;
+}
 
 table {
     *border-collapse: collapse;
@@ -656,16 +705,16 @@ table {
 /* 文章内样式结束 */
 
 .post-update {
-    margin: 10px 0;
+    padding: 10px 0;
     display: block;
     font-size: .8rem;
     color: #14141494;
     text-align: right;
+    border-bottom: 1px dashed #dadada;
 }
 
 .post-tags {
     height: 50px;
-    border-top: 1px dashed #dadada;
     border-bottom: 1px dashed #dadada;
 }
 
@@ -851,7 +900,7 @@ table {
 .comment-arrow {
     position: absolute;
     top: -20px;
-    left: 7px;;
+    left: 20px;
     width: 0;
     height: 0;
     font-size: 0;
@@ -864,7 +913,7 @@ table {
     padding: 10px;
 }
 
-.comment-content:hover .avatar {
+.comment-content:hover .comment-avatar {
     -webkit-transform: rotate(360deg);
        -moz-transform: rotate(360deg);
         -ms-transform: rotate(360deg);
@@ -906,6 +955,18 @@ table {
     border-radius: 4px;
 }
 
+.comment-by-author .comment-author>.fn>a:after {
+    padding: 0 3px;
+    margin-left: 5px;
+    color: #2196F3;
+    content: 'Admin';
+    border: 1.3px solid #2196f37a;
+    border-radius: 5px;
+    font-family: Consolas;
+    font-size: 15px;
+    font-weight: bold;
+}
+
 .comment-meta , .comment-meta a{
     color: #555;
     text-align: right;
@@ -919,10 +980,11 @@ table {
 .comment-author>.fn,.comment-author>.fn>a {
     font-family: Comic Sans MS,Consolas, Microsoft YaHei Light, Microsoft YaHei;
     font-weight: normal;
+    font-size: 18px;
     color: rgba(0, 0, 0, 0.7);;
 }
 
-.comment-author .avatar {
+.comment-avatar {
     box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.53);
     -webkit-transition: all 1.5s ease;
        -moz-transition: all 1.5s ease;
@@ -932,6 +994,19 @@ table {
     border-radius: 50%;
     width: 60px;
     height: 60px;
+    float: left;
+}
+
+.comment-author {
+    margin-left: 70px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 60px;
+}
+
+.comment-author cite,.comment-author span {
+
 }
 
 .comment-author cite {
@@ -1073,12 +1148,12 @@ table {
 }
 
 #go-top {
-    z-index: 15;
+    z-index: 60;
     width: 64px;
     height: 64px;
     display: none;
     position: fixed;
-    right: 10px;
+    right: 30px;
     bottom: 100px;
     cursor: pointer;
     -moz-user-select: none;
@@ -1119,7 +1194,7 @@ table {
 }
 
 #footer p {
-    font-size: .85rem;
+    font-size: .75rem;
     margin: 3px auto;
 }
 
@@ -1148,7 +1223,7 @@ table {
 
 /* keyframes */
 
-@media all and (-webkit-min-device-pixel-ratio:0) and (min-resolution: .001dpcm) { 
+/* @media all and (-webkit-min-device-pixel-ratio:0) and (min-resolution: .001dpcm) { 
     #site-name{
         background-image: -webkit-linear-gradient(left, #ffffff, #a3a3a3 25%, #ffffff 50%, #a3a3a3 75%, #ffffff);
         -webkit-text-fill-color: transparent;
@@ -1160,7 +1235,7 @@ table {
 @-webkit-keyframes site-name-animation {
     0%  { background-position: 0 0;}
     100% { background-position: -100% 0;}
-}
+} */
 
 @keyframes card-animation{
     0% {box-shadow: 0px 5px 10px 0 rgba(110, 110, 110, 0.4);}
@@ -1181,8 +1256,6 @@ table {
     0% {box-shadow: 0px 5px 10px 0 rgba(110, 110, 110, 0.4);}
     100% {box-shadow: 0px 5px 10px 5px rgba(110, 110, 110, 0.4);}
 }
-.evenflow_scale { transition:transform 0.25s ease;  }
-.evenflow_scale:hover { transform:scale(1.05,1.05); }
 .headroom {position: fixed;top: 0;left: 0;right: 0;transition: all .4s ease-in-out;}  
 .headroom--unpinned {top: -100px;}  
 .headroom--pinned {top: 0;} 
