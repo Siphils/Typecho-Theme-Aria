@@ -1,12 +1,12 @@
 <?php function threadedComments($comments, $options) {
     $commentClass = '';
-    if ($comments->authorId) {
+/*  if ($comments->authorId) {
         if ($comments->authorId == $comments->ownerId) {
             $commentClass .= ' comment-by-author';
         } else {
             $commentClass .= ' comment-by-user';
         }
-    }
+    }*/
  
     $commentLevelClass = $comments->levels > 0 ? ' comment-child' : ' comment-parent';
 ?>
@@ -24,20 +24,25 @@ echo $commentClass;
     <div id="<?php $comments->theId(); ?>" class="comment-content">
         <span class="comment-reply"><?php $comments->reply('Reply'); ?></span>
         <?php commentGravatar($comments->mail,$comments->author,128); ?>
+        <?php if ($comments->authorId): ?>
+        <?php if ($comments->authorId == $comments->ownerId): ?>
+        <div class="comment-author comment-by-author">
+        <?php endif; ?>
+        <?php else: ?>
         <div class="comment-author">
+        <?php endif; ?>
             <?php //judgeGravatar($comments->mail,$comments->author); ?>
             <cite class="fn"><?php $comments->author(); ?></cite>
-            <!--span><?php printCommentUA($comments->agent); ?></span>
-            <span><?php //printCommentAddr($comments->ip); ?></span-->
+            <!--span><?php //showCommentAddr($comments->ip); ?></span-->
         </div>
         <div class="comment-meta">
             <a href="<?php $comments->permalink(); ?>">
                 <?php $comments->dateWord(); ?>
             </a>
-            <?php printCommentUA($comments->agent); ?>
+            <?php showCommentUA($comments->agent); ?>
         </div>
         <div class="comment-main">
-            <?php printCommentContent($comments->coid); ?>
+            <?php showCommentContent($comments->coid); ?>
             <div class="comment-arrow"></div>
         </div>
     </div>

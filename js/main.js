@@ -18,7 +18,7 @@ window.Aria = {
         var pjax = new Pjax({
             elements: 'a:not([rel~="nofollow"]):not([no-pjax])',
             selectors: ["title","#main", ".pjax-container"],
-            debug: false,
+            debug: true,
             cacheBust: false
         });
         document.addEventListener('pjax:send', function() {NProgress.start()});
@@ -26,8 +26,8 @@ window.Aria = {
             NProgress.done();
             Aria.action();
             Aria.headroom();
-            if(THEME_CONFIG.USE_PJAX)
-                Aria.pjax();
+            /*if(THEME_CONFIG.USE_PJAX)
+                Aria.pjax();*/
             if(THEME_CONFIG.USE_FANCYBOX)
                 Aria.fancyBox();
             if(THEME_CONFIG.SHOW_HITOKOTO)

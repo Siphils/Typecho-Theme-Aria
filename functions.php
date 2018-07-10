@@ -417,7 +417,7 @@ function theNext($widget)
 /**
  * 输出评论回复内容，配合 commentAtContent($coid)一起使用
  */
-function printCommentContent($coid) {
+function showCommentContent($coid) {
     $db = Typecho_Db::get();
     $result=$db->fetchRow($db->select('text')->from('table.comments')->where('coid = ? AND status = ?', $coid, 'approved'));
     $text=$result['text'];
@@ -456,7 +456,7 @@ function commentAtContent($coid) {
 /**
  * 评论地址显示
  */
-function printCommentAddr($ip) {
+function showCommentAddr($ip) {
     if ((!$ip) || (strchr($ip, '127.0.')) || (strchr($ip, '192.168')) || ($ip === '::1')) {
         //这部分为真则返回‘火星’类似的地址
         echo "火星";
@@ -617,7 +617,7 @@ function commentReply($archive) {
  * 显示评论者的ua信息,直接输出html标签
  * echo <i class="iconfont"></i>
  */
-function printCommentUA($userAgent)
+function showCommentUA($userAgent)
 {
     $browser=useragent_detect_browser::analyze($userAgent);
     $os=useragent_detect_os::analyze($userAgent);

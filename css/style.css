@@ -955,16 +955,18 @@ table {
     border-radius: 4px;
 }
 
-.comment-by-author .comment-author>.fn>a:after {
-    padding: 0 3px;
+.comment-by-author>.fn>a:after {
+    padding: 1px 5px;
     margin-left: 5px;
-    color: #2196F3;
+    color: #fff;
     content: 'Admin';
-    border: 1.3px solid #2196f37a;
+    border: 1px solid #048af57a;
     border-radius: 5px;
     font-family: Consolas;
-    font-size: 15px;
+    font-size: 13.5px;
     font-weight: bold;
+    box-shadow: 0 0 2px #2cbaf9;
+    background: #2cbaf9;
 }
 
 .comment-meta , .comment-meta a{
