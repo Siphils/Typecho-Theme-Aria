@@ -18,24 +18,21 @@
     <link href="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
     <link href="//cdn.bootcss.com/fancybox/3.3.5/jquery.fancybox.min.css" rel="stylesheet">
     <link href="//cdn.bootcss.com/normalize/8.0.0/normalize.min.css" rel="stylesheet">
-    <link href="<?php $this->options->themeUrl('OwO/OwO.min.css'); ?>" rel="stylesheet">
+    <link href="<?php $this->options->themeUrl('assets/OwO/OwO.min.css'); ?>" rel="stylesheet">
     <link href="//cdn.bootcss.com/highlight.js/9.12.0/styles/tomorrow-night-eighties.min.css" rel="stylesheet">
-    <link href="<?php $this->options->themeUrl('css/grid.css'); ?>" rel="stylesheet">
-    <link href="<?php $this->options->themeUrl('css/style.css'); ?>" rel="stylesheet">
-    <link href="<?php $this->options->themeUrl('css/responsive.css'); ?>" rel="stylesheet">
-    
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_671129_lud8yy9waro.css">
+    <link href="<?php $this->options->themeUrl('assets/style.min.css'); ?>" rel="stylesheet">
     <!--[if lt IE 9]>
     <script src="http://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
     <script src="http://cdn.staticfile.org/respond.js/1.3.0/respond.min.js"></script>
     <![endif]-->
-
     <!-- 通过自有函数输出HTML头部信息 -->
     <?php $this->header("generator=&template=&commentReply="); ?>
     <div class="pjax-container">
-        <script src="<?php $this->options->themeUrl('OwO/OwO.min.js') ?>"></script>
+        <script src="<?php $this->options->themeUrl('assets/OwO/OwO.min.js') ?>"></script>
     <style>
         <?php if($this->is('post') || $this->is('page') || $this->is('single') || http_response_code()===404 ):; ?>
-        #header {
+#header {
             height: 70vh;
         }
         #site-meta {
@@ -46,27 +43,32 @@
         #background {
             width: 100%;
             height: 100%;
-            background: url( 
-                <?php 
-                    if($this->is('post') || $this->is('page') || $this->is('single'))
-                        if(!empty($this->fields->thumbnail))
+            background: url(<?php 
+                    if($this->is('post') || $this->is('page') || $this->is('single'))                         
+                        if($this->fields->thumbnail)
                             $this->fields->thumbnail(); 
                         else
                             echo getThumbnail();
                     else if(http_response_code()===404)
-                        $this->options->themeUrl('img/404.jpg');
+                        $this->options->themeUrl('assets/img/404.jpg');
                     else
                         getBackground();
-                ?>
-                ) center center no-repeat;
+                ?>) center center no-repeat;
             background-size: cover;
             z-index: -1;
             position: relative;
-        } 
+        }
     </style>
     </div>
 </head>
 <body>
+<div id="nav-vertical">
+    <span class="close"><i class="iconfont icon-aria-close"></i></span>
+    <div id="nav-avatar"><img src="<?php if($this->options->avatarUrl) $this->options->avatarUrl();else $this->options->themeUrl('assets/img/avatar.jpg'); ?>"></div>
+    <a href="<?php $this->options->siteUrl(); ?>"><i class="iconfont icon-aria-home"></i>首页</a>
+    <?php showNav(0); ?>
+</div>
+<div id="wrapper">
 <!--[if lt IE 8]>
     <div class="browsehappy" role="dialog"><?php _e('当前网页 <strong>不支持</strong> 你正在使用的浏览器. 为了正常的访问, 请 <a href="http://browsehappy.com/">升级你的浏览器</a>'); ?>.</div>
 <![endif]-->
@@ -77,37 +79,31 @@
     <div id="nav-right">
         <ul class="nav-right-list">
             <li class="nav-right-item">
-                <a href="<?php $this->options->siteUrl(); ?>"><i class="iconfont">&#xe69e;</i>首页</a>
+                <a href="<?php $this->options->siteUrl(); ?>"><i class="iconfont icon-aria-home"></i>首页</a>
             </li>
             <?php showNav(1); ?>
         </ul>
     <div id="nav-btns">
-        <i class="iconfont" id="nav-menu-btn">&#xe6ad;</i>
-        <i class="iconfont" id="nav-search-btn">&#xe601;</i>
+        <i class="iconfont icon-aria-menu" id="nav-menu-btn"></i>
+        <i class="iconfont icon-aria-search" id="nav-search-btn"></i>
     </div>
     </div>
 </div>
 <div id="search-box">
-    <span class="close"><i class="iconfont">&#xe604;</i></span>
+    <span class="close"><i class="iconfont icon-aria-close"></i></span>
     <form id="search" method="post" action="./" role="search">
         <input type="text" name="s" id="search-text" placeholder="想要看什么？" />
         <button type="submit" id="search-button"></button>
     </form>
-</div>
-<div id="nav-vertical">
-    <span class="close"><i class="iconfont">&#xe604;</i></span>
-    <div id="nav-avatar"><img src="<?php if($this->options->avatarUrl) $this->options->avatarUrl();else $this->options->themeUrl('img/avatar.jpg'); ?>"></div>
-    <a href="<?php $this->options->siteUrl(); ?>"><i class="iconfont">&#xe69e;</i>首页</a>
-    <?php showNav(0); ?>
 </div>
 
 <header id="header" class="clearfix">
     <div id="site-meta">
         <div id="site-avatar">
             <?php if($this->options->avatarUrl): ?>
-                <a href="<?php $this->options->siteUrl('about'); ?>"><img src="<?php $this->options->avatarUrl(); ?>"></a>
+                <img src="<?php $this->options->avatarUrl(); ?>">
             <?php else: ?>
-                <a href="<?php $this->options->siteUrl('about'); ?>"><img src="<?php $this->options->themeUrl('img/avatar.jpg'); ?>"></a>
+                <img src="<?php $this->options->themeUrl('assets/img/avatar.jpg'); ?>">
             <?php endif; ?>
         </div>
         <div id="site-name">

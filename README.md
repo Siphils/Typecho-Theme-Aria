@@ -1,8 +1,5 @@
 # typecho-theme-Aria  
-断断续续写了一个月，目前还是在测试阶段。  
-直观上虽然感觉和原来的差不多。。。但是基本上全部重写了。。  
-这段时间对Typecho一些功能的实现也摸索了很多  
-BUG和使用问题请提issue  
+这是一个十分用心制作的Typecho主题 :)  
 :)  
 ***  
 ## 使用方法
@@ -15,26 +12,44 @@ BUG和使用问题请提issue
 ```json  
 "archives": {
     "text": "归档", 
-    "link": "http://localhost/typecho/archives.html"
+    "link": "#",
+    "icon": "icon-aria-archives"
 }, 
 "about": {
     "text": "关于", 
-    "link": "http://localhost/typecho/about.html"
+    "link": "#",
+    "icon": "icon-aria-about"
 }, 
 "guestbook": {
     "text": "留言", 
-    "link": "http://localhost/typecho/guestbook.html"
+    "link": "#",
+    "icon": "icon-aria-guestbook"
 }, 
 "friends": {
     "text": "朋友", 
-    "link": "http://localhost/typecho/friends.html"
+    "link": "#",
+    "icon": "icon-aria-friends"
 }
 ```  
-因为添加了`iconfont`的图标支持，所以目前仅支持`archives`,`about`,`guestbook`,`friends`四个页面配置信息（可以留空），**最后一项不需要逗号**  
+**新增`icon`的值，在[iconfont](https://iconfont.cn)建立项目后选择`Font Class`的方式，在icon中输入对应的代码，如`icon-test`**  
+目前仅支持`archives`,`about`,`guestbook`,`friends`四个页面配置信息（可以留空），**最后一项不需要逗号**  
 类似`archives`的即为页面的`slug`,`text`是链接的名称，`link`为链接地址，输出的`html`代码为  
 ```html
-<li class="nav-right-item"><a href="{link}"><i class="iconfont">{对应的iconfont}</i>{text}</a></li>
+<li class="nav-right-item"><a href="{link}"><i class="iconfont {icon}"></i>{text}</a></li>
 ```  
+### 文章打赏功能配置 
+需要按照如下方式填写配置信息
+```json
+"QQ钱包":"qrcodeUrl",
+"支付宝":"qrcodeUrl",
+"微信":"qrcodeUrl"
+```  
+对应输出
+```html
+<li src="qrcodeUrl">QQ钱包</li>
+<li src="qrcodeUrl">支付宝</li>
+<li src="qrcodeUrl">微信</li>
+```
 ### 友情链接页面  
 新建一个页面，选择页面模板`友情链接`, **`slug`设置为`friends`** 
 新建一个友情链接盒子`[link-box][/link-box]`  
@@ -78,6 +93,13 @@ BUG和使用问题请提issue
 如果开启需要在后台关闭`设置->评论->开启反垃圾保护`  
 ***  
 ## 更新  
+### 2018-7- 1.5
+* 增加了文章底部打赏功能和文章二维码功能
+* 增加了评论部分**不接收邮件回复**的按钮（需要配合插件[CommentToMail](https://9sb.org/58 "CommentToMail")使用）  
+* 修复了一个无法输出缩略图和预览内容的bug  
+* `iconfont`的使用方式从`Unicode`修改为`Font Class`的方式  
+* 修改部分样式  
+* 重写部分代码  
 ### 2018-7-9 1.4  
 * 增加了一些设置的开关  
 * 增加了处理主题配置信息相关功能  
@@ -107,8 +129,8 @@ BUG和使用问题请提issue
 * 修复了归档页面输出时光轴的BUG  
 ***  
 ## 下个版本部分更新计划  
-* 添加点赞和打赏功能  
 * 添加社交媒体配置  
+* 增加ajax评论功能
 * 修复目前测试版中已知的BUG  
 * ……
 *** 

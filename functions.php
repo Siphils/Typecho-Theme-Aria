@@ -5,10 +5,28 @@ require_once('UserAgent/Browser.php');
 require_once('UserAgent/OperatingSystem.php');
 
 function themeConfig($form) {
-
     echo <<<EOF
+    <link href="https://cdn.bootcss.com/semantic-ui/2.3.1/components/button.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/semantic-ui/2.3.1/components/checkbox.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/semantic-ui/2.3.1/components/form.min.css" rel="stylesheet">
+    <script>
+        (function(window){
+            // $(document).ready(function(){
+            //     $(".multiline").addClass("ui toggle checkbox");
+            //     $("form").parent().parent().addClass("ui form");
+            //     $("button").removeClass("btn").addClass("ui button");
+            // });
+            window.onload = function(){
+                //document.getElementsByClassName("multiline").foreach(function(item) { item.className+="ui toggle checkbox"; });
+                var multiline = document.getElementsByClassName("multiline");
+                for(var i=0;i<multiline.length;++i) {multiline[i].className+=" ui toggle checkbox";}
+                document.getElementsByTagName("form")[0].parentNode.parentNode.className += " ui form";
+                document.getElementsByTagName("button")[0].classList.remove("btn");
+                document.getElementsByTagName("button")[0].className += " ui button";
+            }
+        })(window);
+    </script>  
 EOF;
-
     $avatarUrl = new Typecho_Widget_Helper_Form_Element_Text('avatarUrl', NULL, NULL, _t('站点头像'), _t('在这里填入一个图片URL地址, 以在网站标题前加上一个头像,需要带上http(s)://'));
     $form->addInput($avatarUrl);
 
@@ -30,33 +48,45 @@ EOF;
     $navConfig = new Typecho_Widget_Helper_Form_Element_Textarea('navConfig', NULL, 
         '"archives":{
             "text":"归档",
-            "link":"#"
+            "link":"#",
+            "icon":"icon-aria-archives"
         },
         "guestbook":{
             "text":"留言",
-            "link":"#"
+            "link":"#",
+            "icon":"icon-aria-guestbook"
         },
         "friends":{
             "text":"朋友",
-            "link":"#"
+            "link":"#",
+            "icon":"icon-aria-friends"
         },
         "about":{
             "text":"关于",
-            "link":"#"
+            "link":"#",
+            "icon":"icon-aria-about"
         }'
     , _t('导航栏配置'), _t('输入导航栏的配置信息'));
     $form->addInput($navConfig);
+
+    $rewardConfig = new Typecho_Widget_Helper_Form_Element_Textarea('rewardConfig', NULL, NULL
+    , _t('打赏功能配置'), _t('按照格式填写,留空关闭打赏功能'));
+    $form->addInput($rewardConfig);
 
     $AriaConfig = new Typecho_Widget_Helper_Form_Element_Checkbox('AriaConfig',
         array(
             'showHitokoto' => '页面底部显示一言',
             'showLoadTime' => '页面底部显示加载时间(Processed in xxx second(s).)',
             'usePjax' => '开启PJAX(需要关闭评论反垃圾保护)',
-            'useFancybox' => '文章内使用<a href="http://fancyapps.com">fancybox</a>(友情链接页面不会使用fancybox)',
+            'useFancybox' => '文章/评论图片使用<a href="http://fancyapps.com">fancybox</a>(友情链接页面不会使用fancybox)',
+            'showQRCode' => '文章底部显示本文链接二维码',
+            'useCommentToMail' => '评论邮件回复按钮（需要配合<a href="https://9sb.org/58">CommentToMail</a>使用）'
+
         ),
-        array('showHitokoto','showLoadTime','usePjax','useFancybox'), '其他设置'
+        array('showHitokoto','showLoadTime','usePjax','useFancybox','showQRCode','useCommentToMail'), '其他设置'
     );
     $form->addInput($AriaConfig->multiMode());
+
 }
 
 
@@ -69,6 +99,7 @@ function themeFields($layout) {
 }
 
 function themeInit($archive) {
+    Helper::options()->commentsMaxNestingLevels = 999;
     $AriaConfig = Typecho_Widget::widget('Widget_Options')->AriaConfig;
 
     /** 友情链接页面 */
@@ -79,7 +110,7 @@ function themeInit($archive) {
     if(!empty($AriaConfig) && in_array('useFancybox', $AriaConfig)) {
         if(!$archive->is('page','friends')) {
             $pattern = '/<img(.*?)src="(.*?)"(.*?)>/';
-            $replacement = '<a href="$2" data-caption="'.$archive->title.'" no-pjax class="fancyBox">$0</a>';
+            $replacement = '<a href="$2" data-caption="'.$archive->title.'" no-pjax class="fancybox">$0</a>';
             $archive->content = preg_replace($pattern, $replacement, $archive->content);
         }
     }
@@ -87,17 +118,27 @@ function themeInit($archive) {
 
 function AriaConfig() {
     $AriaConfig = Typecho_Widget::widget('Widget_Options')->AriaConfig;
+    $options = Typecho_Widget::widget('Widget_Options');
     //print_r($AriaConfig);
     $showHitokoto = (!empty($AriaConfig) && in_array('showHitokoto', $AriaConfig)) ? 1 : 0;
     $showLoadTime = (!empty($AriaConfig) && in_array('showLoadTime', $AriaConfig)) ? 1 : 0;
+    $showQRCode = (!empty($AriaConfig) && in_array('showQRCode', $AriaConfig)) ? 1 : 0;
+    $showReward = $options->rewardConfig ? 1 : 0;
     $usePjax = (!empty($AriaConfig) && in_array('usePjax', $AriaConfig)) ? 1 : 0;
     $useFancybox = (!empty($AriaConfig) && in_array('useFancybox', $AriaConfig)) ? 1 : 0;
+    $OwOJson= $options->OwOJson ? $options->OwOJson : $options->themeUrl."/assets/OwO/OwO.json";
     echo '<script>
         window.THEME_CONFIG = {
+            SITE_URL: "'.$options->siteUrl.'",
+            THEME_URL: "'.$options->themeUrl.'",
             SHOW_HITOKOTO : '.$showHitokoto.',
             SHOW_LOADTIME : '.$showLoadTime.',
+            SHOW_QRCODE : '.$showQRCode.',
+            SHOW_REWARD : '.$showReward.',
             USE_PJAX : '.$usePjax.',
-            USE_FANCYBOX : '.$useFancybox.'
+            USE_FANCYBOX : '.$useFancybox.',
+            USE_FANCYBOX : '.$useFancybox.',
+            OWO_JSON : "'.$OwOJson.'"
         }
     </script>';
 }
@@ -109,62 +150,57 @@ function AriaConfig() {
  *  {
         "archives":{
             "text":"归档",
-            "link":"https://xxx.com"
+            "link":"https://xxx.com",
+            "icon": "icon-aria-archives"
         },
         "guestbook":{
             "text":"留言",
             "link":"https://xxx.com"
+            "icon":"icon-aria-guestbook"
         }
     }
     目前可配置的有'archives','guestbook','friends','about'
  */
 function showNav($mode) {
-    //$archive->widget('Widget_Contents_Page_List')->to($pages);
-    //print_r($pages->stack[0]['slug']);
-    //$options = Typecho_Widget::widget('Widget_Options')->navConfig;
-    //$options = Typecho_Widget::widget('Widget_Options');
-    //$data = $options->navConfig ? $options->navConfig : "";
-    //if($data) 
-    //    $data = json_decode(trim('{'.$data.'}'),true);
-    $data = convertToJSON('navConfig',0);
+    $data = convertConfigData('navConfig',0);
     if($data) {
         $html = '';
         if($mode) {
             //输出水平导航栏
             if(array_key_exists('archives', $data)) {
                 //输出‘归档’
-                $html.='<li class="nav-right-item"><a href="'.$data['archives']['link'].'"><i class="iconfont">&#xe612;</i>'.$data['archives']['text'].'</a></li>';
+                $html.='<li class="nav-right-item"><a href="'.$data['archives']['link'].'"><i class="iconfont '.$data['archives']['icon'].'"></i>'.$data['archives']['text'].'</a></li>';
             }
             if(array_key_exists('guestbook', $data)) {
                 //输出‘留言’
-                $html.='<li class="nav-right-item"><a href="'.$data['guestbook']['link'].'"><i class="iconfont">&#xe6ac;</i>'.$data['guestbook']['text'].'</a></li>';
+                $html.='<li class="nav-right-item"><a href="'.$data['guestbook']['link'].'"><i class="iconfont '.$data['guestbook']['icon'].'"></i>'.$data['guestbook']['text'].'</a></li>';
             }
             if(array_key_exists('friends', $data)) {
                 //输出‘朋友’
-                $html.='<li class="nav-right-item"><a href="'.$data['friends']['link'].'"><i class="iconfont">&#xe65e;</i>'.$data['friends']['text'].'</a></li>';
+                $html.='<li class="nav-right-item"><a href="'.$data['friends']['link'].'"><i class="iconfont '.$data['friends']['icon'].'"></i>'.$data['friends']['text'].'</a></li>';
             }
             if(array_key_exists('about', $data)) {
                 //输出‘关于’
-                $html.='<li class="nav-right-item"><a href="'.$data['about']['link'].'"><i class="iconfont">&#xe648;</i>'.$data['about']['text'].'</a></li>';
+                $html.='<li class="nav-right-item"><a href="'.$data['about']['link'].'"><i class="iconfont '.$data['about']['icon'].'"></i>'.$data['about']['text'].'</a></li>';
             }
         }
         else {
             //输出垂直导航栏
             if(array_key_exists('archives', $data)) {
                 //输出‘归档’
-                $html.='<a href="'.$data['archives']['link'].'"><i class="iconfont">&#xe612;</i>'.$data['archives']['text'].'</a>';
+                $html.='<a href="'.$data['archives']['link'].'"><i class="iconfont '.$data['archives']['icon'].'"></i>'.$data['archives']['text'].'</a>';
             }
             if(array_key_exists('guestbook', $data)) {
                 //输出‘留言’
-                $html.='<a href="'.$data['guestbook']['link'].'"><i class="iconfont">&#xe6ac;</i>'.$data['guestbook']['text'].'</a>';
+                $html.='<a href="'.$data['guestbook']['link'].'"><i class="iconfont '.$data['guestbook']['icon'].'"></i>'.$data['guestbook']['text'].'</a>';
             }
             if(array_key_exists('friends', $data)) {
                 //输出‘朋友’
-                $html.='<a href="'.$data['friends']['link'].'"><i class="iconfont">&#xe65e;</i>'.$data['friends']['text'].'</a>';
+                $html.='<a href="'.$data['friends']['link'].'"><i class="iconfont '.$data['friends']['icon'].'"></i>'.$data['friends']['text'].'</a>';
             }
             if(array_key_exists('about', $data)) {
                 //输出‘关于’
-                $html.='<a href="'.$data['about']['link'].'"><i class="iconfont">&#xe648;</i>'.$data['about']['text'].'</a>';
+                $html.='<a href="'.$data['about']['link'].'"><i class="iconfont '.$data['about']['icon'].'"></i>'.$data['about']['text'].'</a>';
             }
         }
         
@@ -172,6 +208,48 @@ function showNav($mode) {
     }
     //转换失败
     echo false;
+}
+
+/**
+ * 输出文章打赏二维码和本文链接二维码
+ * 输出的结构如下
+     <div class="post-other">
+        <div class="post-reward">
+            <a href="javascript:;" no-pjax ><i class="iconfont icon-aria-reward"></i></a>
+            <ul>
+                <li><img src="{qrcode image link}">支付宝</li>
+                <li><img src="{qrcode image link}">QQ</li>
+                <li><img src="{qrcode image link}">微信</li>
+            </ul>
+        </div>
+        <div class="post-qrcode">
+            <a href="javascript:;" no-pjax ><i class="iconfont icon-aria-qrcode"></i></a>
+            <div>手机上阅读<br><br><img src="http://qr.liantu.com/api.php?text=<?php $this->permalink(); ?>"></div>
+        </div>
+    </div>
+ * 打赏二维码配置方案如下
+    "QQ钱包":"link",
+    "支付宝":"link",
+    "微信":"link"
+ */
+function postOther($archive)
+{
+    $html = '<div class="post-other">';
+    $AriaConfig = Typecho_Widget::widget('Widget_Options')->AriaConfig;
+    $rewardConfig = convertConfigData('rewardConfig', 0);
+    $showQRCode = (!empty($AriaConfig) && in_array('showQRCode', $AriaConfig)) ? 1 : 0;
+    if($rewardConfig) {
+        $html .='<div class="post-reward"><a href="javascript:;" no-pjax ><i class="iconfont icon-aria-reward"></i></a>
+            <ul>';
+        foreach( $rewardConfig as $key => $data) {
+            $html.='<li><img src="' . $data . '">'. $key .  '</li>';
+        }
+        $html.="</ul></div>";
+    }
+    if($showQRCode)
+        $html.='<div class="post-qrcode"><a href="javascript:;" no-pjax ><i class="iconfont icon-aria-qrcode"></i></a><div>手机上阅读<br><br><img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=' . $archive->permalink . '"></div></div>';
+    $html.="</div>";    
+    echo $html;
 }
 
 /**
@@ -304,7 +382,7 @@ function getBackground() {
         echo $urls[$n];
     }
     else
-        $options->themeUrl('img/background.jpg');
+        $options->themeUrl('assets/img/background.jpg');
 }
 
 /**
@@ -320,7 +398,7 @@ function getThumbnail() {
         return $urls[$n];
     }
     else
-        return $options->themeUrl.'/img/thumbnail.jpg';
+        return $options->themeUrl.'/assets/img/thumbnail.jpg';
 }
 
 /**
@@ -365,7 +443,10 @@ function thePrev($widget)
         $link='#';
     }
     $result=array('img'=>$img,'title'=>$title,'link'=>$link);
-    return $result;
+    
+    //输出html
+    $html = '<div class="post-footer-box half previous"><a href="'.$result["link"].'" rel="prev"><div class="post-footer-thumbnail"><img src="'.$result["img"].'"></div><span class="post-footer-label">Previous Post</span><div class="post-footer-title"><h3>'.$result["title"].'</h3></div></a></div>';
+    echo $html;
 }
 
 /**
@@ -409,7 +490,10 @@ function theNext($widget)
         $link='#';
     }
     $result=array('img'=>$img,'title'=>$title,'link'=>$link);
-    return $result;
+    //输出html
+    $html = '<div class="post-footer-box half next"><a href="'.$result["link"].'" rel="next"><div class="post-footer-thumbnail"><img src="'.$result["img"].'"></div><span class="post-footer-label">Next Post</span><div class="post-footer-title"><h3>'.$result["title"].'</h3></div></a></div>';
+    echo $html;
+
 }
 
 //
@@ -424,15 +508,16 @@ function showCommentContent($coid) {
     $atStr = commentAtContent($coid);
     $_content=Markdown::convert($text);
     //<p>
-    if($atStr!==''){
+    if($atStr !== '')
         $content = substr_replace($_content, $atStr,0,3);
-        echo $content;
-    }
     else
-    {
         $content=$_content;
-        echo $content;
+    if(!empty(Typecho_Widget::widget('Widget_Options')->AriaConfig) && in_array('useFancybox', Typecho_Widget::widget('Widget_Options')->AriaConfig)) {
+        $pattern = '/<img(.*?)src="(.*?)"(.*?)alt="(.*?)"(.*?)>/';
+        $replacement = '<a href="$2" data-caption="$4" no-pjax class="fancybox">$0</a>';
+        $content = preg_replace($pattern, $replacement, $content);
     }
+    echo $content;
 }
 
 /**
@@ -450,30 +535,6 @@ function commentAtContent($coid) {
         return $href;
     } else {
         return '';
-    }
-}
-
-/**
- * 评论地址显示
- */
-function showCommentAddr($ip) {
-    if ((!$ip) || (strchr($ip, '127.0.')) || (strchr($ip, '192.168')) || ($ip === '::1')) {
-        //这部分为真则返回‘火星’类似的地址
-        echo "火星";
-    } else {
-        $url = 'http://ip.taobao.com/service/getIpInfo.php?ip=' . $ip;
-        $content = file_get_contents($url);
-        $data = json_decode($content, true);
-        if ($data['code'] == '0') {
-            $addr = '';
-            foreach ($data['data'] as $key => $value) {
-                if ($key === 'ip' || $key === 'country_id' || $key === 'area_id' || $key === 'region_id' || $key === 'city_id' || $key === 'county_id' || $key === 'isp_id' || !$value || $value == "XX") continue;
-                else $addr.= ' ' . $value;
-            }
-            echo $addr;
-        } else {
-            echo '火星';
-        }
     }
 }
 
@@ -512,7 +573,7 @@ function judgeGravatar($email,$author='') {
         $url .= "?s=128&r=g";
     }
     else {
-        $url=Typecho_Widget::widget('Widget_Options')->themeUrl.'/img/comment-avatar.jpg';
+        $url=Typecho_Widget::widget('Widget_Options')->themeUrl.'/assets/img/comment-avatar.jpg';
     }
     $tag.='src="'.$url.'">';
     echo $tag;
@@ -573,7 +634,7 @@ function commentReply($archive) {
                 textarea.focus();
             }
             var inputs=document.getElementsByClassName('comment-input');
-            console.log(inputs);
+            //console.log(inputs);
             for(var i=0;i<inputs.length;++i)
             {
                 console.log(inputs[i].getElementsByTagName('label'));
@@ -601,7 +662,7 @@ function commentReply($archive) {
             console.log(inputs);
             for(var i=0;i<inputs.length;++i)
             {
-                console.log(inputs[i].getElementsByTagName('label'));
+                //console.log(inputs[i].getElementsByTagName('label'));
                 inputs[i].getElementsByTagName('label')[0].style.left='8px';
                 inputs[i].getElementsByTagName('label')[0].style.bottom='12px';
             }
@@ -621,61 +682,64 @@ function showCommentUA($userAgent)
 {
     $browser=useragent_detect_browser::analyze($userAgent);
     $os=useragent_detect_os::analyze($userAgent);
-    $html='';
+    $html='<i class="iconfont icon-aria-';
     //匹配浏览器
     if(preg_match('/QQ/i', $browser['name'])) {
-        $html.='<i class="iconfont">&#xe608;';
+        $html.='qqbrowser';
     }
     else if(preg_match('/UC/i', $browser['name'])) {
-        $html.='<i class="iconfont">&#xe64a;';
+        $html.='uc';
     }
     else if(preg_match('/Internet Explorer/i', $browser['name'])) {
-        $html.='<i class="iconfont">&#xe646;';
+        $html.='ie';
     }
     else if(preg_match('/Safari/i', $browser['name'])) {
-        $html.='<i class="iconfont">&#xe6ef;';
+        $html.='safari';
     }
     else if(preg_match('/Opera/i', $browser['name'])) {
-        $html.='<i class="iconfont">&#xe6d4;';
+        $html.='opera';
     }
     else if(preg_match('/Firefox/i', $browser['name'])) {
-        $html.='<i class="iconfont">&#xe67f;';
+        $html.='firefox';
     }
     else if($browser['name']==='Google Chrome') {
-        $html.='<i class="iconfont">&#xe691;';
+        $html.='chrome';
     }
     else {
-        $html.='<i class="iconfont">&#xe602;';
+        $html.='browser';
     }
     //匹配os
-    $html.=" ";
+    $html.='"></i> <i class="iconfont icon-aria-';
     if($os['name']==='Fedora') {
-        $html.='&#xe655;';
+        $html.='fedora';
     }
     else if(preg_match('/Android|ADR /i', $os['name'])) {
-        $html.="&#xe632;";
+        $html.="android";
     }
     else if(preg_match('/Ubuntu/i',$os['name'])) {
-        $html.='&#xe681;';
+        $html.='ubuntu';
     }
     else if($os['name']==='Debian GNU/Linux') {
-        $html.='&#xe679;';
+        $html.='debian';
     }
     else if($os['name']==='CentOS') {
-        $html.='&#xe676;';
+        $html.='centos';
     }
     else if(preg_match('/Windows|Win(NT|32|95|98|16)|ZuneWP7|WPDesktop/i', $os['name'])) {
-        $html.='&#xe86f;';
+        $html.='windows';
     }
     else if(preg_match('/Mac/i', $os['name'])||$os['name']==='iOS') {
-        $html.='&#xe605;';
+        $html.='mac';
     }
     else if($os['name']==='Arch Linux') {
-        $html.='&#xe600;';
+        $html.='archlinux';
+    }
+    else if(preg_match('/linux/i',$os['name'])) {
+        $html.='linux';
     }
     else 
-        $html.='&#xe613;';
-    $html.="</i> ";
+        $html.='os';
+    $html.='"></i>';
     echo $html;
 }
 
@@ -683,16 +747,15 @@ function showCommentUA($userAgent)
  * 将主题配置中textarea内的string转换为JSON数据
  * 用作部分配置
  */
-function convertToJSON($item, $mode) {
+function convertConfigData($item, $mode) {
     $options = Typecho_Widget::widget('Widget_Options');
     $data = $options->$item ? $options->$item : "";
     if($data) {
         if($mode)
-            $json = json_decode(trim("[".$data."]"),true);
+            $json = trim("[".$data."]");
         else
             $json = json_decode(trim("{".$data."}"),true);
         return $json;
-
     }
     else 
         return false;

@@ -20,10 +20,10 @@
                     <a href="<?php $this->permalink(); ?>"><?php $this->title(); ?></a>
                 </div>
                 <div class="card-meta-top">
-                    <span class="card-meta-cate"><i class="iconfont">&#xe61d;</i> <?php $this->category(' ',true,'无'); ?></span><span class="card-meta-date"><i class="iconfont">&#xe74f;</i> <?php $this->date('F jS, Y'); ?></span>
+                    <span class="card-meta-cate"><i class="iconfont icon-aria-category"></i> <?php $this->category(' ',true,'无'); ?></span><span class="card-meta-date"><i class="iconfont icon-aria-date"></i> <?php $this->date('F jS, Y'); ?></span>
                 </div>
                 <a class="card-thumbnail" href="<?php $this->permalink(); ?>" style="background: url(
-                    <?php if(!empty($this->fields->thumbnail))
+                    <?php if($this->fields->thumbnail)
                             $this->fields->thumbnail();
                         else
                             echo getThumbnail();
@@ -31,7 +31,7 @@
                 </a>
                 <div class="card-body">
                     <?php 
-                        if(!empty($this->fields->previewContent))
+                        if($this->fields->previewContent)
                             $this->fields->previewContent();
                         else
                             $this->excerpt(50, '...');
@@ -39,13 +39,13 @@
                 </div>
                 <ul class="card-meta-bottom">
                     <li class="card-meta-label card-meta-more">
-                        <a href="<?php $this->permalink(); ?>"><i class="iconfont">&#xe625;&#xe625;</i></a>
+                        <a href="<?php $this->permalink(); ?>"><i class="iconfont icon-aria-more"></i><i class="iconfont icon-aria-more"></i></a>
                     </li>
                     <li class="card-meta-label card-meta-views card-meta-right">
-                        <i class="iconfont">&#xe619;</i> <?php getPostView($this); ?>
+                        <i class="iconfont icon-aria-view"></i> <?php getPostView($this); ?>
                     </li>
                     <li class="card-meta-label card-meta-comments card-meta-right">
-                        <i class="iconfont">&#xe6f3;</i> <?php $this->commentsNum('%d'); ?>
+                        <i class="iconfont icon-aria-comment"></i> <?php $this->commentsNum('%d'); ?>
                     </li>
                     <!--li class="card-meta-label card-meta-likes"></li-->
                 </ul>

@@ -31,9 +31,7 @@ echo $commentClass;
         <?php else: ?>
         <div class="comment-author">
         <?php endif; ?>
-            <?php //judgeGravatar($comments->mail,$comments->author); ?>
             <cite class="fn"><?php $comments->author(); ?></cite>
-            <!--span><?php //showCommentAddr($comments->ip); ?></span-->
         </div>
         <div class="comment-meta">
             <a href="<?php $comments->permalink(); ?>">
@@ -59,7 +57,7 @@ echo $commentClass;
 <?php commentReply($this); ?>
 <div id="comments">
     <?php $this->comments()->to($comments); ?>
-    <span id="response"><i class="iconfont">&#xe6f3;</i> <?php $this->commentsNum(_t('0 Comment'), _t('1 Comment'), _t('%d Comments')); ?></span>
+    <span id="response"><i class="iconfont icon-aria-comment"></i> <?php $this->commentsNum(_t('0 Comment'), _t('1 Comment'), _t('%d Comments')); ?></span>
     <?php if ($comments->have()): ?>
     
     
@@ -77,80 +75,50 @@ echo $commentClass;
         <?php $comments->cancelReply('Cancel'); ?>
         </div>
     
-        <span id="new-response"><i class="iconfont">&#xe6ac;</i> 开始你的表演 </span>
+        <span id="new-response"><i class="iconfont icon-aria-write"></i> 开始你的表演 </span>
         <!-- New Comments begin -->
         <form method="post" action="<?php $this->commentUrl() ?>" id="comment-form" role="form">
             <?php if($this->user->hasLogin()): ?>
             <p><?php _e('登录身份: '); ?><a href="<?php $this->options->profileUrl(); ?>"><?php $this->user->screenName(); ?></a>. <a href="<?php $this->options->logoutUrl(); ?>" title="Logout"><?php _e('退出'); ?> &raquo;</a></p>
             <?php else: ?>
             <div id="comment-info">
-                <img id="comment-cur-avatar" src="<?php $this->options->themeUrl('img/comment-avatar.jpg'); ?>">
+                <img id="comment-cur-avatar" src="<?php $this->options->themeUrl('assets/img/comment-avatar.jpg'); ?>">
                 <p class="comment-input">
-                    <label for="author" class="required"><i class="iconfont">&#xe715;</i></label>
+                    <label for="author" class="required"><i class="iconfont icon-aria-username"></i></label>
                     <input placeholder="*Your Name" type="text" name="author" id="author" class="text" value="<?php $this->remember('author'); ?>" required />
                 </p>
                 <p class="comment-input">
-                    <label for="mail"<?php if ($this->options->commentsRequireMail): ?> class="required"<?php endif; ?>><i class="iconfont">&#xe60b;</i></label>
+                    <label for="mail"<?php if ($this->options->commentsRequireMail): ?> class="required"<?php endif; ?>><i class="iconfont icon-aria-email"></i></label>
                     <input placeholder="*Your email" type="email" name="mail" id="mail" class="text" value="<?php $this->remember('mail'); ?>"<?php if ($this->options->commentsRequireMail): ?> required<?php endif; ?> />
                 </p>
                 <p class="comment-input">
-                    <label for="url"<?php if ($this->options->commentsRequireURL): ?> class="required"<?php endif; ?>><i class="iconfont">&#xe6a2;</i></label>
+                    <label for="url"<?php if ($this->options->commentsRequireURL): ?> class="required"<?php endif; ?>><i class="iconfont icon-aria-link"></i></label>
                     <input type="url" name="url" id="url" class="text" placeholder="<?php _e('http://'); ?>" value="<?php $this->remember('url'); ?>"<?php if ($this->options->commentsRequireURL): ?> required<?php endif; ?> />
                 </p>
             </div>
-            <script type="text/javascript" src="<?php $this->options->themeUrl('js/js-md5.js'); ?>"></script>
-            <script type="text/javascript">
-                var gravatar = document.getElementById("comment-cur-avatar");
-                var email = document.getElementById("mail");
-                var Ka = navigator.userAgent.toLowerCase();
-                var chrome = Ka.indexOf('webkit') != -1;
-                if (chrome) email.onblur = changeGravatar;
-                else email.onchange = changeGravatar;
-                function changeGravatar() {
-                    email_value = email.value;
-                    email_md5 = hex_md5(email_value);
-                    new_gravatar = "http://cn.gravatar.com/avatar/" + email_md5 + "?s=128&r=G";
-                    newGravatar(new_gravatar);
-                }
-                function newGravatar(new_gravatar) {
-                    gravatar.setAttribute('src', new_gravatar);
-                }
-            </script>
+            <!-- <script type="text/javascript" src="<?php $this->options->themeUrl('js/js-md5.js'); ?>"></script> -->
             <?php endif; ?>
             <p>
                 <label for="textarea" class="required"></label>
                 <textarea rows="8" cols="50" name="text" id="textarea" class="textarea" required placeholder="「&nbsp;温柔正确的人总是难以生存，因为这世界既不温柔，也不正确&nbsp;」"><?php $this->remember('text'); ?></textarea>
             </p>
-            <div class="OwO"></div>
-            <!--p id="comment-ban-mail">
-                <input name="banmail" type="checkbox" value="stop">
-                <label for="comment-ban-mail"></label><strong>不接收</strong>回复邮件通知
-            </p-->            
-            <p>
-                <center>
-                    <button type="submit" class="submit"><i class="iconfont">&#xe642;</i> 发射</button>
-                </center>
-            </p>
+            <div id="comment-footer">
+                <div class="OwO"></div>
+                <div class="comment-image"><i class="iconfont icon-aria-picture"></i></div>
+                <?php if(!empty($this->options->AriaConfig) && in_array('useCommentToMail', $this->options->AriaConfig)): ?>
+                <div id="comment-ban-mail" class="ui toggle checkbox">
+                    <input name="banmail" type="checkbox" value="stop">
+                    <label for="comment-ban-mail"><strong>不接收</strong>回复邮件通知</label>
+                </div>
+                <?php endif; ?>
+            </div>
+            <center>
+                <button type="submit" class="submit"><i class="iconfont icon-aria-submit"></i> 发射</button>
+            </center>
         </form>
     </div>
-            <?php 
-                $url=$this->options->OwOJson ? $this->options->OwOJson : $this->options->themeUrl."/OwO/OwO.json";
-                echo "
-                <script>
-                    var OwO = new OwO({
-                        logo: '<i class=\"iconfont\">&#xe647;</i>',
-                        container: document.getElementsByClassName('OwO')[0],
-                        target: document.getElementsByClassName('textarea')[0],
-                        api: "."'".$url."',"."
-                        position: 'down',
-                        width: '100%',
-                        maxHeight: '250px'
-                        });
-                </script>
-                ";
-             ?>
     <?php else: ?>
         <style>.comment-reply {display:none;}</style>
-    <span style="font-size: 20px;display: block;user-select: none;"><i class="iconfont">&#xe604;</i> 评论关闭了哟</span>
+    <span style="font-size: 20px;display: block;user-select: none;"><i class="iconfont icon-aria-close" sytle="font-size:20px"></i> 评论关闭了哟</span>
     <?php endif; ?>
 </div>

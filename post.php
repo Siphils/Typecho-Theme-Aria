@@ -15,37 +15,17 @@
                     <div class="post-content">
                         <?php $this->content(); ?>
                     </div>
-                    <div class="post-update"><i class="iconfont">&#xe74f;</i>&nbsp;最后一次更新于<?php echo date("F jS, Y",$this->modified) ?></div>
+                    <?php postOther($this); ?>
+                    <div class="post-update"><i class="iconfont icon-aria-date"></i>&nbsp;最后一次更新于<?php echo date("F jS, Y",$this->modified) ?></div>
                 </div>
-
                 <div class="post-tags">
                     <?php $this->tags(' ', true, '<a>None</a>'); ?>
-                    <span class="iconfont">&#xe671;</span>
+                    <a class="post-zan"><i class="iconfont icon-aria-like"></i></a>
+                    <?php //Typecho_Widget::widget('Zan_Action')->showZan($this->cid); ?>
                 </div>
-                <?php $prev=thePrev($this);$next=theNext($this); ?>
                 <div class="post-footer nextprev">
-                    <div class="post-footer-box half previous"> 
-                        <a href="<?php echo $prev['link']; ?>" rel="prev">
-                            <div class="post-footer-thumbnail"> 
-                                <img src="<?php echo $prev['img']; ?>">
-                            </div>
-                            <span class="post-footer-label">Previous Post</span>
-                            <div class="post-footer-title">
-                                <h3><?php echo $prev['title']; ?></h3>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="post-footer-box half next"> 
-                        <a href="<?php echo $next['link']; ?>" rel="next">
-                            <div class="post-footer-thumbnail"> 
-                                <img src="<?php echo $next['img']; ?>">
-                            </div>
-                            <span class="post-footer-label">Next Post</span>
-                            <div class="post-footer-title">
-                                <h3><?php echo $next['title']; ?></h3>
-                            </div>
-                        </a>
-                    </div>
+                    <?php thePrev($this); ?>
+                    <?php theNext($this); ?>
                 </div>
             </article>
     <?php $this->need('comments.php'); ?>
