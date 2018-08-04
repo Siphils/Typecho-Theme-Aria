@@ -11,7 +11,7 @@
         <p>
         &copy; <span><?php echo date('Y'); ?></span> <span><a href="<?php $this->options->siteUrl(); ?>"><?php $this->options->title(); ?></a>.</span></p>
         <?php if(!empty($this->options->AriaConfig) && in_array('showHitokoto', $this->options->AriaConfig)): ?><p id="hitokoto"></p><?php endif; ?>
-        <p id="footer-info"><span><a href="http://www.typecho.org" title="念念不忘，必有回响。">Typecho</a></span><span><a href="https://eriri.ink/Typecho-Theme-Aria.html" title="Typecho-Theme-Aria">Theme</a></span><?php if(!empty($this->options->AriaConfig) && in_array('showLoadTime', $this->options->AriaConfig)): ?><span class="pjax-container">Processd in <?php timer_stop(1) ?> second(s).</span><?php endif; ?></p>
+        <p id="footer-info"><span><a href="http://www.typecho.org" title="念念不忘，必有回响。">Typecho</a></span><span><a href="https://eriri.ink/Typecho-Theme-Aria.html" title="Typecho-Theme-Aria">Theme</a></span><?php if(!empty($this->options->AriaConfig) && in_array('showLoadTime', $this->options->AriaConfig)): ?><span class="pjax-container">Processed in <?php timer_stop(1) ?> second(s).</span><?php endif; ?></p>
     </div>
 </footer><!-- end #footer -->
 </div><!-- end #wrapper -->
