@@ -1,8 +1,10 @@
 <?php
 if (!defined('__TYPECHO_ROOT_DIR__')) exit;
 
-require_once('UserAgent/Browser.php');
-require_once('UserAgent/OperatingSystem.php');
+define('ARIA_VERSION','1.6.0');
+
+require_once('lib/Browser.php');
+require_once('lib/OperatingSystem.php');
 
 function themeConfig($form) {
     echo <<<EOF
@@ -39,6 +41,9 @@ EOF;
     $OwOJson = new Typecho_Widget_Helper_Form_Element_Text('OwOJson', NULL, NULL, _t('OwO'), _t('OwO表情JSON文件的URL'));
     $form->addInput($OwOJson);
 
+    $placeholder = new Typecho_Widget_Helper_Form_Element_text('placeholder',NULL,'「&nbsp;温柔正确的人总是难以生存，因为这世界既不温柔，也不正确&nbsp;」',_t('评论框placeholder'), _t('这里的内容会提前显示在评论框里'));
+    $form->addInput($placeholder);
+
     $statistics = new Typecho_Widget_Helper_Form_Element_Textarea('statistics', NULL, NULL, _t('统计代码'), _t('在此填入统计的代码'));
     $form->addInput($statistics);
 
@@ -65,8 +70,10 @@ EOF;
             "text":"关于",
             "link":"#",
             "icon":"icon-aria-about"
-        }'
-    , _t('导航栏配置'), _t('输入导航栏的配置信息'));
+        }', 
+        _t('导航栏配置'), 
+        _t('输入导航栏的配置信息')
+    );
     $form->addInput($navConfig);
 
     $rewardConfig = new Typecho_Widget_Helper_Form_Element_Textarea('rewardConfig', NULL, NULL
@@ -76,14 +83,14 @@ EOF;
     $AriaConfig = new Typecho_Widget_Helper_Form_Element_Checkbox('AriaConfig',
         array(
             'showHitokoto' => '页面底部显示一言',
-            'showLoadTime' => '页面底部显示加载时间(Processed in xxx second(s).)',
             'usePjax' => '开启PJAX(需要关闭评论反垃圾保护)',
+            'useAjaxComment' => '开启AJAX评论',
             'useFancybox' => '文章/评论图片使用<a href="http://fancyapps.com">fancybox</a>(友情链接页面不会使用fancybox)',
             'showQRCode' => '文章底部显示本文链接二维码',
             'useCommentToMail' => '评论邮件回复按钮（需要配合<a href="https://9sb.org/58">CommentToMail</a>使用）'
-
         ),
-        array('showHitokoto','showLoadTime','usePjax','useFancybox','showQRCode','useCommentToMail'), '其他设置'
+        array('showHitokoto','usePjax','useAjaxComment','useFancybox','showQRCode','useCommentToMail'),
+        '其他设置'
     );
     $form->addInput($AriaConfig->multiMode());
 
@@ -105,15 +112,6 @@ function themeInit($archive) {
     /** 友情链接页面 */
     if($archive->is('page','friends'))
         $archive->content = pageFriends($archive);
-
-    /** 文章内容处理img标签 fanybox */
-    if(!empty($AriaConfig) && in_array('useFancybox', $AriaConfig)) {
-        if(!$archive->is('page','friends')) {
-            $pattern = '/<img(.*?)src="(.*?)"(.*?)>/';
-            $replacement = '<a href="$2" data-caption="'.$archive->title.'" no-pjax class="fancybox">$0</a>';
-            $archive->content = preg_replace($pattern, $replacement, $archive->content);
-        }
-    }
 }
 
 function AriaConfig() {
@@ -121,26 +119,26 @@ function AriaConfig() {
     $options = Typecho_Widget::widget('Widget_Options');
     //print_r($AriaConfig);
     $showHitokoto = (!empty($AriaConfig) && in_array('showHitokoto', $AriaConfig)) ? 1 : 0;
-    $showLoadTime = (!empty($AriaConfig) && in_array('showLoadTime', $AriaConfig)) ? 1 : 0;
     $showQRCode = (!empty($AriaConfig) && in_array('showQRCode', $AriaConfig)) ? 1 : 0;
     $showReward = $options->rewardConfig ? 1 : 0;
     $usePjax = (!empty($AriaConfig) && in_array('usePjax', $AriaConfig)) ? 1 : 0;
+    $useAjaxComment = (!empty($AriaConfig) && in_array('useAjaxComment', $AriaConfig)) ? 1 : 0;
     $useFancybox = (!empty($AriaConfig) && in_array('useFancybox', $AriaConfig)) ? 1 : 0;
     $OwOJson= $options->OwOJson ? $options->OwOJson : $options->themeUrl."/assets/OwO/OwO.json";
-    echo '<script>
-        window.THEME_CONFIG = {
-            SITE_URL: "'.$options->siteUrl.'",
-            THEME_URL: "'.$options->themeUrl.'",
-            SHOW_HITOKOTO : '.$showHitokoto.',
-            SHOW_LOADTIME : '.$showLoadTime.',
-            SHOW_QRCODE : '.$showQRCode.',
-            SHOW_REWARD : '.$showReward.',
-            USE_PJAX : '.$usePjax.',
-            USE_FANCYBOX : '.$useFancybox.',
-            USE_FANCYBOX : '.$useFancybox.',
-            OWO_JSON : "'.$OwOJson.'"
-        }
-    </script>';
+    $THEME_CONFIG = json_encode((object)array(
+        "THEME_VERSION" => ARIA_VERSION,
+        "SITE_URL" => $options->siteUrl,
+        "THEME_URL" => $options->themeUrl,
+        "SHOW_HITOKOTO" => $showHitokoto,
+        "SHOW_QRCODE" => $showQRCode,
+        "SHOW_REWARD" => $showReward,
+        "USE_PJAX" => $usePjax,
+        "USE_AJAX_COMMENT" => $useAjaxComment,
+        "USE_FANCYBOX" => $useFancybox,
+        "USE_FANCYBOX" => $useFancybox,
+        "OWO_JSON" => $OwOJson
+    ));
+    echo "<script>window.THEME_CONFIG = $THEME_CONFIG</script>\n";
 }
 
 
@@ -512,11 +510,6 @@ function showCommentContent($coid) {
         $content = substr_replace($_content, $atStr,0,3);
     else
         $content=$_content;
-    if(!empty(Typecho_Widget::widget('Widget_Options')->AriaConfig) && in_array('useFancybox', Typecho_Widget::widget('Widget_Options')->AriaConfig)) {
-        $pattern = '/<img(.*?)src="(.*?)"(.*?)alt="(.*?)"(.*?)>/';
-        $replacement = '<a href="$2" data-caption="$4" no-pjax class="fancybox">$0</a>';
-        $content = preg_replace($pattern, $replacement, $content);
-    }
     echo $content;
 }
 
@@ -582,10 +575,8 @@ function judgeGravatar($email,$author='') {
 /**
  * 输出评论回复/取消回复按钮
  */
-
 function commentReply($archive) {
     echo "<script type=\"text/javascript\">
-(function () {
     window.TypechoComment = {
         dom : function (id) {
             return document.getElementById(id);
@@ -603,7 +594,7 @@ function commentReply($archive) {
 
         reply : function (cid, coid) {
             var comment = this.dom(cid), parent = comment.parentNode,
-                response = this.dom('" . $archive->respondId . "'), input = this.dom('comment-parent'),
+                response = this.dom('$archive->respondId'), input = this.dom('comment-parent'),
                 form = 'form' == response.tagName ? response : response.getElementsByTagName('form')[0],
                 textarea = response.getElementsByTagName('textarea')[0];
 
@@ -637,7 +628,7 @@ function commentReply($archive) {
             //console.log(inputs);
             for(var i=0;i<inputs.length;++i)
             {
-                console.log(inputs[i].getElementsByTagName('label'));
+                //console.log(inputs[i].getElementsByTagName('label'));
                 inputs[i].getElementsByTagName('label')[0].style.left='18px';
                 inputs[i].getElementsByTagName('label')[0].style.bottom='22px';
             }
@@ -645,7 +636,7 @@ function commentReply($archive) {
         },
 
         cancelReply : function () {
-            var response = this.dom('{$archive->respondId}'),
+            var response = this.dom('$archive->respondId'),
             holder = this.dom('comment-form-place-holder'), input = this.dom('comment-parent');
 
             if (null != input) {
@@ -659,7 +650,7 @@ function commentReply($archive) {
             this.dom('cancel-comment-reply-link').style.display = 'none';
             holder.parentNode.insertBefore(response, holder);
             var inputs=document.getElementsByClassName('comment-input');
-            console.log(inputs);
+            //console.log(inputs);
             for(var i=0;i<inputs.length;++i)
             {
                 //console.log(inputs[i].getElementsByTagName('label'));
@@ -668,8 +659,7 @@ function commentReply($archive) {
             }
             return false;
         }
-    };
-})();
+    }
 </script>
 ";
 }
@@ -759,26 +749,4 @@ function convertConfigData($item, $mode) {
     }
     else 
         return false;
-}
-
-/**
- * 页面加载耗时
- */
-function timer_start() {
-    global $timestart;
-    $mtime = explode( ' ', microtime() );
-    $timestart = $mtime[1] + $mtime[0];
-    return true;
-}
-timer_start();
- 
-function timer_stop( $display = 0, $precision = 3 ) {
-    global $timestart, $timeend;
-    $mtime = explode( ' ', microtime() );
-    $timeend = $mtime[1] + $mtime[0];
-    $timetotal = $timeend - $timestart;
-    $r = number_format( $timetotal, $precision );
-    if ( $display )
-    echo $r;
-    return $r;
 }

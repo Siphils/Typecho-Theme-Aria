@@ -1,8 +1,9 @@
 # typecho-theme-Aria  
 这是一个十分用心制作的Typecho主题 :)  
-:)  
 ***  
 ## 使用方法
+### Typecho版本  
+`Typecho 1.1/17.10.30` 版本下测试正常  
 ### 安装
 1.下载  
 2.文件夹命名为`Aria`并上传到`/usr/themes/`目录  
@@ -63,6 +64,12 @@
     </div>
 </a>
 ```  
+**由于Typecho 1.1正式版的编辑器解析问题，需要用`!!!`包裹`[link-box][/link-box]`**，例如  
+```sh
+!!!
+[link-box][/link-box]
+!!!
+```
 ***  
 填写示例  
 ```sh  
@@ -93,6 +100,13 @@
 如果开启需要在后台关闭`设置->评论->开启反垃圾保护`  
 ***  
 ## 更新  
+### 2018-8-7 1.6.0
+* `友情链接`页面部分样式微调  
+* css和js文件改为本地调用  
+* 增加了pjax页面切换特效  
+* 增加了ajax评论选择开关  
+* 增加了网站运行时间的配置  
+* 移除了底部的页面加载时间  
 ### 2018-7-30 1.5
 * 增加了文章底部打赏功能和文章二维码功能
 * 增加了评论部分**不接收邮件回复**的按钮（需要配合插件[CommentToMail](https://9sb.org/58 "CommentToMail")使用）  
@@ -129,21 +143,21 @@
 * 修复了归档页面输出时光轴的BUG  
 ***  
 ## 下个版本部分更新计划  
-* 添加社交媒体配置  
-* 增加ajax评论功能
+* 添加社交媒体配置(考虑单独为`关于`页面增加一个模板)  
+* 配合插件实现点赞功能  
 * 修复目前测试版中已知的BUG  
 * ……
 *** 
 ## 使用的开源项目:  
 * [highlight.js](https://highlightjs.org/ "highlight.js")  
-* [Bootstrap grid.css](http://www.bootcss.com/ "Bootstrap grid.css")  
+* [Bootstrap grid.css](https://www.bootcss.com/ "Bootstrap grid.css")  
 * [Fancybox](https://fancyapps.com/fancybox/3/ "fancybox")  
 * [jQuery](https://jquery.com/ "jQuery")  
 * [DIYgod/OwO](https://github.com/DIYgod/OwO "OwO")  
-* [headroom.js](http://www.bootcss.com/p/headroom.js/ "headroom.js")  
-* [MoOx/pjax](https://github.com/MoOx/pjax "MoOx/pjax")  
+* [headroom.js](https://www.bootcss.com/p/headroom.js/ "headroom.js")  
+* [jquery-pjax](https://github.com/defunkt/jquery-pjax "jquery-pjax")  
 * [NProgress](https://github.com/rstacruz/nprogress "NProgress")  
+* [animate.css](https://daneden.github.io/animate.css/ "animate.css")
 *** 
-## 部分插件
-* [CommentToMail](https://9sb.org/58 "CommentToMail")
-* [CompressHTML](https://github.com/qlwz/CompressHTML-For-Typecho "CompressHTML")  
+## 部分插件(非必需)
+* [CommentToMail](https://9sb.org/58 "CommentToMail") 
