@@ -161,7 +161,7 @@
 * [NProgress](https://github.com/rstacruz/nprogress "NProgress")  
 * [animate.css](https://daneden.github.io/animate.css/ "animate.css")  
 * [notyf](https://github.com/caroso1222/notyf "notyf")  
-* [jquery.lazyload](https://appelsiini.net/projects/lazyload/ 'jquery.lazyload)  
+* [jquery.lazyload](https://appelsiini.net/projects/lazyload/ "jquery.lazyload")  
 *** 
 ## 部分插件(非必需)
 * [CommentToMail](https://9sb.org/58 "CommentToMail")  
