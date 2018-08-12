@@ -20,26 +20,32 @@
 
 	<!-- 使用url函数转换相关路径 -->
 
-	<link href="<?php $this->options->themeUrl('assets/css/nprogress.min.css'); ?>" rel="stylesheet">
-	<link href="<?php $this->options->themeUrl('assets/css/jquery.fancybox.min.css'); ?>" rel="stylesheet">
-	<link href="<?php $this->options->themeUrl('assets/css/normalize.min.css'); ?>" rel="stylesheet">
+	<link href="<?php $this->options->themeUrl('assets/css/nprogress.min.css'); ?>"
+	 rel="stylesheet">
+	<link href="<?php $this->options->themeUrl('assets/css/jquery.fancybox.min.css'); ?>"
+	 rel="stylesheet">
+	<link href="<?php $this->options->themeUrl('assets/css/normalize.min.css'); ?>"
+	 rel="stylesheet">
 	<link href="<?php $this->options->themeUrl('assets/OwO/OwO.min.css'); ?>" rel="stylesheet">
-	<link href="<?php $this->options->themeUrl('assets/css/animate.min.css'); ?>" rel="stylesheet">
-    <link href="<?php $this->options->themeUrl('assets/css/tomorrow-night-eighties.min.css'); ?>" rel="stylesheet">
-	<link rel="stylesheet" href="//at.alicdn.com/t/font_671129_lud8yy9waro.css">
+	<link href="<?php $this->options->themeUrl('assets/css/animate.min.css'); ?>"
+	 rel="stylesheet">
+	<link href="<?php $this->options->themeUrl('assets/css/tomorrow-night-eighties.min.css'); ?>"
+	 rel="stylesheet">
+	<link rel="stylesheet" href="//at.alicdn.com/t/font_671129_1qho2653yze.css">
 	<link href="<?php $this->options->themeUrl('assets/css/style.min.css'); ?>" rel="stylesheet">
+    <script src="<?php $this->options->themeUrl('assets/js/jquery.min.js'); ?>"></script>
 	<!--[if lt IE 9]>
     <script src="http://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
     <script src="http://cdn.staticfile.org/respond.js/1.3.0/respond.min.js"></script>
     <![endif]-->
 	<!-- 通过自有函数输出HTML头部信息 -->
 	<?php $this->header("generator=&commentReply="); ?>
-    <script src="<?php $this->options->themeUrl('assets/OwO/OwO.min.js') ?>"></script>
 </head>
 <body>
+<?php AriaConfig(); ?>
 <div id="nav-vertical">
     <span class="close"><i class="iconfont icon-aria-close"></i></span>
-    <div id="nav-avatar"><img src="<?php if($this->options->avatarUrl) $this->options->avatarUrl();else $this->options->themeUrl('assets/img/avatar.jpg'); ?>"></div>
+    <div id="nav-avatar"><img no-lazyload src="<?php if($this->options->avatarUrl) $this->options->avatarUrl();else $this->options->themeUrl('assets/img/avatar.jpg'); ?>"></div>
 	<a href="<?php $this->options->siteUrl(); ?>">
 		<i class="iconfont icon-aria-home"></i>首页</a>
 	<?php showNav(0); ?>
@@ -73,25 +79,19 @@
     </form>
 </div>
 <div id="pjax-container">
-<style><?php if($this->is('post') || $this->is('page') || $this->is('single') || http_response_code()===404 ):; ?>#header {height: 70vh;}#site-meta {display: none;}<?php endif; ?>#background {width: 100%;height: 100%;background: url(<?php 
+<style><?php if($this->is('post') || $this->is('page') || $this->is('single')):; ?>#header {height: 70vh;}#site-meta {display: none;}<?php endif; ?>#background {width: 100%;height: 100%;background: url(<?php 
                     if($this->is('post') || $this->is('page') || $this->is('single'))                         
                         if($this->fields->thumbnail)
                             $this->fields->thumbnail(); 
                         else
                             echo getThumbnail();
-                    else if(http_response_code()===404)
-                        $this->options->themeUrl('assets/img/404.jpg');
                     else
                         getBackground();
                 ?>) center center no-repeat;background-size: cover;z-index: -1;position: relative;}</style>
 <header id="header" class="clearfix animated fadeInDown">
     <div id="site-meta">
         <div id="site-avatar">
-            <?php if($this->options->avatarUrl): ?>
-                <img src="<?php $this->options->avatarUrl(); ?>">
-            <?php else: ?>
-                <img src="<?php $this->options->themeUrl('assets/img/avatar.jpg'); ?>">
-            <?php endif; ?>
+            <img no-lazyload src="<?php if($this->options->avatarUrl) $this->options->avatarUrl();else $this->options->themeUrl('assets/img/avatar.jpg'); ?>">
         </div>
         <div id="site-name">
             <a href="<?php $this->options->siteUrl(); ?>">
@@ -102,7 +102,7 @@
             <?php $this->options->description(); ?>
         </div>
     </div>
-            <div id="background"></div>
+            <div id="background"</div>
 </header><!-- end #header -->
 <div id="body" class="animated fadeIn">
     <div class="container">

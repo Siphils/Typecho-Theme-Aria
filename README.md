@@ -47,9 +47,9 @@
 ```  
 对应输出
 ```html
-<li src="qrcodeUrl">QQ钱包</li>
-<li src="qrcodeUrl">支付宝</li>
-<li src="qrcodeUrl">微信</li>
+<li src="{qrcodeUrl}">QQ钱包</li>
+<li src="{qrcodeUrl}">支付宝</li>
+<li src="{qrcodeUrl}">微信</li>
 ```
 ### 友情链接页面  
 新建一个页面，选择页面模板`友情链接`, **`slug`设置为`friends`** 
@@ -98,8 +98,17 @@
 ### PJAX  
 后台可以选择开启或者关闭  
 如果开启需要在后台关闭`设置->评论->开启反垃圾保护`  
+### AJAX评论  
+后台可以选择开启或者关闭
 ***  
 ## 更新  
+### 2018-8-12 1.6.1  
+* 优化了ajax评论代码  
+* 后台主题设置使用semantic-ui进行美化  
+* 部分细节微调  
+* 增加了notyf对于评论成功或者失败的提示（可以配合SmartSpam插件使用）  
+* 增加了图片懒加载的开关  
+* 增加了对统计代码的重载(目前支持谷歌分析和百度统计)  
 ### 2018-8-7 1.6.0
 * `友情链接`页面部分样式微调  
 * css和js文件改为本地调用  
@@ -140,12 +149,6 @@
 * 更新了默认随机缩略图的显示  
 * 更新了部分样式  
 * 修复了归档页面输出时光轴的BUG  
-***  
-## 下个版本部分更新计划  
-* 添加社交媒体配置(考虑单独为`关于`页面增加一个模板)  
-* 配合插件实现点赞功能  
-* 修复目前测试版中已知的BUG  
-* ……
 *** 
 ## 使用的开源项目:  
 * [highlight.js](https://highlightjs.org/ "highlight.js")  
@@ -156,7 +159,10 @@
 * [headroom.js](https://www.bootcss.com/p/headroom.js/ "headroom.js")  
 * [jquery-pjax](https://github.com/defunkt/jquery-pjax "jquery-pjax")  
 * [NProgress](https://github.com/rstacruz/nprogress "NProgress")  
-* [animate.css](https://daneden.github.io/animate.css/ "animate.css")
+* [animate.css](https://daneden.github.io/animate.css/ "animate.css")  
+* [notyf](https://github.com/caroso1222/notyf "notyf")  
+* [jquery.lazyload](https://appelsiini.net/projects/lazyload/ 'jquery.lazyload)  
 *** 
 ## 部分插件(非必需)
-* [CommentToMail](https://9sb.org/58 "CommentToMail") 
+* [CommentToMail](https://9sb.org/58 "CommentToMail")  
+* [SmartSpam](http://www.yovisun.com/archive/typecho-plugin-smartspam.html "SmartSpam")  

@@ -1,33 +1,87 @@
 <?php
 if (!defined('__TYPECHO_ROOT_DIR__')) exit;
 
-define('ARIA_VERSION','1.6.0');
+define('ARIA_VERSION','1.6.1');
 
 require_once('lib/Browser.php');
 require_once('lib/OperatingSystem.php');
 
 function themeConfig($form) {
     echo <<<EOF
-    <link href="https://cdn.bootcss.com/semantic-ui/2.3.1/components/button.min.css" rel="stylesheet">
-    <link href="https://cdn.bootcss.com/semantic-ui/2.3.1/components/checkbox.min.css" rel="stylesheet">
-    <link href="https://cdn.bootcss.com/semantic-ui/2.3.1/components/form.min.css" rel="stylesheet">
+    <style>
+        .ui.button{cursor:pointer;display:inline-block;min-height:1em;outline:none;border:none;vertical-align:baseline;background:#E0E1E2 none;color:rgba(0,0,0,0.6);font-family:'Lato','Helvetica Neue',Arial,Helvetica,sans-serif;margin:0em 0.25em 0em 0em;padding:0.78571429em 1.5em 0.78571429em;text-transform:none;text-shadow:none;font-weight:bold;line-height:1em;font-style:normal;text-align:center;text-decoration:none;border-radius:0.28571429rem;-webkit-box-shadow:0px 0px 0px 1px transparent inset,0px 0em 0px 0px rgba(34,36,38,0.15) inset;box-shadow:0px 0px 0px 1px transparent inset,0px 0em 0px 0px rgba(34,36,38,0.15) inset;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;-webkit-transition:opacity 0.1s ease,background-color 0.1s ease,color 0.1s ease,background 0.1s ease,-webkit-box-shadow 0.1s ease;transition:opacity 0.1s ease,background-color 0.1s ease,color 0.1s ease,background 0.1s ease,-webkit-box-shadow 0.1s ease;transition:opacity 0.1s ease,background-color 0.1s ease,color 0.1s ease,box-shadow 0.1s ease,background 0.1s ease;transition:opacity 0.1s ease,background-color 0.1s ease,color 0.1s ease,box-shadow 0.1s ease,background 0.1s ease,-webkit-box-shadow 0.1s ease;will-change:'';-webkit-tap-highlight-color:transparent}
+        .ui.loading.loading.loading.loading.loading.loading.button{position:relative;cursor:default;text-shadow:none !important;color:transparent !important;opacity:1;pointer-events:auto;-webkit-transition:all 0s linear,opacity 0.1s ease;transition:all 0s linear,opacity 0.1s ease}
+        .ui.loading.button:before{position:absolute;content:'';top:50%;left:50%;margin:-0.64285714em 0em 0em -0.64285714em;width:1.28571429em;height:1.28571429em;border-radius:500rem;border:0.2em solid rgba(0,0,0,0.15)}
+        .ui.loading.button:after{position:absolute;content:'';top:50%;left:50%;margin:-0.64285714em 0em 0em -0.64285714em;width:1.28571429em;height:1.28571429em;-webkit-animation:button-spin 0.6s linear;animation:button-spin 0.6s linear;-webkit-animation-iteration-count:infinite;animation-iteration-count:infinite;border-radius:500rem;border-color:#FFFFFF transparent transparent;border-style:solid;border-width:0.2em;-webkit-box-shadow:0px 0px 0px 1px transparent;box-shadow:0px 0px 0px 1px transparent}
+        .ui.labeled.icon.loading.button .icon{background-color:transparent;-webkit-box-shadow:none;box-shadow:none}
+        @-webkit-keyframes button-spin{from{-webkit-transform:rotate(0deg);transform:rotate(0deg)}
+        to{-webkit-transform:rotate(360deg);transform:rotate(360deg)}
+        }@keyframes button-spin{from{-webkit-transform:rotate(0deg);transform:rotate(0deg)}
+        to{-webkit-transform:rotate(360deg);transform:rotate(360deg)}
+        }.ui.basic.loading.button:not(.inverted):before{border-color:rgba(0,0,0,0.1)}
+        .ui.basic.loading.button:not(.inverted):after{border-top-color:#767676}
+        .ui.primary.button{background-color:#2185D0;color:#FFFFFF;text-shadow:none;background-image:none}
+        .ui.primary.button{-webkit-box-shadow:0px 0em 0px 0px rgba(34,36,38,0.15) inset;box-shadow:0px 0em 0px 0px rgba(34,36,38,0.15) inset}
+        .ui.primary.button:hover{background-color:#1678c2;color:#FFFFFF;text-shadow:none}
+        .ui.primary.button:focus{background-color:#0d71bb;color:#FFFFFF;text-shadow:none}
+        .ui.primary.button:active{background-color:#1a69a4;color:#FFFFFF;text-shadow:none}
+        .ui.primary.active.button,.ui.primary.button .active.button:active{background-color:#1279c6;color:#FFFFFF;text-shadow:none}
+        .ui.checkbox{position:relative;display:inline-block;-webkit-backface-visibility:hidden;backface-visibility:hidden;outline:none;vertical-align:baseline;font-style:normal;min-height:17px;font-size:1rem;line-height:17px;min-width:17px}
+        .ui.checkbox input[type="checkbox"],.ui.checkbox input[type="radio"]{cursor:pointer;position:absolute;top:0px;left:0px;opacity:0 !important;outline:none;z-index:3;width:17px;height:17px}
+        .ui.toggle.checkbox{min-height:1.5rem}
+        .ui.toggle.checkbox input{width:3.5rem;height:1.5rem}
+        .ui.toggle.checkbox .box,.ui.toggle.checkbox label{min-height:1.5rem;padding-left:4.5rem;color:rgba(0,0,0,0.87)}
+        .ui.toggle.checkbox label{padding-top:0.15em}
+        .ui.toggle.checkbox .box:before,.ui.toggle.checkbox label:before{display:block;position:absolute;content:'';z-index:1;-webkit-transform:none;transform:none;border:none;top:0rem;background:rgba(0,0,0,0.05);-webkit-box-shadow:none;box-shadow:none;width:3.5rem;height:1.5rem;border-radius:500rem}
+        .ui.toggle.checkbox .box:after,.ui.toggle.checkbox label:after{background:#FFFFFF -webkit-gradient(linear,left top,left bottom,from(transparent),to(rgba(0,0,0,0.05)));background:#FFFFFF -webkit-linear-gradient(transparent,rgba(0,0,0,0.05));background:#FFFFFF linear-gradient(transparent,rgba(0,0,0,0.05));position:absolute;content:'' !important;opacity:1;z-index:2;border:none;-webkit-box-shadow:0px 1px 2px 0 rgba(34,36,38,0.15),0px 0px 0px 1px rgba(34,36,38,0.15) inset;box-shadow:0px 1px 2px 0 rgba(34,36,38,0.15),0px 0px 0px 1px rgba(34,36,38,0.15) inset;width:1.5rem;height:1.5rem;top:0rem;left:0em;border-radius:500rem;-webkit-transition:background 0.3s ease,left 0.3s ease;transition:background 0.3s ease,left 0.3s ease}
+        .ui.toggle.checkbox input ~ .box:after,.ui.toggle.checkbox input ~ label:after{left:-0.05rem;-webkit-box-shadow:0px 1px 2px 0 rgba(34,36,38,0.15),0px 0px 0px 1px rgba(34,36,38,0.15) inset;box-shadow:0px 1px 2px 0 rgba(34,36,38,0.15),0px 0px 0px 1px rgba(34,36,38,0.15) inset}
+        .ui.toggle.checkbox input:focus ~ .box:before,.ui.toggle.checkbox input:focus ~ label:before{background-color:rgba(0,0,0,0.15);border:none}
+        .ui.toggle.checkbox .box:hover::before,.ui.toggle.checkbox label:hover::before{background-color:rgba(0,0,0,0.15);border:none}
+        .ui.toggle.checkbox input:checked ~ .box,.ui.toggle.checkbox input:checked ~ label{color:rgba(0,0,0,0.95) !important}
+        .ui.toggle.checkbox input:checked ~ .box:before,.ui.toggle.checkbox input:checked ~ label:before{background-color:#2185D0 !important}
+        .ui.toggle.checkbox input:checked ~ .box:after,.ui.toggle.checkbox input:checked ~ label:after{left:2.15rem;-webkit-box-shadow:0px 1px 2px 0 rgba(34,36,38,0.15),0px 0px 0px 1px rgba(34,36,38,0.15) inset;box-shadow:0px 1px 2px 0 rgba(34,36,38,0.15),0px 0px 0px 1px rgba(34,36,38,0.15) inset}
+        .ui.toggle.checkbox input:focus:checked ~ .box,.ui.toggle.checkbox input:focus:checked ~ label{color:rgba(0,0,0,0.95) !important}
+        .ui.toggle.checkbox input:focus:checked ~ .box:before,.ui.toggle.checkbox input:focus:checked ~ label:before{background-color:#0d71bb !important}
+        .ui.form{position:relative;max-width:100%}
+        .ui.form .field > label{display:block;margin:0em 0em 0.28571429rem 0em;color:rgba(0,0,0,0.87);font-size:0.92857143em;font-weight:bold;text-transform:none}
+        .ui.form textarea,.ui.form input:not([type]),.ui.form input[type="date"],.ui.form input[type="datetime-local"],.ui.form input[type="email"],.ui.form input[type="number"],.ui.form input[type="password"],.ui.form input[type="search"],.ui.form input[type="tel"],.ui.form input[type="time"],.ui.form input[type="text"],.ui.form input[type="file"],.ui.form input[type="url"]{width:100%;vertical-align:top}
+        .ui.form::-webkit-datetime-edit,.ui.form::-webkit-inner-spin-button{height:1.21428571em}
+        .ui.form input:not([type]),.ui.form input[type="date"],.ui.form input[type="datetime-local"],.ui.form input[type="email"],.ui.form input[type="number"],.ui.form input[type="password"],.ui.form input[type="search"],.ui.form input[type="tel"],.ui.form input[type="time"],.ui.form input[type="text"],.ui.form input[type="file"],.ui.form input[type="url"]{font-family:'Lato','Helvetica Neue',Arial,Helvetica,sans-serif;margin:0em;outline:none;-webkit-appearance:none;tap-highlight-color:rgba(255,255,255,0);line-height:1.21428571em;padding:0.67857143em 1em;font-size:1em;background:#FFFFFF;border:1px solid rgba(34,36,38,0.15);color:rgba(0,0,0,0.87);border-radius:0.28571429rem;-webkit-box-shadow:0em 0em 0em 0em transparent inset;box-shadow:0em 0em 0em 0em transparent inset;-webkit-transition:color 0.1s ease,border-color 0.1s ease;transition:color 0.1s ease,border-color 0.1s ease}
+        .ui.form textarea{margin:0em;-webkit-appearance:none;tap-highlight-color:rgba(255,255,255,0);padding:0.78571429em 1em;background:#FFFFFF;border:1px solid rgba(34,36,38,0.15);outline:none;color:rgba(0,0,0,0.87);border-radius:0.28571429rem;-webkit-box-shadow:0em 0em 0em 0em transparent inset;box-shadow:0em 0em 0em 0em transparent inset;-webkit-transition:color 0.1s ease,border-color 0.1s ease;transition:color 0.1s ease,border-color 0.1s ease;font-size:1em;line-height:1.2857;resize:vertical}
+        .ui.form textarea:not([rows]){height:12em;min-height:8em;max-height:24em}
+        .ui.form textarea,.ui.form input[type="checkbox"]{vertical-align:top}
+        .ui.form input:not([type]):focus,.ui.form input[type="date"]:focus,.ui.form input[type="datetime-local"]:focus,.ui.form input[type="email"]:focus,.ui.form input[type="number"]:focus,.ui.form input[type="password"]:focus,.ui.form input[type="search"]:focus,.ui.form input[type="tel"]:focus,.ui.form input[type="time"]:focus,.ui.form input[type="text"]:focus,.ui.form input[type="file"]:focus,.ui.form input[type="url"]:focus{color:rgba(0,0,0,0.95);border-color:#85B7D9;border-radius:0.28571429rem;background:#FFFFFF;-webkit-box-shadow:0px 0em 0em 0em rgba(34,36,38,0.35) inset;box-shadow:0px 0em 0em 0em rgba(34,36,38,0.35) inset}
+        .ui.form textarea:focus{color:rgba(0,0,0,0.95);border-color:#85B7D9;border-radius:0.28571429rem;background:#FFFFFF;-webkit-box-shadow:0px 0em 0em 0em rgba(34,36,38,0.35) inset;box-shadow:0px 0em 0em 0em rgba(34,36,38,0.35) inset;-webkit-appearance:none}
+        .ui.message{position:relative;min-height:1em;margin:1em 0em;background:#F8F8F9;padding:1em 1.5em;line-height:1.4285em;color:rgba(0,0,0,0.87);-webkit-transition:opacity 0.1s ease,color 0.1s ease,background 0.1s ease,-webkit-box-shadow 0.1s ease;transition:opacity 0.1s ease,color 0.1s ease,background 0.1s ease,-webkit-box-shadow 0.1s ease;transition:opacity 0.1s ease,color 0.1s ease,background 0.1s ease,box-shadow 0.1s ease;transition:opacity 0.1s ease,color 0.1s ease,background 0.1s ease,box-shadow 0.1s ease,-webkit-box-shadow 0.1s ease;border-radius:0.28571429rem;-webkit-box-shadow:0px 0px 0px 1px rgba(34,36,38,0.22) inset,0px 0px 0px 0px rgba(0,0,0,0);box-shadow:0px 0px 0px 1px rgba(34,36,38,0.22) inset,0px 0px 0px 0px rgba(0,0,0,0)}
+        .ui.message:first-child{margin-top:0em}
+        .ui.message:last-child{margin-bottom:0em}
+        .ui.message .header{display:block;font-family:'Lato','Helvetica Neue',Arial,Helvetica,sans-serif;font-weight:bold;margin:-0.14285714em 0em 0rem 0em}
+        .ui.message .header:not(.ui){font-size:1.14285714em}
+        .ui.message p{opacity:0.85;margin:0.75em 0em}
+        .ui.message p:first-child{margin-top:0em}
+        .ui.message p:last-child{margin-bottom:0em}
+        .ui.message .header + p{margin-top:0.25em}
+    </style>
     <script>
         (function(window){
-            // $(document).ready(function(){
-            //     $(".multiline").addClass("ui toggle checkbox");
-            //     $("form").parent().parent().addClass("ui form");
-            //     $("button").removeClass("btn").addClass("ui button");
-            // });
             window.onload = function(){
-                //document.getElementsByClassName("multiline").foreach(function(item) { item.className+="ui toggle checkbox"; });
                 var multiline = document.getElementsByClassName("multiline");
-                for(var i=0;i<multiline.length;++i) {multiline[i].className+=" ui toggle checkbox";}
+                for(var i=0;i<multiline.length;++i) {multiline[i].className+=" ui toggle checkbox";};
                 document.getElementsByTagName("form")[0].parentNode.parentNode.className += " ui form";
                 document.getElementsByTagName("button")[0].classList.remove("btn");
-                document.getElementsByTagName("button")[0].className += " ui button";
+                var btn = document.getElementsByTagName("button")[0];
+                btn.className += " ui button";
+                btn.style.width = "100%";
+                btn.onclick = function(){btn.className+=' loading'};
             }
         })(window);
     </script>  
+    <div class="ui message">
+        <div class="header">Typecho-Theme-Aria</div>
+        <p>感谢您选择使用<a href="https://eriri.ink/Typecho-Theme-Aria.html">Typecho-Theme-Aria</a> 当前版本Ver 1.6.1</p>
+        <p>使用有困难？查看<a href="https://github.com/Siphils/typecho-theme-Aria/blob/master/README.md#%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95">帮助手册</a></p>
+        <p>发现BUG或者有好的建议？来提<a href="https://github.com/Siphils/typecho-theme-Aria/issues">issue</a>和<a href="https://github.com/Siphils/typecho-theme-Aria/pulls">PR</a>吧</p>
+    </div>
 EOF;
     $avatarUrl = new Typecho_Widget_Helper_Form_Element_Text('avatarUrl', NULL, NULL, _t('站点头像'), _t('在这里填入一个图片URL地址, 以在网站标题前加上一个头像,需要带上http(s)://'));
     $form->addInput($avatarUrl);
@@ -44,7 +98,7 @@ EOF;
     $placeholder = new Typecho_Widget_Helper_Form_Element_text('placeholder',NULL,'「&nbsp;温柔正确的人总是难以生存，因为这世界既不温柔，也不正确&nbsp;」',_t('评论框placeholder'), _t('这里的内容会提前显示在评论框里'));
     $form->addInput($placeholder);
 
-    $statistics = new Typecho_Widget_Helper_Form_Element_Textarea('statistics', NULL, NULL, _t('统计代码'), _t('在此填入统计的代码'));
+    $statistics = new Typecho_Widget_Helper_Form_Element_Textarea('statistics', NULL, NULL, _t('统计代码'), _t('在此填入统计的代码(目前统计代码支持谷歌统计和百度统计的重载，若使用其他统计请关闭PJAX否则得到的统计数据不准确)'));
     $form->addInput($statistics);
 
     $userFooter = new Typecho_Widget_Helper_Form_Element_Textarea('userFooter', NULL, NULL, _t('自定义底部'), _t('填入底部额外的信息，加在copyright之前'));
@@ -86,10 +140,11 @@ EOF;
             'usePjax' => '开启PJAX(需要关闭评论反垃圾保护)',
             'useAjaxComment' => '开启AJAX评论',
             'useFancybox' => '文章/评论图片使用<a href="http://fancyapps.com">fancybox</a>(友情链接页面不会使用fancybox)',
+            'useLazyload' => '开启图片懒加载',
             'showQRCode' => '文章底部显示本文链接二维码',
             'useCommentToMail' => '评论邮件回复按钮（需要配合<a href="https://9sb.org/58">CommentToMail</a>使用）'
         ),
-        array('showHitokoto','usePjax','useAjaxComment','useFancybox','showQRCode','useCommentToMail'),
+        array('showHitokoto','usePjax','useAjaxComment','useFancybox','useLazyload','showQRCode','useCommentToMail'),
         '其他设置'
     );
     $form->addInput($AriaConfig->multiMode());
@@ -124,6 +179,7 @@ function AriaConfig() {
     $usePjax = (!empty($AriaConfig) && in_array('usePjax', $AriaConfig)) ? 1 : 0;
     $useAjaxComment = (!empty($AriaConfig) && in_array('useAjaxComment', $AriaConfig)) ? 1 : 0;
     $useFancybox = (!empty($AriaConfig) && in_array('useFancybox', $AriaConfig)) ? 1 : 0;
+    $useLazyload = (!empty($AriaConfig) && in_array('useLazyload', $AriaConfig)) ? 1 : 0;
     $OwOJson= $options->OwOJson ? $options->OwOJson : $options->themeUrl."/assets/OwO/OwO.json";
     $THEME_CONFIG = json_encode((object)array(
         "THEME_VERSION" => ARIA_VERSION,
@@ -135,7 +191,7 @@ function AriaConfig() {
         "USE_PJAX" => $usePjax,
         "USE_AJAX_COMMENT" => $useAjaxComment,
         "USE_FANCYBOX" => $useFancybox,
-        "USE_FANCYBOX" => $useFancybox,
+        "USE_LAZYLOAD" => $useLazyload,
         "OWO_JSON" => $OwOJson
     ));
     echo "<script>window.THEME_CONFIG = $THEME_CONFIG</script>\n";
@@ -222,7 +278,7 @@ function showNav($mode) {
         </div>
         <div class="post-qrcode">
             <a href="javascript:;" no-pjax ><i class="iconfont icon-aria-qrcode"></i></a>
-            <div>手机上阅读<br><br><img src="http://qr.liantu.com/api.php?text=<?php $this->permalink(); ?>"></div>
+            <div>手机上阅读<br><br><img src="https://api.imjad.cn/qrcode/?size=150&text=<?php $this->permalink(); ?>"></div>
         </div>
     </div>
  * 打赏二维码配置方案如下
@@ -240,12 +296,12 @@ function postOther($archive)
         $html .='<div class="post-reward"><a href="javascript:;" no-pjax ><i class="iconfont icon-aria-reward"></i></a>
             <ul>';
         foreach( $rewardConfig as $key => $data) {
-            $html.='<li><img src="' . $data . '">'. $key .  '</li>';
+            $html.='<li><img no-lazyload src="' . $data . '">'. $key .  '</li>';
         }
         $html.="</ul></div>";
     }
     if($showQRCode)
-        $html.='<div class="post-qrcode"><a href="javascript:;" no-pjax ><i class="iconfont icon-aria-qrcode"></i></a><div>手机上阅读<br><br><img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=' . $archive->permalink . '"></div></div>';
+        $html.='<div class="post-qrcode"><a href="javascript:;" no-pjax ><i class="iconfont icon-aria-qrcode"></i></a><div>手机上阅读<br><br><img no-lazyload src="https://api.imjad.cn/qrcode/?size=150&text=' . $archive->permalink . '"></div></div>';
     $html.="</div>";    
     echo $html;
 }

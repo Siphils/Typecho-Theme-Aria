@@ -4,7 +4,7 @@
  * 
  * @package Aria
  * @author Siphils
- * @version 1.6.0
+ * @version 1.6.1
  * @link https://eriri.ink/Typecho-Theme-Aria
  */
 
@@ -21,12 +21,18 @@ if (!defined('__TYPECHO_ROOT_DIR__')) exit;
                 <div class="card-meta-top">
                     <span class="card-meta-cate"><i class="iconfont icon-aria-category"></i> <?php $this->category(' ',true,'无'); ?></span><span class="card-meta-date"><i class="iconfont icon-aria-date"></i> <?php $this->date('F jS, Y'); ?></span>
                 </div>
-                <a class="card-thumbnail" href="<?php $this->permalink(); ?>" style="background: url(
-                    <?php if($this->fields->thumbnail)
-                            $this->fields->thumbnail();
-                        else
-                            echo getThumbnail();
-                    ?>) center center no-repeat;background-size: 100% auto;">
+                <a href="<?php $this->permalink(); ?>">
+                    <div class="card-thumbnail lazyload" data-original=<?php if($this->fields->thumbnail)
+                                $this->fields->thumbnail();
+                            else
+                                echo getThumbnail();
+                        ?> style="background: url(
+                        <?php if($this->fields->thumbnail)
+                                $this->fields->thumbnail();
+                            else
+                                echo getThumbnail();
+                        ?>) center center no-repeat;background-size: 100% auto;">
+                    </div>
                 </a>
                 <div class="card-body">
                     <?php 

@@ -53,6 +53,7 @@ echo $commentClass;
 
 <?php commentReply($this); ?>
 <div id="comments">
+	<?php if($this->allow('comment')): ?>
 	<?php $this->comments()->to($comments); ?>
 	<div id="comment-data">
 		<span id="response">
@@ -70,7 +71,6 @@ echo $commentClass;
 
 		<?php endif; ?>
 	</div>
-	<?php if($this->allow('comment')): ?>
 	<div id="<?php $this->respondId(); ?>" class="respond">
 		<div class="cancel-comment-reply">
 			<?php $comments->cancelReply('Cancel'); ?>
@@ -120,7 +120,11 @@ echo $commentClass;
 					<?php endif; ?>/>
 				</p>
 			</div>
-			<!-- <script type="text/javascript" src="<?php $this->options->themeUrl('js/js-md5.js'); ?>"></script> -->
+			<?php endif; ?>
+			<?php if($this->options->commentsMarkdown): ?>
+				<div style="float:right">
+					<i class="iconfont icon-aria-markdown"></i><span style="font-style:italic;font-size:13px;color:#444"> Markdown is supported.</span>
+				</div>
 			<?php endif; ?>
 			<p>
 				<label for="textarea" class="required"></label>
@@ -130,7 +134,7 @@ echo $commentClass;
 			<div id="comment-footer">
 				<div class="OwO"></div>
 				<div class="comment-image">
-					<i class="iconfont icon-aria-picture"></i>
+					<span><i class="iconfont icon-aria-picture"></i>图片</span>
 				</div>
 				<?php if(!empty($this->options->AriaConfig) && in_array('useCommentToMail', $this->options->AriaConfig)): ?>
 				<div id="comment-ban-mail" class="ui toggle checkbox">
