@@ -3,10 +3,13 @@
 <html class="no-js">
 
 <head>
+    <link rel="icon" type="image/ico" href="/favicon.ico">
 	<meta charset="<?php $this->options->charset(); ?>">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
 	<meta name="renderer" content="webkit">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<!-- 通过自有函数输出HTML头部信息 -->
+	<?php $this->header("generator=&commentReply="); ?>
 	<title>
 		<?php $this->archiveTitle(array(
             'category'  =>  _t('分类 %s 下的文章'),
@@ -38,8 +41,6 @@
     <script src="http://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
     <script src="http://cdn.staticfile.org/respond.js/1.3.0/respond.min.js"></script>
     <![endif]-->
-	<!-- 通过自有函数输出HTML头部信息 -->
-	<?php $this->header("generator=&commentReply="); ?>
 </head>
 <body>
 <?php AriaConfig(); ?>
