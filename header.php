@@ -31,7 +31,7 @@
 	<link href="<?php $this->options->themeUrl('assets/css/tomorrow-night-eighties.min.css'); ?>"
 	 rel="stylesheet">
 	<link href="<?php $this->options->themeUrl('assets/css/iconfont.css'); ?>" rel="stylesheet" >
-	<link href="<?php $this->options->themeUrl('assets/css/style.min.css?v=a1038557d0'); ?>" rel="stylesheet">
+	<link href="<?php $this->options->themeUrl('assets/css/style.min.css?v=3765681b43'); ?>" rel="stylesheet">
     <script src="<?php $this->options->themeUrl('assets/js/jquery.min.js'); ?>"></script>
 	<!--[if lt IE 9]>
     <script src="http://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
