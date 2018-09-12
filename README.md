@@ -1,5 +1,8 @@
 # typecho-theme-Aria  
+> The Aria of the Maple Leaves.  
+
 这是一个十分用心制作的Typecho主题 :)  
+![screenshot](https://github.com/Siphils/typecho-theme-Aria/blob/master/screenshot.jpg?raw=true)
 ***  
 ## 使用方法
 ### Typecho版本  
@@ -54,7 +57,7 @@
 ### 友情链接页面  
 新建一个页面，选择页面模板`友情链接`, **`slug`设置为`friends`** 
 新建一个友情链接盒子`[link-box][/link-box]`  
-新建一个友情链接`[link-item href=链接地址 title=鼠标悬停时显示文字 img=友情链接图像地址 name=友情链接名称]`。注意属性都需要按顺序填写，`[link-item]`之间不要有空格（会被解析为`<br>`）。
+新建一个友情链接`[link-item href="链接地址" title="鼠标悬停时显示文字" img="友情链接图像地址" name="友情链接名称"]`。注意属性都需要按顺序填写，`[link-item]`之间不要有空格（会被解析为`<br>`）。
 每一个`[link-item]`都要被包括在`[link-box][/link-box]`之间，并会被解析为如下`html`格式  
 ```html
 <a href="链接地址" title="鼠标悬停时显示文字" target="_blank">
@@ -73,7 +76,7 @@
 ***  
 填写示例  
 ```sh  
-[link-box][link-item href=https://x.x/ title=悬停时显示我！ img=https://x.x/x.jpg name=我是名字！][link-item href=https://x.x/ title=悬停时显示我！ img=https://x.x/x.jpg name=我是名字！][/link-box]
+[link-box][link-item href="https://x.x/" title="悬停时显示我！" img="https://x.x/x.jpg" name="我是名字！"][link-item href="https://x.x/" title="悬停时显示我！" img="https://x.x/x.jpg" name="我是名字！"][/link-box]
 ```  
 输出示例  
 ```html  
@@ -102,6 +105,13 @@
 后台可以选择开启或者关闭
 ***  
 ## 更新  
+### 2018-9-12 1.7.0  
+* 修改大部分样式  
+* 评论区重写  
+* 友情链接页面的样式整合到全局css（可以在任意文章/页面使用`[link-box]` `[link-item]`）  
+* 文章短代码优化  
+* 删除部分函数  
+* 修复部分BUG  
 ### 2018-8-12 1.6.1  
 * 优化了ajax评论代码  
 * 后台主题设置使用semantic-ui进行美化  
@@ -159,10 +169,10 @@
 * [headroom.js](https://www.bootcss.com/p/headroom.js/ "headroom.js")  
 * [jquery-pjax](https://github.com/defunkt/jquery-pjax "jquery-pjax")  
 * [NProgress](https://github.com/rstacruz/nprogress "NProgress")  
-* [animate.css](https://daneden.github.io/animate.css/ "animate.css")  
-* [notyf](https://github.com/caroso1222/notyf "notyf")  
-* [jquery.lazyload](https://appelsiini.net/projects/lazyload/ "jquery.lazyload")  
+* [animate.css](https://daneden.github.io/animate.css/ "animate.css")     
+* [jquery-lazyload](https://appelsiini.net/projects/lazyload/ "jquery-lazyload")  
 *** 
-## 部分插件(非必需)
+## 部分插件推荐（非必需）
 * [CommentToMail](https://9sb.org/58 "CommentToMail")  
 * [SmartSpam](http://www.yovisun.com/archive/typecho-plugin-smartspam.html "SmartSpam")  
+* [Sticky](https://github.com/hitop/typechoSticky "Sticky")

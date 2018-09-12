@@ -4,7 +4,7 @@
  * 
  * @package Aria
  * @author Siphils
- * @version 1.6.1
+ * @version 1.7.0
  * @link https://eriri.ink/Typecho-Theme-Aria
  */
 
@@ -16,7 +16,7 @@ if (!defined('__TYPECHO_ROOT_DIR__')) exit;
 	<?php while($this->next()): ?>
             <article itemscope itemtype="http://schema.org/BlogPosting" class="card">
                 <div class="card-title">
-                    <a href="<?php $this->permalink(); ?>"><?php $this->title(); ?></a>
+                    <a href="<?php $this->permalink(); ?>"><?php $this->sticky();$this->title(); ?></a>
                 </div>
                 <div class="card-meta-top">
                     <span class="card-meta-cate"><i class="iconfont icon-aria-category"></i> <?php $this->category(' ',true,'无'); ?></span><span class="card-meta-date"><i class="iconfont icon-aria-date"></i> <?php $this->date('F jS, Y'); ?></span>
@@ -34,24 +34,16 @@ if (!defined('__TYPECHO_ROOT_DIR__')) exit;
                         ?>) center center no-repeat;background-size: 100% auto;">
                     </div>
                 </a>
-                <div class="card-body">
-                    <?php 
+                <div class="card-body"><?php 
                         if($this->fields->previewContent)
                             $this->fields->previewContent();
                         else
                             $this->excerpt(50, '...');
-                    ?>
-                </div>
+                    ?></div>
                 <ul class="card-meta-bottom">
-                    <li class="card-meta-label card-meta-more">
-                        <a href="<?php $this->permalink(); ?>" title="Read More" ><i class="iconfont icon-aria-more"></i><i class="iconfont icon-aria-more"></i></a>
-                    </li>
-                    <li class="card-meta-label card-meta-views card-meta-right">
-                        <i class="iconfont icon-aria-view"></i> <?php getPostView($this); ?>
-                    </li>
-                    <li class="card-meta-label card-meta-comments card-meta-right">
-                        <i class="iconfont icon-aria-comment"></i> <?php $this->commentsNum('%d'); ?>
-                    </li>
+                    <li class="card-meta-label card-meta-more"><a href="<?php $this->permalink(); ?>" title="Read More" ><i class="iconfont icon-aria-more"></i><i class="iconfont icon-aria-more"></i></a></li>
+                    <li class="card-meta-label card-meta-views card-meta-right"><i class="iconfont icon-aria-view"></i> <?php getPostView($this); ?></li>
+                    <li class="card-meta-label card-meta-comments card-meta-right"><i class="iconfont icon-aria-comment"></i> <?php $this->commentsNum('%d'); ?></li>
                     <!--li class="card-meta-label card-meta-likes"></li-->
                 </ul>
             </article>

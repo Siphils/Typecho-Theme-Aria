@@ -2,7 +2,7 @@
 <?php $this->need('header.php'); ?>
 
 <div id="main" class="col-mb-12 col-8 col-offset-2" >
-    <div style="    border-radius: 5px;
+    <div style="border-radius: 5px;
     background-color: #fff;
     margin: 30px 0;
     color: rgba(0,0,0,.7);
@@ -17,7 +17,7 @@
     <?php while($this->next()): ?>
             <article itemscope itemtype="http://schema.org/BlogPosting" class="card">
                 <div class="card-title">
-                    <a href="<?php $this->permalink(); ?>"><?php $this->title(); ?></a>
+                    <a href="<?php $this->permalink(); ?>"><?php $this->sticky();$this->title(); ?></a>
                 </div>
                 <div class="card-meta-top">
                     <span class="card-meta-cate"><i class="iconfont icon-aria-category"></i> <?php $this->category(' ',true,'无'); ?></span><span class="card-meta-date"><i class="iconfont icon-aria-date"></i> <?php $this->date('F jS, Y'); ?></span>

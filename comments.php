@@ -1,6 +1,13 @@
 <?php function threadedComments($comments, $options) {
     $commentClass = '';
-    $commentLevelClass = $comments->levels > 0 ? ' comment-child' : ' comment-parent';
+    if ($comments->authorId) {
+        if ($comments->authorId == $comments->ownerId) {
+            $commentClass .= ' comment-by-author';  //如果是文章作者的评论添加 .comment-by-author 样式
+        } else {
+            $commentClass .= ' comment-by-user';  //如果是评论作者的添加 .comment-by-user 样式
+        }
+    } 
+    $commentLevelClass = $comments->_levels > 0 ? ' comment-child' : ' comment-parent';  //评论层数大于0为子级，否则是父级
 ?>
 
 <li id="li-<?php $comments->theId(); ?>" class="comment-body<?php 
@@ -13,39 +20,24 @@ if ($comments->levels > 0) {
 $comments->alt(' comment-odd', ' comment-even');
 echo $commentClass;
 ?>">
-	<div id="<?php $comments->theId(); ?>" class="comment-content">
-		<span class="comment-reply">
-			<?php $comments->reply('Reply'); ?>
-		</span>
-		<?php commentGravatar($comments->mail,$comments->author,128); ?>
-		<?php if ($comments->authorId): ?>
-		<?php if ($comments->authorId == $comments->ownerId): ?>
-		<div class="comment-author comment-by-author">
-			<?php endif; ?>
-			<?php else: ?>
-			<div class="comment-author">
-				<?php endif; ?>
-				<cite class="fn">
-					<?php $comments->author(); ?>
-				</cite>
+    <div id="<?php $comments->theId(); ?>">
+		<a class="comment-avatar" href="<?php $comments->permalink(); ?>">
+			<?php $comments->gravatar('120', ''); ?>
+		</a>
+		<div class="comment-content">
+			<div class="comment-text">
+			<p><?php showCommentContent($comments->coid); ?></p>
 			</div>
-			<div class="comment-meta">
-				<a href="<?php $comments->permalink(); ?>">
-					<?php $comments->dateWord(); ?>
-				</a>
-				<?php showCommentUA($comments->agent); ?>
-			</div>
-			<div class="comment-main">
-				<?php showCommentContent($comments->coid); ?>
-				<div class="comment-arrow"></div>
-			</div>
+			<p class="comment-meta">By <span><?php $comments->author(); ?></span> at <?php $comments->date('M jS, Y'); ?> <span class="comment-reply" style="float:right"><?php $comments->reply('<i class="iconfont icon-aria-reply"></i>'); ?></span></p>
 		</div>
-		<?php if ($comments->children) { ?>
-		<div class="comment-children">
-			<?php $comments->threadedComments($options); ?>
-		</div>
-		<?php } ?>
+    </div><!-- 单条评论者信息及内容 -->
+    <?php if ($comments->children) { ?> 
+	<div class="comment-children">
+		<?php $comments->threadedComments($options); ?> 
+	</div>
+	<?php } ?> 
 </li>
+ 
 <?php } ?>
 
 <?php if (!defined('__TYPECHO_ROOT_DIR__')) exit; ?>
@@ -55,25 +47,28 @@ echo $commentClass;
 <div id="comments">
 	<?php if($this->allow('comment')): ?>
 	<?php $this->comments()->to($comments); ?>
-	<div id="comment-data">
-		<span id="response">
+	<span id="response">
+		<p>
 			<i class="iconfont icon-aria-comment"></i>
-			<?php $this->commentsNum(_t('0 Comment'), _t('1 Comment'), _t('%d Comments')); ?>
-		</span>
+			<?php $this->commentsNum(_t('0 条评论'), _t('1 条评论'), _t('%d 条评论')); ?>
+		</p>	
+	</span>
+		
 		<?php if ($comments->have()): ?>
-
+		
+	<div class="comment-data">
 
 		<?php $comments->listComments(); ?>
 
+	</div>
 		<div id="page-nav">
 			<?php $comments->pageNav('<', '>',1,'...',array('wrapTag' => 'ul', 'wrapClass' => '','itemTag' => 'li','currentClass' => 'page-current',)); ?>
 		</div>
 
 		<?php endif; ?>
-	</div>
 	<div id="<?php $this->respondId(); ?>" class="respond">
 		<div class="cancel-comment-reply">
-			<?php $comments->cancelReply('Cancel'); ?>
+			<?php $comments->cancelReply('<i class="iconfont icon-aria-cancel"></i>'); ?>
 		</div>
 
 		<span id="new-response">
@@ -92,7 +87,10 @@ echo $commentClass;
 			</p>
 			<?php else: ?>
 			<div id="comment-info">
-				<img id="comment-cur-avatar" src="<?php $this->options->themeUrl('assets/img/comment-avatar.jpg'); ?>">
+				<p>
+					<!-- <i class="light"></i>  -->
+					<img no-lazyload id="comment-cur-avatar" src="<?php $this->options->themeUrl('assets/img/comment-avatar.jpg'); ?>">
+				</p>
 				<p class="comment-input">
 					<label for="author" class="required">
 						<i class="iconfont icon-aria-username"></i>
@@ -129,7 +127,7 @@ echo $commentClass;
 			<p>
 				<label for="textarea" class="required"></label>
 				<textarea style="background: url('<?php $this->options->themeUrl('assets/img/textarea.gif'); ?>') right bottom no-repeat;background-size: 180px 180px;"
-				 rows="8" cols="50" name="text" id="textarea" class="textarea" required placeholder="<?php $this->options->placeholder(); ?>"><?php $this->remember('text'); ?></textarea>
+				 rows="8" cols="50" name="text" id="textarea" class="textarea" placeholder="<?php $this->options->placeholder(); ?>"><?php $this->remember('text'); ?></textarea>
 			</p>
 			<div id="comment-footer">
 				<div class="OwO"></div>

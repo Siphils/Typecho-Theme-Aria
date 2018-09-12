@@ -10,16 +10,12 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 	<!-- 通过自有函数输出HTML头部信息 -->
 	<?php $this->header("generator=&commentReply="); ?>
-	<title>
-		<?php $this->archiveTitle(array(
+	<title><?php $this->archiveTitle(array(
             'category'  =>  _t('分类 %s 下的文章'),
             'search'    =>  _t('包含关键字 %s 的文章'),
             'tag'       =>  _t('标签 %s 下的文章'),
             'author'    =>  _t('%s 发布的文章')
-        ), '', ' - '); ?>
-		<?php $this->options->title(); ?>-
-		<?php $this->options->description(); ?>
-	</title>
+        ), '', ' - '); ?><?php $this->options->title(); ?> - <?php $this->options->description(); ?></title>
 
 	<!-- 使用url函数转换相关路径 -->
 
@@ -34,8 +30,8 @@
 	 rel="stylesheet">
 	<link href="<?php $this->options->themeUrl('assets/css/tomorrow-night-eighties.min.css'); ?>"
 	 rel="stylesheet">
-	<link rel="stylesheet" href="//at.alicdn.com/t/font_671129_1qho2653yze.css">
-	<link href="<?php $this->options->themeUrl('assets/css/style.min.css'); ?>" rel="stylesheet">
+	<link href="<?php $this->options->themeUrl('assets/css/iconfont.css'); ?>" rel="stylesheet" >
+	<link href="<?php $this->options->themeUrl('assets/css/style.min.css?v=a1038557d0'); ?>" rel="stylesheet">
     <script src="<?php $this->options->themeUrl('assets/js/jquery.min.js'); ?>"></script>
 	<!--[if lt IE 9]>
     <script src="http://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
@@ -57,7 +53,8 @@
 	<![endif]-->
 <div id="nav-menu" role="navigation">
     <div id="nav-left">
-        <a href="<?php $this->options->siteUrl(); ?>"><?php $this->options->title(); ?></a>
+        <a href="<?php $this->options->siteUrl(); ?>"><img id="site-avatar" no-lazyload src="<?php if($this->options->avatarUrl) $this->options->avatarUrl();else $this->options->themeUrl('assets/img/avatar.jpg'); ?>">
+<?php $this->options->title(); ?></a>
     </div>
     <div id="nav-right">
         <ul class="nav-right-list">
@@ -80,7 +77,7 @@
     </form>
 </div>
 <div id="pjax-container">
-<style><?php if($this->is('post') || $this->is('page') || $this->is('single')):; ?>#header {height: 70vh;}#site-meta {display: none;}<?php endif; ?>#background {width: 100%;height: 100%;background: url(<?php 
+<style><?php if($this->is('post') || $this->is('page') || $this->is('single')):; ?>#header {height: 70vh;}@media (max-width:768px) {#header {height: 40vh;}}#site-meta {display: none;}<?php endif; ?>#background {width: 100%;height: 100%;background: url(<?php 
                     if($this->is('post') || $this->is('page') || $this->is('single'))                         
                         if($this->fields->thumbnail)
                             $this->fields->thumbnail(); 
@@ -91,19 +88,10 @@
                 ?>) center center no-repeat;background-size: cover;z-index: -1;position: relative;}</style>
 <header id="header" class="clearfix animated fadeInDown">
     <div id="site-meta">
-        <div id="site-avatar">
-            <img no-lazyload src="<?php if($this->options->avatarUrl) $this->options->avatarUrl();else $this->options->themeUrl('assets/img/avatar.jpg'); ?>">
-        </div>
-        <div id="site-name">
-            <a href="<?php $this->options->siteUrl(); ?>">
-                <h1><?php $this->options->title(); ?></h1>
-            </a>
-        </div>
-        <div id="site-description">
-            <?php $this->options->description(); ?>
-        </div>
+            <h1 id="site-name"><?php $this->options->title(); ?></h1>
+            <h2 id="site-description"><?php $this->options->description(); ?></h2>
     </div>
-            <div id="background"</div>
+    <div id="background"></div>
 </header><!-- end #header -->
 <div id="body" class="animated fadeIn">
     <div class="container">

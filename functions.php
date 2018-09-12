@@ -1,10 +1,9 @@
 <?php
 if (!defined('__TYPECHO_ROOT_DIR__')) exit;
 
-define('ARIA_VERSION','1.6.1');
+define('ARIA_VERSION','1.7.0');
 
-require_once('lib/Browser.php');
-require_once('lib/OperatingSystem.php');
+require_once('lib/AddShortcode.php');
 
 function themeConfig($form) {
     echo <<<EOF
@@ -76,13 +75,13 @@ function themeConfig($form) {
             }
         })(window);
     </script>  
-    <div class="ui message">
-        <div class="header">Typecho-Theme-Aria</div>
-        <p>感谢您选择使用<a href="https://eriri.ink/Typecho-Theme-Aria.html">Typecho-Theme-Aria</a> 当前版本Ver 1.6.1</p>
-        <p>使用有困难？查看<a href="https://github.com/Siphils/typecho-theme-Aria/blob/master/README.md#%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95">帮助手册</a></p>
-        <p>发现BUG或者有好的建议？来提<a href="https://github.com/Siphils/typecho-theme-Aria/issues">issue</a>和<a href="https://github.com/Siphils/typecho-theme-Aria/pulls">PR</a>吧</p>
-    </div>
 EOF;
+    echo '<div class="ui message">
+    <div class="header" style="text-align:center;margin:10px auto 20px auto;color: #499fe6;">Typecho-Theme-Aria</div>
+    <p>感谢您选择使用<a href="https://eriri.ink/archives/Typecho-Theme-Aria.html">Typecho-Theme-Aria</a> 当前版本Ver '.ARIA_VERSION.'</p>
+    <p>使用有困难？查看<a href="https://github.com/Siphils/typecho-theme-Aria/blob/master/README.md#%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95">帮助手册</a></p>
+    <p>发现BUG或者有好的建议？来提<a href="https://github.com/Siphils/typecho-theme-Aria/issues">issue</a>和<a href="https://github.com/Siphils/typecho-theme-Aria/pulls">PR</a>吧</p>
+</div>';
     $avatarUrl = new Typecho_Widget_Helper_Form_Element_Text('avatarUrl', NULL, NULL, _t('站点头像'), _t('在这里填入一个图片URL地址, 以在网站标题前加上一个头像,需要带上http(s)://'));
     $form->addInput($avatarUrl);
 
@@ -95,7 +94,7 @@ EOF;
     $OwOJson = new Typecho_Widget_Helper_Form_Element_Text('OwOJson', NULL, NULL, _t('OwO'), _t('OwO表情JSON文件的URL'));
     $form->addInput($OwOJson);
 
-    $placeholder = new Typecho_Widget_Helper_Form_Element_text('placeholder',NULL,'「&nbsp;温柔正确的人总是难以生存，因为这世界既不温柔，也不正确&nbsp;」',_t('评论框placeholder'), _t('这里的内容会提前显示在评论框里'));
+    $placeholder = new Typecho_Widget_Helper_Form_Element_Text('placeholder',NULL,'「&nbsp;温柔正确的人总是难以生存，因为这世界既不温柔，也不正确&nbsp;」',_t('评论框placeholder'), _t('这里的内容会提前显示在评论框里'));
     $form->addInput($placeholder);
 
     $statistics = new Typecho_Widget_Helper_Form_Element_Textarea('statistics', NULL, NULL, _t('统计代码'), _t('在此填入统计的代码(目前统计代码支持谷歌统计和百度统计的重载，若使用其他统计请关闭PJAX否则得到的统计数据不准确)'));
@@ -164,22 +163,21 @@ function themeInit($archive) {
     Helper::options()->commentsMaxNestingLevels = 999;
     $AriaConfig = Typecho_Widget::widget('Widget_Options')->AriaConfig;
 
-    /** 友情链接页面 */
-    if($archive->is('page','friends'))
-        $archive->content = pageFriends($archive);
+    /** .link-box 转换 */
+    $archive->content = parseShortcode(preg_replace($pattern=array('/\[link-box\]/','/\[\/link-box\]/'),array('<div class="link-box">','</div><!--end .link-box-->'),$archive->content));
 }
 
 function AriaConfig() {
     $AriaConfig = Typecho_Widget::widget('Widget_Options')->AriaConfig;
     $options = Typecho_Widget::widget('Widget_Options');
     //print_r($AriaConfig);
-    $showHitokoto = (!empty($AriaConfig) && in_array('showHitokoto', $AriaConfig)) ? 1 : 0;
-    $showQRCode = (!empty($AriaConfig) && in_array('showQRCode', $AriaConfig)) ? 1 : 0;
-    $showReward = $options->rewardConfig ? 1 : 0;
-    $usePjax = (!empty($AriaConfig) && in_array('usePjax', $AriaConfig)) ? 1 : 0;
-    $useAjaxComment = (!empty($AriaConfig) && in_array('useAjaxComment', $AriaConfig)) ? 1 : 0;
-    $useFancybox = (!empty($AriaConfig) && in_array('useFancybox', $AriaConfig)) ? 1 : 0;
-    $useLazyload = (!empty($AriaConfig) && in_array('useLazyload', $AriaConfig)) ? 1 : 0;
+    $showHitokoto = (!empty($AriaConfig) && in_array('showHitokoto', $AriaConfig)) ? "true" : "false";
+    $showQRCode = (!empty($AriaConfig) && in_array('showQRCode', $AriaConfig)) ? "true" : "false";
+    $showReward = $options->rewardConfig ? "true" : "false";
+    $usePjax = (!empty($AriaConfig) && in_array('usePjax', $AriaConfig)) ? "true" : "false";
+    $useAjaxComment = (!empty($AriaConfig) && in_array('useAjaxComment', $AriaConfig)) ? "true" : "false";
+    $useFancybox = (!empty($AriaConfig) && in_array('useFancybox', $AriaConfig)) ? "true" : "false";
+    $useLazyload = (!empty($AriaConfig) && in_array('useLazyload', $AriaConfig)) ? "true" : "false";
     $OwOJson= $options->OwOJson ? $options->OwOJson : $options->themeUrl."/assets/OwO/OwO.json";
     $THEME_CONFIG = json_encode((object)array(
         "THEME_VERSION" => ARIA_VERSION,
@@ -202,18 +200,17 @@ function AriaConfig() {
  * 根据配置的JSON数据输出导航栏
  * @param $mode 
  *  {
-        "archives":{
-            "text":"归档",
-            "link":"https://xxx.com",
-            "icon": "icon-aria-archives"
-        },
-        "guestbook":{
-            "text":"留言",
-            "link":"https://xxx.com"
-            "icon":"icon-aria-guestbook"
-        }
-    }
-    目前可配置的有'archives','guestbook','friends','about'
+ *   "archives":{
+ *       "text":"归档",
+ *       "link":"https://xxx.com",
+ *       "icon": "icon-aria-archives"
+ *   },
+ *   "guestbook":{
+ *       "text":"留言",
+ *       "link":"https://xxx.com"
+ *       "icon":"icon-aria-guestbook"
+ *   }
+ *  目前可配置的有'archives','guestbook','friends','about'
  */
 function showNav($mode) {
     $data = convertConfigData('navConfig',0);
@@ -267,31 +264,31 @@ function showNav($mode) {
 /**
  * 输出文章打赏二维码和本文链接二维码
  * 输出的结构如下
-     <div class="post-other">
-        <div class="post-reward">
-            <a href="javascript:;" no-pjax ><i class="iconfont icon-aria-reward"></i></a>
-            <ul>
-                <li><img src="{qrcode image link}">支付宝</li>
-                <li><img src="{qrcode image link}">QQ</li>
-                <li><img src="{qrcode image link}">微信</li>
-            </ul>
-        </div>
-        <div class="post-qrcode">
-            <a href="javascript:;" no-pjax ><i class="iconfont icon-aria-qrcode"></i></a>
-            <div>手机上阅读<br><br><img src="https://api.imjad.cn/qrcode/?size=150&text=<?php $this->permalink(); ?>"></div>
-        </div>
-    </div>
+ * <div class="post-other">
+ *  <div class="post-reward">
+ *      <a href="javascript:;" no-pjax ><i class="iconfont icon-aria-reward"></i></a>
+ *      <ul>
+ *          <li><img src="{qrcode image link}">支付宝</li>
+ *          <li><img src="{qrcode image link}">QQ</li>
+ *          <li><img src="{qrcode image link}">微信</li>
+ *      </ul>
+ * </div>
+ * <div class="post-qrcode">
+ *      <a href="javascript:;" no-pjax ><i class="iconfont icon-aria-qrcode"></i></a>
+ * <div>手机上阅读<br><br><img src="https://api.imjad.cn/qrcode/?size=150&text=<?php $this->permalink(); ?>"></div>
+ *  </div>
+ * </div>
  * 打赏二维码配置方案如下
-    "QQ钱包":"link",
-    "支付宝":"link",
-    "微信":"link"
+ * "QQ钱包":"link",
+ * "支付宝":"link",
+ * "微信":"link"
  */
 function postOther($archive)
 {
     $html = '<div class="post-other">';
     $AriaConfig = Typecho_Widget::widget('Widget_Options')->AriaConfig;
     $rewardConfig = convertConfigData('rewardConfig', 0);
-    $showQRCode = (!empty($AriaConfig) && in_array('showQRCode', $AriaConfig)) ? 1 : 0;
+    $showQRCode = (!empty($AriaConfig) && in_array('showQRCode', $AriaConfig)) ? "true" : "false";
     if($rewardConfig) {
         $html .='<div class="post-reward"><a href="javascript:;" no-pjax ><i class="iconfont icon-aria-reward"></i></a>
             <ul>';
@@ -404,24 +401,6 @@ function pageArchives($day, $_month, $year, $title, $time, $link) {
     }
     echo $html;
 };
-
-/**
- * page-friends.php 友情链接页面输出
- */
-
-function pageFriends($archive) {
-    $string=$archive->content;
-    $pattern=array(
-        '/\[link-box\]/',
-        '/\[\/link-box\]/',
-        '/\[link-item href=(.*?)(\s)title=(.*?)(\s)img=(.*?)(\s)name=(.*?)\]/'
-    );
-    $replacement=array(
-        '<div class="link-box">',
-        '</div><!--end .link-box-->',
-        '<a href=$1 title=$3 target="_blank"><div class="link-item"><img class="link-avatar" src=$5><span class="link-name">$7</span></div></a>');
-    return preg_replace($pattern, $replacement, $string);
-}
 
 /**
  * 获取背景图片
@@ -550,8 +529,6 @@ function theNext($widget)
 
 }
 
-//
-
 /**
  * 输出评论回复内容，配合 commentAtContent($coid)一起使用
  */
@@ -599,33 +576,6 @@ function commentGravatar( $email, $author , $s = 80 ) {
     $url .= "?s=$s&d=$d&r=$r";
     echo '<img class="comment-avatar" src="' . $url . '" alt="' . 
     $author . '" width="' . $size . '" height="' . $size . '" />';
-}
-
-
-/**
- * 评论判断gravatar是否存在
- */
-
-function judgeGravatar($email,$author='') {
-    $hash = md5(strtolower(trim($email)));
-    $uri = 'http://www.gravatar.com/avatar/' . $hash . '?d=404';
-    $headers = @get_headers($uri);
-    if (preg_match('/404/', $headers[0])) {
-        $has_valid_avatar = FALSE;
-    } else {
-        $has_valid_avatar = TRUE;
-    }
-    $tag='<img class="avatar" alt="'.$author.'" ';
-    if($has_valid_avatar) {
-        $url = 'https://cn.gravatar.com/avatar/';
-        $url .= md5( strtolower( trim( $email ) ) );
-        $url .= "?s=128&r=g";
-    }
-    else {
-        $url=Typecho_Widget::widget('Widget_Options')->themeUrl.'/assets/img/comment-avatar.jpg';
-    }
-    $tag.='src="'.$url.'">';
-    echo $tag;
 }
 
 /**
@@ -685,8 +635,8 @@ function commentReply($archive) {
             for(var i=0;i<inputs.length;++i)
             {
                 //console.log(inputs[i].getElementsByTagName('label'));
-                inputs[i].getElementsByTagName('label')[0].style.left='18px';
-                inputs[i].getElementsByTagName('label')[0].style.bottom='22px';
+                //inputs[i].getElementsByTagName('label')[0].style.left='18px';
+                //inputs[i].getElementsByTagName('label')[0].style.bottom='22px';
             }
             return false;
         },
@@ -718,75 +668,6 @@ function commentReply($archive) {
     }
 </script>
 ";
-}
-
-/**
- * 显示评论者的ua信息,直接输出html标签
- * echo <i class="iconfont"></i>
- */
-function showCommentUA($userAgent)
-{
-    $browser=useragent_detect_browser::analyze($userAgent);
-    $os=useragent_detect_os::analyze($userAgent);
-    $html='<i class="iconfont icon-aria-';
-    //匹配浏览器
-    if(preg_match('/QQ/i', $browser['name'])) {
-        $html.='qqbrowser';
-    }
-    else if(preg_match('/UC/i', $browser['name'])) {
-        $html.='uc';
-    }
-    else if(preg_match('/Internet Explorer/i', $browser['name'])) {
-        $html.='ie';
-    }
-    else if(preg_match('/Safari/i', $browser['name'])) {
-        $html.='safari';
-    }
-    else if(preg_match('/Opera/i', $browser['name'])) {
-        $html.='opera';
-    }
-    else if(preg_match('/Firefox/i', $browser['name'])) {
-        $html.='firefox';
-    }
-    else if($browser['name']==='Google Chrome') {
-        $html.='chrome';
-    }
-    else {
-        $html.='browser';
-    }
-    //匹配os
-    $html.='"></i> <i class="iconfont icon-aria-';
-    if($os['name']==='Fedora') {
-        $html.='fedora';
-    }
-    else if(preg_match('/Android|ADR /i', $os['name'])) {
-        $html.="android";
-    }
-    else if(preg_match('/Ubuntu/i',$os['name'])) {
-        $html.='ubuntu';
-    }
-    else if($os['name']==='Debian GNU/Linux') {
-        $html.='debian';
-    }
-    else if($os['name']==='CentOS') {
-        $html.='centos';
-    }
-    else if(preg_match('/Windows|Win(NT|32|95|98|16)|ZuneWP7|WPDesktop/i', $os['name'])) {
-        $html.='windows';
-    }
-    else if(preg_match('/Mac/i', $os['name'])||$os['name']==='iOS') {
-        $html.='mac';
-    }
-    else if($os['name']==='Arch Linux') {
-        $html.='archlinux';
-    }
-    else if(preg_match('/linux/i',$os['name'])) {
-        $html.='linux';
-    }
-    else 
-        $html.='os';
-    $html.='"></i>';
-    echo $html;
 }
 
 /**
