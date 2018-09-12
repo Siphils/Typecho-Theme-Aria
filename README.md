@@ -2,7 +2,7 @@
 > The Aria of the Maple Leaves.  
 
 这是一个十分用心制作的Typecho主题 :)  
-![screenshot](https://github.com/Siphils/typecho-theme-Aria/blob/master/screenshot.jpg?raw=true)
+![screenshot](https://github.com/Siphils/typecho-theme-Aria/blob/master/screenshot.png?raw=true)
 ***  
 ## 使用方法
 ### Typecho版本  
