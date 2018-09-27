@@ -1,11 +1,12 @@
 <?php
 /**
  * The Aria of the Maple Leaves.
+ * <a href="https://github.com/Siphils/typecho-theme-Aria" target="_blank">Github</a> | <a href="https://eriri.ink" target="_blank">Home</a>
  * 
  * @package Aria
  * @author Siphils
- * @version 1.7.0
- * @link https://eriri.ink/Typecho-Theme-Aria
+ * @version 1.7.1
+ * @link https://eriri.ink/archives/Typecho-Theme-Aria.html
  */
 
 if (!defined('__TYPECHO_ROOT_DIR__')) exit;

@@ -1,11 +1,12 @@
 <?php
 if (!defined('__TYPECHO_ROOT_DIR__')) exit;
 
-define('ARIA_VERSION','1.7.0');
+define('ARIA_VERSION','1.7.1');
 
-require_once('lib/AddShortcode.php');
+require_once('lib/Shortcode.php');
 
 function themeConfig($form) {
+    echo '<script>var ARIA_VERSION = "'.ARIA_VERSION.'"</script>';
     echo <<<EOF
     <style>
         .ui.button{cursor:pointer;display:inline-block;min-height:1em;outline:none;border:none;vertical-align:baseline;background:#E0E1E2 none;color:rgba(0,0,0,0.6);font-family:'Lato','Helvetica Neue',Arial,Helvetica,sans-serif;margin:0em 0.25em 0em 0em;padding:0.78571429em 1.5em 0.78571429em;text-transform:none;text-shadow:none;font-weight:bold;line-height:1em;font-style:normal;text-align:center;text-decoration:none;border-radius:0.28571429rem;-webkit-box-shadow:0px 0px 0px 1px transparent inset,0px 0em 0px 0px rgba(34,36,38,0.15) inset;box-shadow:0px 0px 0px 1px transparent inset,0px 0em 0px 0px rgba(34,36,38,0.15) inset;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;-webkit-transition:opacity 0.1s ease,background-color 0.1s ease,color 0.1s ease,background 0.1s ease,-webkit-box-shadow 0.1s ease;transition:opacity 0.1s ease,background-color 0.1s ease,color 0.1s ease,background 0.1s ease,-webkit-box-shadow 0.1s ease;transition:opacity 0.1s ease,background-color 0.1s ease,color 0.1s ease,box-shadow 0.1s ease,background 0.1s ease;transition:opacity 0.1s ease,background-color 0.1s ease,color 0.1s ease,box-shadow 0.1s ease,background 0.1s ease,-webkit-box-shadow 0.1s ease;will-change:'';-webkit-tap-highlight-color:transparent}
@@ -62,25 +63,53 @@ function themeConfig($form) {
         .ui.message .header + p{margin-top:0.25em}
     </style>
     <script>
-        (function(window){
-            window.onload = function(){
-                var multiline = document.getElementsByClassName("multiline");
-                for(var i=0;i<multiline.length;++i) {multiline[i].className+=" ui toggle checkbox";};
-                document.getElementsByTagName("form")[0].parentNode.parentNode.className += " ui form";
-                document.getElementsByTagName("button")[0].classList.remove("btn");
-                var btn = document.getElementsByTagName("button")[0];
-                btn.className += " ui button";
-                btn.style.width = "100%";
-                btn.onclick = function(){btn.className+=' loading'};
+        window.onload = function(){
+            var multiline = document.getElementsByClassName("multiline");
+            for(var i=0;i<multiline.length;++i) {multiline[i].className+=" ui toggle checkbox";};
+            document.getElementsByTagName("form")[0].parentNode.parentNode.className += " ui form";
+            document.getElementsByTagName("button")[0].classList.remove("btn");
+            var btn = document.getElementsByTagName("button");
+            for(var i=0;i<btn.length;++i) {
+                btn[i].className += " ui button";
+                btn[i].style.width = "100%";
             }
-        })(window);
+        }
+        var r = new XMLHttpRequest();
+        var checkUpdate = function(dom) {
+            dom.className += " loading";
+            try {
+                r.open("GET","https://raw.githubusercontent.com/Siphils/typecho-theme-Aria/master/version.txt",true);
+                r.send();
+                r.onreadystatechange = function() {
+                    if(r.readyState === 4) {
+                        if(r.status == 200 && !isNaN(parseInt(r.responseText))) {
+                            dom.textContent = r.responseText.trim() == ARIA_VERSION.trim() ? "已经为最新版" : "最新版：" + r.responseText.trim();
+                        }
+                        else if(isNaN(parseInt(r.responseText))) {
+                            dom.textContent = "请求失败，请稍后重试！";
+                        }
+                        else {
+                            dom.textContent = "请求失败！错误码：" + r.status;
+                        }
+                    }
+                }
+            }
+            catch(e) {
+                dom.textContent = "请求失败，请稍后重试！" + e;
+            }
+            finally {
+                
+            }
+            dom.className = dom.className.replace(/loading/g,"");
+        }
     </script>  
 EOF;
     echo '<div class="ui message">
-    <div class="header" style="text-align:center;margin:10px auto 20px auto;color: #499fe6;">Typecho-Theme-Aria</div>
-    <p>感谢您选择使用<a href="https://eriri.ink/archives/Typecho-Theme-Aria.html">Typecho-Theme-Aria</a> 当前版本Ver '.ARIA_VERSION.'</p>
-    <p>使用有困难？查看<a href="https://github.com/Siphils/typecho-theme-Aria/blob/master/README.md#%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95">帮助手册</a></p>
-    <p>发现BUG或者有好的建议？来提<a href="https://github.com/Siphils/typecho-theme-Aria/issues">issue</a>和<a href="https://github.com/Siphils/typecho-theme-Aria/pulls">PR</a>吧</p>
+    <div class="header" style="text-align:center;margin:10px auto 20px auto;color: #444;text-shadow:0 0 5px #bbb"><h2>Typecho-Theme-Aria</h2></div>
+    <p>感谢您选择使用<a href="https://eriri.ink/archives/Typecho-Theme-Aria.html">Typecho-Theme-Aria</a></p>
+    <p>当前版本<strong>Ver '.ARIA_VERSION.'</strong></p>
+    <p>查看<a href="https://github.com/Siphils/typecho-theme-Aria/blob/master/README.md#%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95">帮助手册</a> <a href="https://github.com/Siphils/typecho-theme-Aria/issues">issue</a> <a href="https://github.com/Siphils/typecho-theme-Aria/pulls">PR</a></p>
+    <p><button onclick="checkUpdate(this);" class="primary">检查更新</button></p>
 </div>';
     $avatarUrl = new Typecho_Widget_Helper_Form_Element_Text('avatarUrl', NULL, NULL, _t('站点头像'), _t('在这里填入一个图片URL地址, 以在网站标题前加上一个头像,需要带上http(s)://'));
     $form->addInput($avatarUrl);
@@ -94,14 +123,23 @@ EOF;
     $OwOJson = new Typecho_Widget_Helper_Form_Element_Text('OwOJson', NULL, NULL, _t('OwO'), _t('OwO表情JSON文件的URL'));
     $form->addInput($OwOJson);
 
-    $placeholder = new Typecho_Widget_Helper_Form_Element_Text('placeholder',NULL,'「&nbsp;温柔正确的人总是难以生存，因为这世界既不温柔，也不正确&nbsp;」',_t('评论框placeholder'), _t('这里的内容会提前显示在评论框里'));
+    $placeholder = new Typecho_Widget_Helper_Form_Element_Text('placeholder',NULL, NULL,_t('评论框placeholder'), _t('这里的内容会提前显示在评论框里'));
     $form->addInput($placeholder);
 
     $statistics = new Typecho_Widget_Helper_Form_Element_Textarea('statistics', NULL, NULL, _t('统计代码'), _t('在此填入统计的代码(目前统计代码支持谷歌统计和百度统计的重载，若使用其他统计请关闭PJAX否则得到的统计数据不准确)'));
     $form->addInput($statistics);
 
-    $userFooter = new Typecho_Widget_Helper_Form_Element_Textarea('userFooter', NULL, NULL, _t('自定义底部'), _t('填入底部额外的信息，加在copyright之前'));
+    $userHeader = new Typecho_Widget_Helper_Form_Element_Textarea('userHeader', NULL, NULL, _t('顶部额外内容'), _t('会加载在<strong>head</strong>标签之前'));
+    $form->addInput($userHeader);
+
+    $userFooter = new Typecho_Widget_Helper_Form_Element_Textarea('userFooter', NULL, NULL, _t('底部额外内容'), _t('会加载在<strong>copyright</strong>之前'));
     $form->addInput($userFooter);
+
+    $footerSpan = new Typecho_Widget_Helper_Form_Element_Textarea('footerSpan', NULL, NULL, _t('底部链接组件'), _t('按照格式填写，以英文逗号分隔'));
+    $form->addInput($footerSpan);
+
+    $cpr = new Typecho_Widget_Helper_Form_Element_Text('cpr', NULL, date('Y'), _t('Copyright年份'), _t('会显示在copyright的年份，例如2018或者2017-2018，留空会默认显示今年年份。<del>当然你想填什么都可以</del>'));
+    $form->addInput($cpr);
 
     $navConfig = new Typecho_Widget_Helper_Form_Element_Textarea('navConfig', NULL, 
         '"archives":{
@@ -138,12 +176,13 @@ EOF;
             'showHitokoto' => '页面底部显示一言',
             'usePjax' => '开启PJAX(需要关闭评论反垃圾保护)',
             'useAjaxComment' => '开启AJAX评论',
-            'useFancybox' => '文章/评论图片使用<a href="http://fancyapps.com">fancybox</a>(友情链接页面不会使用fancybox)',
+            'useFancybox' => '文章/评论图片使用<a href="http://fancyapps.com">fancybox</a>',
             'useLazyload' => '开启图片懒加载',
             'showQRCode' => '文章底部显示本文链接二维码',
-            'useCommentToMail' => '评论邮件回复按钮（需要配合<a href="https://9sb.org/58">CommentToMail</a>使用）'
+            'useCommentToMail' => '评论邮件回复按钮（需要配合<a href="https://9sb.org/58">CommentToMail</a>使用）',
+            'showCommentUA' => '评论显示UserAgent（显示操作系统和浏览器信息）'
         ),
-        array('showHitokoto','usePjax','useAjaxComment','useFancybox','useLazyload','showQRCode','useCommentToMail'),
+        array('showHitokoto','usePjax','useAjaxComment','useFancybox','useLazyload','showQRCode','useCommentToMail','showCommentUA'),
         '其他设置'
     );
     $form->addInput($AriaConfig->multiMode());
@@ -162,22 +201,21 @@ function themeFields($layout) {
 function themeInit($archive) {
     Helper::options()->commentsMaxNestingLevels = 999;
     $AriaConfig = Typecho_Widget::widget('Widget_Options')->AriaConfig;
-
-    /** .link-box 转换 */
-    $archive->content = parseShortcode(preg_replace($pattern=array('/\[link-box\]/','/\[\/link-box\]/'),array('<div class="link-box">','</div><!--end .link-box-->'),$archive->content));
+    Typecho_Plugin::factory('Widget_Abstract_Contents')->contentEx = array('Shortcode','parse');
+    Typecho_Plugin::factory('Widget_Abstract_Contents')->excerptEx = array('Shortcode','parse');
 }
 
 function AriaConfig() {
     $AriaConfig = Typecho_Widget::widget('Widget_Options')->AriaConfig;
     $options = Typecho_Widget::widget('Widget_Options');
     //print_r($AriaConfig);
-    $showHitokoto = (!empty($AriaConfig) && in_array('showHitokoto', $AriaConfig)) ? "true" : "false";
-    $showQRCode = (!empty($AriaConfig) && in_array('showQRCode', $AriaConfig)) ? "true" : "false";
-    $showReward = $options->rewardConfig ? "true" : "false";
-    $usePjax = (!empty($AriaConfig) && in_array('usePjax', $AriaConfig)) ? "true" : "false";
-    $useAjaxComment = (!empty($AriaConfig) && in_array('useAjaxComment', $AriaConfig)) ? "true" : "false";
-    $useFancybox = (!empty($AriaConfig) && in_array('useFancybox', $AriaConfig)) ? "true" : "false";
-    $useLazyload = (!empty($AriaConfig) && in_array('useLazyload', $AriaConfig)) ? "true" : "false";
+    $showHitokoto = isEnabled('showHitokoto');
+    $showQRCode = isEnabled('showQRCode');
+    $showReward = $options->rewardConfig ? true : false;
+    $usePjax = isEnabled('usePjax');
+    $useAjaxComment = isEnabled('useAjaxComment');
+    $useFancybox = isEnabled('useFancybox');
+    $useLazyload = isEnabled('useLazyload');
     $OwOJson= $options->OwOJson ? $options->OwOJson : $options->themeUrl."/assets/OwO/OwO.json";
     $THEME_CONFIG = json_encode((object)array(
         "THEME_VERSION" => ARIA_VERSION,
@@ -213,7 +251,7 @@ function AriaConfig() {
  *  目前可配置的有'archives','guestbook','friends','about'
  */
 function showNav($mode) {
-    $data = convertConfigData('navConfig',0);
+    $data = convertConfigData('navConfig', false);
     if($data) {
         $html = '';
         if($mode) {
@@ -275,7 +313,7 @@ function showNav($mode) {
  * </div>
  * <div class="post-qrcode">
  *      <a href="javascript:;" no-pjax ><i class="iconfont icon-aria-qrcode"></i></a>
- * <div>手机上阅读<br><br><img src="https://api.imjad.cn/qrcode/?size=150&text=<?php $this->permalink(); ?>"></div>
+ * <div>手机上阅读<br><br><img src="path/to/qrcode"></div>
  *  </div>
  * </div>
  * 打赏二维码配置方案如下
@@ -287,8 +325,8 @@ function postOther($archive)
 {
     $html = '<div class="post-other">';
     $AriaConfig = Typecho_Widget::widget('Widget_Options')->AriaConfig;
-    $rewardConfig = convertConfigData('rewardConfig', 0);
-    $showQRCode = (!empty($AriaConfig) && in_array('showQRCode', $AriaConfig)) ? "true" : "false";
+    $rewardConfig = convertConfigData('rewardConfig', false);
+    $showQRCode = isEnabled('showQRCode');
     if($rewardConfig) {
         $html .='<div class="post-reward"><a href="javascript:;" no-pjax ><i class="iconfont icon-aria-reward"></i></a>
             <ul>';
@@ -297,8 +335,10 @@ function postOther($archive)
         }
         $html.="</ul></div>";
     }
-    if($showQRCode)
-        $html.='<div class="post-qrcode"><a href="javascript:;" no-pjax ><i class="iconfont icon-aria-qrcode"></i></a><div>手机上阅读<br><br><img no-lazyload src="https://api.imjad.cn/qrcode/?size=150&text=' . $archive->permalink . '"></div></div>';
+    if($showQRCode) {
+        $url = Typecho_Widget::widget('Widget_Options')->themeUrl.'/lib/getQRCode.php?url=';
+        $html.='<div class="post-qrcode"><a href="javascript:;" no-pjax ><i class="iconfont icon-aria-qrcode"></i></a><div>手机上阅读<br><br><img no-lazyload src="' .$url.$archive->permalink . '"></div></div>';
+    }
     $html.="</div>";    
     echo $html;
 }
@@ -366,41 +406,23 @@ function getPermalinkFromCoid($coid) {
 /**
  * page-archives.php 归档页输出时光轴
  */
-function pageArchives($day, $_month, $year, $title, $time, $link) {
-    static $date = array();
-    $__month = array(
-        '01' => 'Jan', 
-        '02' => 'Feb', 
-        '03' => 'Mar', 
-        '04' => 'Apr', 
-        '05' => 'May', 
-        '06' => 'June', 
-        '07' => 'July', 
-        '08' => 'Aug', 
-        '09' => 'Sep', 
-        '10' => 'Oct', 
-        '11' => 'Nov', 
-        '12' => 'Dec');
-    $month=$__month[$_month];
+function pageArchives($post) {
+    static $ys = array();
+    $t = $post->created;
+    $href = $post->permalink;
+    $title = $post->title;
+    $y = date('Y',$t).' 年';
+    $m = date('m',$t).' 月';
+    $d = date('d',$t).' 日';
+    $t_href = Helper::options()->siteUrl.date('Y/m',$t);
     $html = '';
-    if (!array_key_exists($year, $date)) {
-        //不存在这个年份，年份放入数组,且放入这个月份
-        $date[$year] = array($month);
-        //打印年份以及月份标签
-        $html.= '<div class="timeline-year timeline-item">' . $year . '</div>' . '<div class="timeline-month timeline-item">' . $month . '</div><div class="timeline-box"><div class="timeline-post timeline-item">' . '<a href="' . $link . '">' . $title . '</a><span class="timeline-post-time">'. $time .'</span></div></div>';
-    } else {
-        //如果年份存在，检查是否存在对应月份
-        if (!in_array($month, $date[$year])) {
-            //不存在就放入并且输出标签
-            array_push($date[$year], $month);
-            $html.= '<div class="timeline-month timeline-item">' . $month . '</div><div class="timeline-box"><div class="timeline-post timeline-item">' . '<a href="' . $link . '">' . $title . '</a><span class="timeline-post-time">'. $time .'</span></div></div>';
-        } else {
-            //存在就直接输出标题
-            $html.= '<div class="timeline-box"><div class="timeline-post timeline-item">' . '<a href="' . $link . '">' . $title . '</a><span class="timeline-post-time">'. $time .'</span></div></div>';
-        }
+    if(!in_array($y,$ys)) {
+        array_push($ys,$y);
+        $html .= "<div class=\"timeline-ym timeline-item\"><a href=\"$t_href\" target=\"_blank\">$y $m</a></div>";
     }
+    $html.= '<div class="timeline-box"><div class="timeline-post timeline-item">' . '<a href="' . $href . '" target="_blank">' . $title . '</a><span class="timeline-post-time">'. $d .'</span></div></div>';
     echo $html;
-};
+}
 
 /**
  * 获取背景图片
@@ -432,6 +454,32 @@ function getThumbnail() {
     }
     else
         return $options->themeUrl.'/assets/img/thumbnail.jpg';
+}
+
+/**
+ * 输出底部链接组件
+ */
+
+function getFooterSpan() {
+    $data = convertConfigData('footerSpan', true);
+    $opt = Typecho_Widget::widget('Widget_Options');
+    if(!$data) {
+        $html = '<span><a href="'.$opt->siteUrl.'">'.$opt->title.'</a></span><span><a href="http:\/\/www.typecho.org" title="念念不忘，必有回响。" target="_blank">Typecho</a></span><span><a href="https:\/\/eriri.ink/archives/Typecho-Theme-Aria.html" title="Typecho-Theme-Aria Ver '.ARIA_VERSION.' by Siphils" target="_blank">Aria</a></span>';
+        echo $html;
+        return;
+    }
+    $html = '<span><a href="'.$opt->siteUrl.'">'.$opt->title.'</a></span><span><a href="http:\/\/www.typecho.org" title="念念不忘，必有回响。" target="_blank">Typecho</a></span><span><a href="https:\/\/eriri.ink/archives/Typecho-Theme-Aria.html" title="Typecho-Theme-Aria Ver '.ARIA_VERSION.' by Siphils" target="_blank">Aria</a></span>';
+    foreach($data as $val) {
+        $tmp = $val;
+        if((array)$tmp) {
+            $href = property_exists($val, 'href') ? "href=\"$val->href\"": "";
+            $title = property_exists($val, 'title') ? "title=\"$val->title\"": "";
+            $target = property_exists($val, 'target') ? "target=\"$val->target\"" : "";
+            $text = property_exists($val, 'text') ? $val->text : "";
+            $html .= "<span><a $href $title $target>$text</span>";
+        }
+    }
+    echo $html;
 }
 
 /**
@@ -679,7 +727,7 @@ function convertConfigData($item, $mode) {
     $data = $options->$item ? $options->$item : "";
     if($data) {
         if($mode)
-            $json = trim("[".$data."]");
+            $json = json_decode("[".$data."]");
         else
             $json = json_decode(trim("{".$data."}"),true);
         return $json;
@@ -687,3 +735,72 @@ function convertConfigData($item, $mode) {
     else 
         return false;
 }
+
+/**
+ * 解析 user-agent 返回对应的操作系统和浏览器信息
+ * @param $ua user-agent
+ *
+ * @return string html 标签
+ */
+function parseUseragent($ua) {
+
+    // 解析操作系统
+    $htmlTag = "";
+    $os = null;
+    $fontClass = null;
+    if (preg_match('/Windows NT 6.0/i', $ua)) { $os = "Windows Vista"; $fontClass = "windows"; } 
+    elseif(preg_match('/Windows NT 6.1/i', $ua)) { $os = "Windows 7"; $fontClass = "windows"; }
+    elseif(preg_match('/Windows NT 6.2/i', $ua)) { $os = "Windows 8"; $fontClass = "windows"; }
+    elseif(preg_match('/Windows NT 6.3/i', $ua)) { $os = "Windows 8.1"; $fontClass = "windows"; }
+    elseif(preg_match('/Windows NT 10.0/i', $ua)) { $os = "Windows 10"; $fontClass="windows"; }
+    elseif(preg_match('/Windows NT 5.1/i', $ua)) { $os = "Windows XP"; $fontClass = "windows"; }
+    elseif(preg_match('/Windows NT 5.2/i', $ua) && preg_match('/Win64/i', $ua)) { $os = "Windows XP 64 bit"; $fontClass = "windows"; }
+    elseif(preg_match('/Android ([0-9.]+)/i', $ua, $matches)) { $os = "Android ".$matches[1]; $fontClass = "android"; }
+    elseif(preg_match('/iPhone OS ([_0-9]+)/i', $ua, $matches)) { $os = 'iPhone '.$matches[1]; $fontClass = "iphone"; }
+    elseif(preg_match('/iPad/i', $ua)) { $os = "iPad"; $fontClass = "ipad";}
+    elseif(preg_match('/Mac OS X ([_0-9]+)/i', $ua, $matches)) { $os = 'Mac OS X '.$matches[1]; $fontClass = "mac"; }
+    elseif(preg_match('/Gentoo/i', $ua)) {$os = 'Gentoo Linux';$fontClass = "gentoo";}
+    elseif(preg_match('/Ubuntu/i', $ua)) {$os = 'Ubuntu Linux';$fontClass = "ubuntu";}
+    elseif(preg_match('/Debian/i', $ua)) { $os = 'Debian Linux'; $fontClass = "debian";}
+    elseif(preg_match('/X11; FreeBSD/i', $ua)) {$os = 'FreeBSD';$fontClass = "freebsd";}
+    elseif(preg_match('/X11; Linux/i', $ua)) {$os = 'Linux';$fontClass = "linux";}
+    else {$os = 'unknown os';$fontClass = "os"; }
+    
+    $htmlTag = "<i class=\"iconfont icon-aria-$fontClass\"></i>";//<span class=\"os-$fontClass\">&nbsp;$os</span>";
+
+    $browser = null;
+    //解析浏览器
+    if(preg_match('#SE 2([a-zA-Z0-9.]+)#i', $ua, $matches)) { $browser = 'Sogou browser'; $fontClass = "sogou"; }
+    elseif(preg_match('#360([a-zA-Z0-9.]+)#i', $ua, $matches)) {$browser = '360 browser ';$fontClass = "360";}
+    elseif(preg_match('#Maxthon( |\/)([a-zA-Z0-9.]+)#i', $ua, $matches)) {$browser = 'Maxthon ';$fontClass = "maxthon";}
+    elseif(preg_match('#Edge( |\/)([a-zA-Z0-9.]+)#i', $ua, $matches)) {$browser = 'Edge ';$fontClass = "edge";}
+    elseif(preg_match('#MicroMessenger/([a-zA-Z0-9.]+)#i', $ua, $matches)) {$browser = 'Wechat ';$fontClass = "wechat";}
+    elseif(preg_match('#QQ/([a-zA-Z0-9.]+)#i', $ua, $matches)) {$browser = 'QQ Mobile '; $fontClass = "qq";}
+    elseif(preg_match('#Chrome/([a-zA-Z0-9.]+)#i', $ua, $matches)) {$browser = 'Chrome ';$fontClass = "chrome";}
+    elseif(preg_match('#CriOS/([a-zA-Z0-9.]+)#i', $ua, $matches)) {$browser = 'Chrome ';$fontClass = "chrome";}
+    elseif(preg_match('#Chromium/([a-zA-Z0-9.]+)#i', $ua, $matches)) {$browser = 'Chromium ';$fontClass = "chrome";}
+    elseif(preg_match('#Safari/([a-zA-Z0-9.]+)#i', $ua, $matches)) {$browser = 'Safari ';$fontClass = "safari";}
+    elseif(preg_match('#opera mini#i', $ua)) {
+        preg_match('#Opera/([a-zA-Z0-9.]+)#i', $ua, $matches);
+        $browser = 'Opera Mini '; $fontClass = "opera";
+    }
+    elseif(preg_match('#Opera.([a-zA-Z0-9.]+)#i', $ua, $matches)) {$browser = 'Opera ';$fontClass = "opera";}
+    elseif(preg_match('#QQBrowser ([a-zA-Z0-9.]+)#i', $ua, $matches)) {$browser = 'QQ browser ';$fontClass = "qqbrowser";}
+    elseif(preg_match('#UCWEB([a-zA-Z0-9.]+)#i', $ua, $matches)) {$browser = 'UCWEB ';$fontClass = "uc";}
+    elseif(preg_match('#MSIE ([a-zA-Z0-9.]+)#i', $ua, $matches)) {$browser = 'Internet Explorer ';$fontClass = "ie";}
+    elseif(preg_match('#Trident/([a-zA-Z0-9.]+)#i', $ua, $matches)) {$browser = 'Internet Explorer 11';$fontClass = "ie";}
+    elseif(preg_match('#(Firefox|Phoenix|Firebird|BonEcho|GranParadiso|Minefield|Iceweasel)/([a-zA-Z0-9.]+)#i', $ua, $matches)) {$browser = 'Firefox ';$fontClass = "firefox";}
+    else { $browser = 'unknown br'; $fontClass = 'browser'; }
+
+    $htmlTag .="&nbsp;";
+    $htmlTag .="<i class=\"iconfont icon-aria-$fontClass\"></i>";//<span class=\"br-$fontClass\">&nbsp;$browser</span>";
+    return $htmlTag;
+}
+
+/**
+ * 返回设置状态
+ */
+
+ function isEnabled($item) {
+    return (!empty(Helper::options()->AriaConfig) && in_array($item, Helper::options()->AriaConfig)) ? true : false;
+ }

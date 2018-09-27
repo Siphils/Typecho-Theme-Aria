@@ -25,10 +25,10 @@ echo $commentClass;
 			<?php $comments->gravatar('120', ''); ?>
 		</a>
 		<div class="comment-content">
-			<div class="comment-text">
+			<div class="comment-text"><span class="comment-reply" style="float:right"><?php $comments->reply('<i class="iconfont icon-aria-reply"></i>'); ?></span>
 			<p><?php showCommentContent($comments->coid); ?></p>
 			</div>
-			<p class="comment-meta">By <span><?php $comments->author(); ?></span> at <?php $comments->date('M jS, Y'); ?> <span class="comment-reply" style="float:right"><?php $comments->reply('<i class="iconfont icon-aria-reply"></i>'); ?></span></p>
+<p class="comment-meta">By <span><?php echo "<a href=\"$comments->url\" rel=\"external nofollow\" target=\"_blank\">$comments->author</a>"; ?></span> at <?php $comments->date('M jS, Y'); ?>. <?php if(isEnabled('showCommentUA')): ?><span class="comment-ua"><?php echo parseUserAgent($comments->agent); ?></span><?php endif; ?></p>
 		</div>
     </div><!-- 单条评论者信息及内容 -->
     <?php if ($comments->children) { ?> 
@@ -134,7 +134,7 @@ echo $commentClass;
 				<div class="comment-image">
 					<span><i class="iconfont icon-aria-picture"></i>图片</span>
 				</div>
-				<?php if(!empty($this->options->AriaConfig) && in_array('useCommentToMail', $this->options->AriaConfig)): ?>
+				<?php if(isEnabled('useCommentToMail')): ?>
 				<div id="comment-ban-mail" class="ui toggle checkbox">
 					<input name="banmail" type="checkbox" value="stop">
 					<label for="comment-ban-mail">
