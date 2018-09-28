@@ -19,14 +19,13 @@
 
 	<!-- 使用url函数转换相关路径 -->
 
-	<link href="<?php $this->options->themeUrl('assets/css/nprogress.min.css'); ?>" rel="stylesheet">
-    <?php if(isEnabled('useFancybox')): ?>
+	<?php if(isEnabled('useFancybox')): ?>
 	<link href="<?php $this->options->themeUrl('assets/css/jquery.fancybox.min.css'); ?>" rel="stylesheet">
     <?php endif; ?>
 	<link href="<?php $this->options->themeUrl('assets/OwO/OwO.min.css'); ?>" rel="stylesheet">
 	<link href="<?php $this->options->themeUrl('assets/css/animate.min.css'); ?>" rel="stylesheet">
 	<link href="<?php $this->options->themeUrl('assets/css/iconfont.css'); ?>" rel="stylesheet" >
-	<link href="<?php $this->options->themeUrl('assets/css/style.min.css?v=cc2738e9cc'); ?>" rel="stylesheet">
+	<link href="<?php $this->options->themeUrl('assets/css/style.min.css?v=7b8d35ef65'); ?>" rel="stylesheet">
     <script src="<?php $this->options->themeUrl('assets/js/jquery.min.js'); ?>"></script>
 	<!--[if lt IE 9]>
     <script src="http://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
