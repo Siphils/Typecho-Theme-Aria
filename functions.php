@@ -407,7 +407,8 @@ function getPermalinkFromCoid($coid) {
  * page-archives.php 归档页输出时光轴
  */
 function pageArchives($post) {
-    static $ys = array();
+    static $lastY = null,
+        $lastM = null;
     $t = $post->created;
     $href = $post->permalink;
     $title = $post->title;
@@ -416,9 +417,14 @@ function pageArchives($post) {
     $d = date('d',$t).' 日';
     $t_href = Helper::options()->siteUrl.date('Y/m',$t);
     $html = '';
-    if(!in_array($y,$ys)) {
-        array_push($ys,$y);
-        $html .= "<div class=\"timeline-ym timeline-item\"><a href=\"$t_href\" target=\"_blank\">$y $m</a></div>";
+    if($lastY == date('Y',$t) || $lastY == null) {
+        if($lastM != date('m',$t)) {
+            $lastM = date('m',$t);
+            $html .= "<div class=\"timeline-ym timeline-item\"><a href=\"$t_href\" target=\"_blank\">$y $m</a></div>";
+        }
+    }
+    else {
+        $lastY = date('Y',$t);
     }
     $html.= '<div class="timeline-box"><div class="timeline-post timeline-item">' . '<a href="' . $href . '" target="_blank">' . $title . '</a><span class="timeline-post-time">'. $d .'</span></div></div>';
     echo $html;
