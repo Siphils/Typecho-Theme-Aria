@@ -13,34 +13,48 @@
 ### 导航栏配置  
 需要按照如下方式填写配置信息  
 ```json  
-"archives": {
-    "text": "归档", 
+{
+    "text": "首页",
     "href": "#",
-    "icon": "icon-aria-archives"
-}, 
-"about": {
-    "text": "关于", 
+    "icon": "icon-aria-home"
+},
+{
+    "text": "归档",
     "href": "#",
-    "icon": "icon-aria-about"
-}, 
-"guestbook": {
-    "text": "留言", 
-    "href": "#",
-    "icon": "icon-aria-guestbook"
-}, 
-"friends": {
-    "text": "朋友", 
+    "icon": "icon-aria-archives",
+    "sub": [
+        {
+            "text": "子菜单1",
+            "href": "",
+            "icon": ""
+        },
+        {
+            "text": "子菜单2",
+            "href": "",
+            "icon": ""
+        }
+    ]
+},
+{
+    "text": "朋友",
     "href": "#",
     "icon": "icon-aria-friends"
+},
+{
+    "text": "留言",
+    "href": "#",
+    "icon": "icon-aria-guestbook"
+},
+{
+    "text": "关于",
+    "href": "#",
+    "icon": "icon-aria-about"
 }
 ```  
+**`text`为显示的文字，`href`为链接地址**  
 **新增`icon`的值，在[iconfont](https://iconfont.cn)建立项目后选择`Font Class`的方式，在icon中输入对应的代码，如`icon-test`**  
 **新增'target'的值，填写'_blank'可在新窗口打开**  
-目前仅支持`archives`,`about`,`guestbook`,`friends`四个页面配置信息（可以留空），**最后一项不需要逗号**  
-类似`archives`的即为页面的`slug`,`text`是链接的名称，`href`为链接地址，输出的`html`代码为  
-```html
-<li class="nav-right-item"><a href="{href}" target="{target}"><i class="iconfont {icon}"></i>{text}</a></li>
-```  
+**`sub` 为子菜单的配置，目前仅支持二级菜单。需要注意格式严格填写，否则不会菜单有输出**
 ### 文章打赏功能配置 
 需要按照如下方式填写配置信息
 ```json

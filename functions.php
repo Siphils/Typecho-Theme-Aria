@@ -188,30 +188,41 @@ function AriaConfig() {
  * 根据配置的JSON数据输出导航栏
  * @param $mode 
  * {
- *    "text": "归档",
- *    "href": "",
- *    "icon": "icon-aria-archives",
- *    "target": "",
- *    "sub": {
- *        "1": {
- *            "text": "sub-item",
- *            "href": "",
- *            "icon": "",
- *        }
- *    }
+ *     "text": "首页",
+ *     "href": "#",
+ *     "icon": "icon-aria-home"
  * },
  * {
- *    "text": "留言",
- *    "href": ""
- *          "icon": "icon-aria-guestbook",
- *    "target": "",
- *    "sub": [
- *        {
- *            "text": "sub-item",
- *            "href": "",
- *            "icon": "",
- *        }
- *    ]
+ *     "text": "归档",
+ *     "href": "#",
+ *     "icon": "icon-aria-archives",
+ *     "sub": [
+ *         {
+ *             "text": "子菜单1",
+ *             "href": ""
+ *             "icon": ""
+ *         },
+ *         {
+ *             "text": "子菜单2",
+ *             "href": "",
+ *             "icon": ""
+ *         }
+ *     ]
+ * },
+ * {
+ *     "text": "朋友",
+ *     "href": "#",
+ *     "icon": "icon-aria-friends"
+ * },
+ * {
+ *     "text": "留言",
+ *     "href": "#",
+ *     "icon": "icon-aria-guestbook"
+ * },
+ * {
+ *     "text": "关于",
+ *     "href": "#",
+ *     "icon": "icon-aria-about"
  * }
  * 
  * 输出的nav-sub  
