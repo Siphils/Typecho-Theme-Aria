@@ -579,30 +579,34 @@ function replace_in_html_tags($haystack, $replace_pairs)
     return $haystack;
 }
 
-class Shortcode {
+class Shortcode
+{
     /**
      * 注册短代码
      */
-    public function shortcode_linkitem($atts, $content = '') {
-        $args = shortcode_atts( array(
+    public function shortcode_linkitem($atts, $content = '')
+    {
+        $args = shortcode_atts(array(
             'href' => '',
             'title' => '',
             'img' => '',
             'name' => '',
-        ), $atts );
-    
-        return '<a href="'.$args['href'].'" title="'.$args['title'].'" target="_blank"><div class="link-item"><img class="link-avatar" src="'.$args['img'].'"><span class="link-name">'.$args['name'].'</span></div></a>';
+        ), $atts);
+        $href = $args['href'] ? 'href="'.$args['href'].'"' : "";
+        return '<a '. $href .'title="' . $args['title'] . '" target="_blank"><div class="link-item"><img class="link-avatar" src="' . $args['img'] . '"><span class="link-name">' . $args['name'] . '</span></div></a>';
     }
-    
-    public function shortcode_linkbox($atts, $content = '') {
-        return '<div class="link-box">'.do_shortcode($content).'</div>';
+
+    public function shortcode_linkbox($atts, $content = '')
+    {
+        return '<div class="link-box">' . do_shortcode($content) . '</div>';
     }
     //[link-item]
 
     /**
      * parser
      */
-    public static function parse($content,$widget,$lastResult) {
+    public static function parse($content, $widget, $lastResult)
+    {
         $content = empty($lastResult) ? $content : $lastResult;
         if ($widget instanceof Widget_Archive) {
             add_shortcode('link-item', 'Shortcode::shortcode_linkitem');

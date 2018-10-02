@@ -28,8 +28,7 @@
             <?php //Typecho_Widget::widget('Zan_Action')->showZan($this->cid); ?>
         </div>
         <div class="post-footer nextprev">
-            <?php thePrev($this); ?>
-            <?php theNext($this); ?>
+            <?php theNextPrev($this); ?>
         </div>
     </article>
     <?php $this->need('comments.php'); ?>

@@ -1,7 +1,7 @@
 <?php
 if (!defined('__TYPECHO_ROOT_DIR__')) exit;
 
-define('ARIA_VERSION','1.7.1');
+define('ARIA_VERSION','1.8.0');
 
 require_once('lib/Shortcode.php');
 
@@ -9,107 +9,53 @@ function themeConfig($form) {
     echo '<script>var ARIA_VERSION = "'.ARIA_VERSION.'"</script>';
     echo <<<EOF
     <style>
-        .ui.button{cursor:pointer;display:inline-block;min-height:1em;outline:none;border:none;vertical-align:baseline;background:#E0E1E2 none;color:rgba(0,0,0,0.6);font-family:'Lato','Helvetica Neue',Arial,Helvetica,sans-serif;margin:0em 0.25em 0em 0em;padding:0.78571429em 1.5em 0.78571429em;text-transform:none;text-shadow:none;font-weight:bold;line-height:1em;font-style:normal;text-align:center;text-decoration:none;border-radius:0.28571429rem;-webkit-box-shadow:0px 0px 0px 1px transparent inset,0px 0em 0px 0px rgba(34,36,38,0.15) inset;box-shadow:0px 0px 0px 1px transparent inset,0px 0em 0px 0px rgba(34,36,38,0.15) inset;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;-webkit-transition:opacity 0.1s ease,background-color 0.1s ease,color 0.1s ease,background 0.1s ease,-webkit-box-shadow 0.1s ease;transition:opacity 0.1s ease,background-color 0.1s ease,color 0.1s ease,background 0.1s ease,-webkit-box-shadow 0.1s ease;transition:opacity 0.1s ease,background-color 0.1s ease,color 0.1s ease,box-shadow 0.1s ease,background 0.1s ease;transition:opacity 0.1s ease,background-color 0.1s ease,color 0.1s ease,box-shadow 0.1s ease,background 0.1s ease,-webkit-box-shadow 0.1s ease;will-change:'';-webkit-tap-highlight-color:transparent}
-        .ui.loading.loading.loading.loading.loading.loading.button{position:relative;cursor:default;text-shadow:none !important;color:transparent !important;opacity:1;pointer-events:auto;-webkit-transition:all 0s linear,opacity 0.1s ease;transition:all 0s linear,opacity 0.1s ease}
-        .ui.loading.button:before{position:absolute;content:'';top:50%;left:50%;margin:-0.64285714em 0em 0em -0.64285714em;width:1.28571429em;height:1.28571429em;border-radius:500rem;border:0.2em solid rgba(0,0,0,0.15)}
-        .ui.loading.button:after{position:absolute;content:'';top:50%;left:50%;margin:-0.64285714em 0em 0em -0.64285714em;width:1.28571429em;height:1.28571429em;-webkit-animation:button-spin 0.6s linear;animation:button-spin 0.6s linear;-webkit-animation-iteration-count:infinite;animation-iteration-count:infinite;border-radius:500rem;border-color:#FFFFFF transparent transparent;border-style:solid;border-width:0.2em;-webkit-box-shadow:0px 0px 0px 1px transparent;box-shadow:0px 0px 0px 1px transparent}
-        .ui.labeled.icon.loading.button .icon{background-color:transparent;-webkit-box-shadow:none;box-shadow:none}
-        @-webkit-keyframes button-spin{from{-webkit-transform:rotate(0deg);transform:rotate(0deg)}
-        to{-webkit-transform:rotate(360deg);transform:rotate(360deg)}
-        }@keyframes button-spin{from{-webkit-transform:rotate(0deg);transform:rotate(0deg)}
-        to{-webkit-transform:rotate(360deg);transform:rotate(360deg)}
-        }.ui.basic.loading.button:not(.inverted):before{border-color:rgba(0,0,0,0.1)}
-        .ui.basic.loading.button:not(.inverted):after{border-top-color:#767676}
-        .ui.primary.button{background-color:#2185D0;color:#FFFFFF;text-shadow:none;background-image:none}
-        .ui.primary.button{-webkit-box-shadow:0px 0em 0px 0px rgba(34,36,38,0.15) inset;box-shadow:0px 0em 0px 0px rgba(34,36,38,0.15) inset}
-        .ui.primary.button:hover{background-color:#1678c2;color:#FFFFFF;text-shadow:none}
-        .ui.primary.button:focus{background-color:#0d71bb;color:#FFFFFF;text-shadow:none}
-        .ui.primary.button:active{background-color:#1a69a4;color:#FFFFFF;text-shadow:none}
-        .ui.primary.active.button,.ui.primary.button .active.button:active{background-color:#1279c6;color:#FFFFFF;text-shadow:none}
-        .ui.checkbox{position:relative;display:inline-block;-webkit-backface-visibility:hidden;backface-visibility:hidden;outline:none;vertical-align:baseline;font-style:normal;min-height:17px;font-size:1rem;line-height:17px;min-width:17px}
-        .ui.checkbox input[type="checkbox"],.ui.checkbox input[type="radio"]{cursor:pointer;position:absolute;top:0px;left:0px;opacity:0 !important;outline:none;z-index:3;width:17px;height:17px}
-        .ui.toggle.checkbox{min-height:1.5rem}
-        .ui.toggle.checkbox input{width:3.5rem;height:1.5rem}
-        .ui.toggle.checkbox .box,.ui.toggle.checkbox label{min-height:1.5rem;padding-left:4.5rem;color:rgba(0,0,0,0.87)}
-        .ui.toggle.checkbox label{padding-top:0.15em}
-        .ui.toggle.checkbox .box:before,.ui.toggle.checkbox label:before{display:block;position:absolute;content:'';z-index:1;-webkit-transform:none;transform:none;border:none;top:0rem;background:rgba(0,0,0,0.05);-webkit-box-shadow:none;box-shadow:none;width:3.5rem;height:1.5rem;border-radius:500rem}
-        .ui.toggle.checkbox .box:after,.ui.toggle.checkbox label:after{background:#FFFFFF -webkit-gradient(linear,left top,left bottom,from(transparent),to(rgba(0,0,0,0.05)));background:#FFFFFF -webkit-linear-gradient(transparent,rgba(0,0,0,0.05));background:#FFFFFF linear-gradient(transparent,rgba(0,0,0,0.05));position:absolute;content:'' !important;opacity:1;z-index:2;border:none;-webkit-box-shadow:0px 1px 2px 0 rgba(34,36,38,0.15),0px 0px 0px 1px rgba(34,36,38,0.15) inset;box-shadow:0px 1px 2px 0 rgba(34,36,38,0.15),0px 0px 0px 1px rgba(34,36,38,0.15) inset;width:1.5rem;height:1.5rem;top:0rem;left:0em;border-radius:500rem;-webkit-transition:background 0.3s ease,left 0.3s ease;transition:background 0.3s ease,left 0.3s ease}
-        .ui.toggle.checkbox input ~ .box:after,.ui.toggle.checkbox input ~ label:after{left:-0.05rem;-webkit-box-shadow:0px 1px 2px 0 rgba(34,36,38,0.15),0px 0px 0px 1px rgba(34,36,38,0.15) inset;box-shadow:0px 1px 2px 0 rgba(34,36,38,0.15),0px 0px 0px 1px rgba(34,36,38,0.15) inset}
-        .ui.toggle.checkbox input:focus ~ .box:before,.ui.toggle.checkbox input:focus ~ label:before{background-color:rgba(0,0,0,0.15);border:none}
-        .ui.toggle.checkbox .box:hover::before,.ui.toggle.checkbox label:hover::before{background-color:rgba(0,0,0,0.15);border:none}
-        .ui.toggle.checkbox input:checked ~ .box,.ui.toggle.checkbox input:checked ~ label{color:rgba(0,0,0,0.95) !important}
-        .ui.toggle.checkbox input:checked ~ .box:before,.ui.toggle.checkbox input:checked ~ label:before{background-color:#2185D0 !important}
-        .ui.toggle.checkbox input:checked ~ .box:after,.ui.toggle.checkbox input:checked ~ label:after{left:2.15rem;-webkit-box-shadow:0px 1px 2px 0 rgba(34,36,38,0.15),0px 0px 0px 1px rgba(34,36,38,0.15) inset;box-shadow:0px 1px 2px 0 rgba(34,36,38,0.15),0px 0px 0px 1px rgba(34,36,38,0.15) inset}
-        .ui.toggle.checkbox input:focus:checked ~ .box,.ui.toggle.checkbox input:focus:checked ~ label{color:rgba(0,0,0,0.95) !important}
-        .ui.toggle.checkbox input:focus:checked ~ .box:before,.ui.toggle.checkbox input:focus:checked ~ label:before{background-color:#0d71bb !important}
-        .ui.form{position:relative;max-width:100%}
-        .ui.form .field > label{display:block;margin:0em 0em 0.28571429rem 0em;color:rgba(0,0,0,0.87);font-size:0.92857143em;font-weight:bold;text-transform:none}
-        .ui.form textarea,.ui.form input:not([type]),.ui.form input[type="date"],.ui.form input[type="datetime-local"],.ui.form input[type="email"],.ui.form input[type="number"],.ui.form input[type="password"],.ui.form input[type="search"],.ui.form input[type="tel"],.ui.form input[type="time"],.ui.form input[type="text"],.ui.form input[type="file"],.ui.form input[type="url"]{width:100%;vertical-align:top}
-        .ui.form::-webkit-datetime-edit,.ui.form::-webkit-inner-spin-button{height:1.21428571em}
-        .ui.form input:not([type]),.ui.form input[type="date"],.ui.form input[type="datetime-local"],.ui.form input[type="email"],.ui.form input[type="number"],.ui.form input[type="password"],.ui.form input[type="search"],.ui.form input[type="tel"],.ui.form input[type="time"],.ui.form input[type="text"],.ui.form input[type="file"],.ui.form input[type="url"]{font-family:'Lato','Helvetica Neue',Arial,Helvetica,sans-serif;margin:0em;outline:none;-webkit-appearance:none;tap-highlight-color:rgba(255,255,255,0);line-height:1.21428571em;padding:0.67857143em 1em;font-size:1em;background:#FFFFFF;border:1px solid rgba(34,36,38,0.15);color:rgba(0,0,0,0.87);border-radius:0.28571429rem;-webkit-box-shadow:0em 0em 0em 0em transparent inset;box-shadow:0em 0em 0em 0em transparent inset;-webkit-transition:color 0.1s ease,border-color 0.1s ease;transition:color 0.1s ease,border-color 0.1s ease}
-        .ui.form textarea{margin:0em;-webkit-appearance:none;tap-highlight-color:rgba(255,255,255,0);padding:0.78571429em 1em;background:#FFFFFF;border:1px solid rgba(34,36,38,0.15);outline:none;color:rgba(0,0,0,0.87);border-radius:0.28571429rem;-webkit-box-shadow:0em 0em 0em 0em transparent inset;box-shadow:0em 0em 0em 0em transparent inset;-webkit-transition:color 0.1s ease,border-color 0.1s ease;transition:color 0.1s ease,border-color 0.1s ease;font-size:1em;line-height:1.2857;resize:vertical}
-        .ui.form textarea:not([rows]){height:12em;min-height:8em;max-height:24em}
-        .ui.form textarea,.ui.form input[type="checkbox"]{vertical-align:top}
-        .ui.form input:not([type]):focus,.ui.form input[type="date"]:focus,.ui.form input[type="datetime-local"]:focus,.ui.form input[type="email"]:focus,.ui.form input[type="number"]:focus,.ui.form input[type="password"]:focus,.ui.form input[type="search"]:focus,.ui.form input[type="tel"]:focus,.ui.form input[type="time"]:focus,.ui.form input[type="text"]:focus,.ui.form input[type="file"]:focus,.ui.form input[type="url"]:focus{color:rgba(0,0,0,0.95);border-color:#85B7D9;border-radius:0.28571429rem;background:#FFFFFF;-webkit-box-shadow:0px 0em 0em 0em rgba(34,36,38,0.35) inset;box-shadow:0px 0em 0em 0em rgba(34,36,38,0.35) inset}
-        .ui.form textarea:focus{color:rgba(0,0,0,0.95);border-color:#85B7D9;border-radius:0.28571429rem;background:#FFFFFF;-webkit-box-shadow:0px 0em 0em 0em rgba(34,36,38,0.35) inset;box-shadow:0px 0em 0em 0em rgba(34,36,38,0.35) inset;-webkit-appearance:none}
-        .ui.message{position:relative;min-height:1em;margin:1em 0em;background:#F8F8F9;padding:1em 1.5em;line-height:1.4285em;color:rgba(0,0,0,0.87);-webkit-transition:opacity 0.1s ease,color 0.1s ease,background 0.1s ease,-webkit-box-shadow 0.1s ease;transition:opacity 0.1s ease,color 0.1s ease,background 0.1s ease,-webkit-box-shadow 0.1s ease;transition:opacity 0.1s ease,color 0.1s ease,background 0.1s ease,box-shadow 0.1s ease;transition:opacity 0.1s ease,color 0.1s ease,background 0.1s ease,box-shadow 0.1s ease,-webkit-box-shadow 0.1s ease;border-radius:0.28571429rem;-webkit-box-shadow:0px 0px 0px 1px rgba(34,36,38,0.22) inset,0px 0px 0px 0px rgba(0,0,0,0);box-shadow:0px 0px 0px 1px rgba(34,36,38,0.22) inset,0px 0px 0px 0px rgba(0,0,0,0)}
-        .ui.message:first-child{margin-top:0em}
-        .ui.message:last-child{margin-bottom:0em}
-        .ui.message .header{display:block;font-family:'Lato','Helvetica Neue',Arial,Helvetica,sans-serif;font-weight:bold;margin:-0.14285714em 0em 0rem 0em}
-        .ui.message .header:not(.ui){font-size:1.14285714em}
-        .ui.message p{opacity:0.85;margin:0.75em 0em}
-        .ui.message p:first-child{margin-top:0em}
-        .ui.message p:last-child{margin-bottom:0em}
-        .ui.message .header + p{margin-top:0.25em}
-    </style>
-    <script>
-        window.onload = function(){
-            var multiline = document.getElementsByClassName("multiline");
-            for(var i=0;i<multiline.length;++i) {multiline[i].className+=" ui toggle checkbox";};
-            document.getElementsByTagName("form")[0].parentNode.parentNode.className += " ui form";
-            document.getElementsByTagName("button")[0].classList.remove("btn");
-            var btn = document.getElementsByTagName("button");
-            for(var i=0;i<btn.length;++i) {
-                btn[i].className += " ui button";
-                btn[i].style.width = "100%";
-            }
-        }
-        var r = new XMLHttpRequest();
-        var checkUpdate = function(dom) {
-            dom.className += " loading";
-            try {
-                r.open("GET","https://raw.githubusercontent.com/Siphils/typecho-theme-Aria/master/version.txt",true);
-                r.send();
-                r.onreadystatechange = function() {
-                    if(r.readyState === 4) {
-                        if(r.status == 200 && !isNaN(parseInt(r.responseText))) {
-                            dom.textContent = r.responseText.trim() == ARIA_VERSION.trim() ? "已经为最新版" : "最新版：" + r.responseText.trim();
-                        }
-                        else if(isNaN(parseInt(r.responseText))) {
-                            dom.textContent = "请求失败，请稍后重试！";
-                        }
-                        else {
-                            dom.textContent = "请求失败！错误码：" + r.status;
-                        }
-                    }
-                }
-            }
-            catch(e) {
-                dom.textContent = "请求失败，请稍后重试！" + e;
-            }
-            finally {
-                
-            }
-            dom.className = dom.className.replace(/loading/g,"");
-        }
-    </script>  
+    form{position:relative;max-width:100%}
+    form input:not([type]),form input[type="date"],form input[type="datetime-local"],form input[type="email"],form input[type="number"],form input[type="password"],form input[type="search"],form input[type="tel"],form input[type="time"],form input[type="text"],form input[type="file"],form input[type="url"]{font-family:'Lato','Helvetica Neue',Arial,Helvetica,sans-serif;margin:0em;outline:none;-webkit-appearance:none;tap-highlight-color:rgba(255,255,255,0);line-height:1.21428571em;padding:0.67857143em 1em;font-size:1em;background:#FFFFFF;border:1px solid rgba(34,36,38,0.15);color:rgba(0,0,0,0.87);border-radius:0.28571429rem;-webkit-box-shadow:0em 0em 0em 0em transparent inset;box-shadow:0em 0em 0em 0em transparent inset;-webkit-transition:color 0.5s ease,border-color 0.5s ease;transition:color 0.5s ease,border-color 0.5s ease}
+    form textarea{margin:0em;-webkit-appearance:none;tap-highlight-color:rgba(255,255,255,0);padding:0.78571429em 1em;background:#FFFFFF;border:1px solid rgba(34,36,38,0.15);outline:none;color:rgba(0,0,0,0.87);border-radius:0.28571429rem;-webkit-box-shadow:0em 0em 0em 0em transparent inset;box-shadow:0em 0em 0em 0em transparent inset;-webkit-transition:color 0.1s ease,border-color 0.5s ease;transition:color 0.1s ease,border-color 0.5s ease;font-size:1em;line-height:1.2857;resize:vertical}
+    form textarea:not([rows]){height:12em;min-height:8em;max-height:24em}
+    form textarea,form input[type="checkbox"]{vertical-align:top}
+    form textarea:focus,form input:focus{color:rgba(0,0,0,0.95);border-color:#85B7D9;border-radius:0.28571429rem;background:#FFFFFF;-webkit-box-shadow:0px 0em 0em 0em rgba(34,36,38,0.35) inset;box-shadow:0px 0em 0em 0em rgba(34,36,38,0.35) inset;-webkit-appearance:none}
+    .tip{max-width:100%;position:relative;min-height:1em;margin:0 10px;background:#F8F8F9;padding:1em 1.5em;line-height:1.4285em;color:rgba(0,0,0,0.87);-webkit-transition:opacity 0.1s ease,color 0.1s ease,background 0.1s ease,-webkit-box-shadow 0.1s ease;transition:opacity 0.1s ease,color 0.1s ease,background 0.1s ease,-webkit-box-shadow 0.1s ease;transition:opacity 0.1s ease,color 0.1s ease,background 0.1s ease,box-shadow 0.1s ease;transition:opacity 0.1s ease,color 0.1s ease,background 0.1s ease,box-shadow 0.1s ease,-webkit-box-shadow 0.1s ease;border-radius:0.28571429rem;-webkit-box-shadow:0 0 0 1px rgba(34,36,38,.22) inset,0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.15);box-shadow:0 0 0 1px rgba(34,36,38,.22) inset,0 2px 4px 0 rgba(34,36,38,.12),0 2px 10px 0 rgba(34,36,38,.15)}
+    .tip-header{text-align:center;margin:10px auto 20px auto;color:#444;text-shadow:0 0 2px #c2c2c2}
+    .current-ver{position:relative;border-color:#b21e1e!important;background-color:#DB2828!important;color:#FFF!important;left:-37px;padding-left:1rem;border-bottom-right-radius:5px;padding-right:1.2em}
+    .current-ver:after{position:absolute;content:'';top:100%;left:0;background-color:transparent!important;border-style:solid;border-width:0 1.2em 1.2em 0;border-color:transparent;border-right-color:inherit;width:0;height:0}
+    .btn.primary{cursor:pointer;display:inline-block;background:#E0E1E2 none;color:rgba(0,0,0,0.6);padding:0 1.5em;border-radius:0.28571429rem;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;outline:none;-webkit-transition:opacity 0.5s ease,background-color 0.5s ease,color 0.5s ease,background 0.5s ease,-webkit-box-shadow 0.5s ease;transition:opacity 0.5s ease,background-color 0.5s ease,color 0.5s ease,background 0.5s ease,-webkit-box-shadow 0.5s ease;transition:opacity 0.5s ease,background-color 0.5s ease,color 0.5s ease,box-shadow 0.5s ease,background 0.5s ease;transition:opacity 0.5s ease,background-color 0.5s ease,color 0.5s ease,box-shadow 0.5s ease,background 0.5s ease,-webkit-box-shadow 0.5s ease;-webkit-tap-highlight-color:transparent}
+    .btn.primary:hover{background-color:#CACBCD;color:rgba(0,0,0,0.8)}
+    .btn.primary[type="submit"]{position:fixed;right:100px;bottom:100px}
+    .btn.confirm{background-color:#95f798!important}
+    .btn.alert{background-color:#fa9492 !important}
+    i.confirm{position:absolute;left:.5em}
+    i.confirm:after,i.confirm:before{content:"";background:green;display:block;position:absolute;width:3px;border-radius:3px}
+    i.confirm:after{height:6px;transform:rotate(-45deg);top:9px;left:6px}
+    i.confirm:before{height:11px;transform:rotate(45deg);top:5px;left:10px}
+    i.alert{position:absolute;left:.5em}
+    i.alert:after,i.alert:before{content:"";background:red;display:block;position:absolute;width:3px;border-radius:3px;left:9px}
+    i.alert:after{height:3px;top:14px}
+    i.alert:before{height:8px;top:4px}
+    .multiline{position:relative;display:inline-block;-webkit-backface-visibility:hidden;backface-visibility:hidden;outline:none;vertical-align:baseline;font-style:normal;min-height:17px;font-size:1rem;line-height:17px;min-width:17px}
+    .multiline input[type="checkbox"],.multiline input[type="radio"]{cursor:pointer;position:absolute;top:0px;left:0px;opacity:0 !important;outline:none;z-index:3;width:17px;height:17px}
+    .multiline{min-height:1.5rem}
+    .multiline input{width:3.5rem;height:1.5rem}
+    .multiline .box,.multiline label{min-height:1.5rem;padding-left:4.5rem;color:rgba(0,0,0,0.87)}
+    .multiline label{padding-top:0.15em}
+    .multiline .box:before,.multiline label:before{cursor:pointer;display:block;position:absolute;content:'';z-index:1;-webkit-transform:none;transform:none;border:none;top:0rem;background:rgba(0,0,0,0.05);-webkit-box-shadow:none;box-shadow:none;width:3.5rem;height:1rem;border-radius:500rem}
+    .multiline .box:after,.multiline label:after{cursor:pointer;background:#FFFFFF -webkit-gradient(linear,left top,left bottom,from(transparent),to(rgba(0,0,0,0.05)));background:#FFFFFF -webkit-linear-gradient(transparent,rgba(0,0,0,0.05));background:#FFFFFF linear-gradient(transparent,rgba(0,0,0,0.05));position:absolute;content:'' !important;opacity:1;z-index:2;border:none;-webkit-box-shadow:0px 1px 2px 0 rgba(34,36,38,0.15),0px 0px 0px 1px rgba(34,36,38,0.15) inset;box-shadow:0px 1px 2px 0 rgba(34,36,38,0.15),0px 0px 0px 1px rgba(34,36,38,0.15) inset;width:1.2rem;height:1.2rem;top:-.1rem;left:0em;border-radius:500rem;-webkit-transition:background 0.3s ease,left 0.3s ease;transition:background 0.3s ease,left 0.3s ease}
+    .multiline input ~ .box:after,.multiline input ~ label:after{left:-0.05rem;-webkit-box-shadow:0px 1px 2px 0 rgba(34,36,38,0.15),0px 0px 0px 1px rgba(34,36,38,0.15) inset;box-shadow:0px 1px 2px 0 rgba(34,36,38,0.15),0px 0px 0px 1px rgba(34,36,38,0.15) inset}
+    .multiline input:focus ~ .box:before,.multiline input:focus ~ label:before{background-color:rgba(0,0,0,0.15);border:none}
+    .multiline .box:hover::before,.multiline label:hover::before{background-color:rgba(0,0,0,0.15);border:none}
+    .multiline input:checked ~ .box,.multiline input:checked ~ label{color:rgba(0,0,0,0.95) !important}
+    .multiline input:checked ~ .box:before,.multiline input:checked ~ label:before{background-color:#2185D0 !important}
+    .multiline input:checked ~ .box:after,.multiline input:checked ~ label:after{left:2.3rem;-webkit-box-shadow:0px 1px 2px 0 rgba(34,36,38,0.15),0px 0px 0px 1px rgba(34,36,38,0.15) inset;box-shadow:0px 1px 2px 0 rgba(34,36,38,0.15),0px 0px 0px 1px rgba(34,36,38,0.15) inset}
+    .multiline input:focus:checked ~ .box,.multiline input:focus:checked ~ label{color:rgba(0,0,0,0.95) !important}
+    .multiline input:focus:checked ~ .box:before,.multiline input:focus:checked ~ label:before{background-color:#0d71bb !important} 
+    </style>    
+    <script>var r=new XMLHttpRequest();var updating=function(dom){var i=document.createElement("i");i.className="loading";dom.prepend(i)};var checkUpdate=function(dom){updating(dom);try{r.open("GET","https://raw.githubusercontent.com/Siphils/Typecho-Theme-Aria/master/version.txt",true);r.send();r.onreadystatechange=function(){if(r.readyState===4){if(r.status==200&&!isNaN(parseInt(r.responseText))){if(r.responseText.trim()==ARIA_VERSION.trim()){dom.className+=" confirm";dom.style.paddingLeft="2em";dom.textContent="已经为最新版";var i=document.createElement("i");i.className="confirm";dom.prepend(i)}else{dom.className+=" alert";dom.style.paddingLeft="2em";dom.textContent="检查到新版本："+r.responseText;var i=document.createElement("i");i.className="alert";dom.prepend(i)}}else if(isNaN(parseInt(r.responseText))){dom.textContent="请求失败，请稍后重试！"}else{dom.textContent="请求失败！错误码："+r.status}}}}catch(e){dom.textContent="请求失败，请稍后重试！"+e}document.getElementsByTagName("button")[1].onclick=function(e){updating(e.target)}}</script>  
 EOF;
-    echo '<div class="ui message">
-    <div class="header" style="text-align:center;margin:10px auto 20px auto;color: #444;text-shadow:0 0 5px #bbb"><h2>Typecho-Theme-Aria</h2></div>
-    <p>感谢您选择使用<a href="https://eriri.ink/archives/Typecho-Theme-Aria.html">Typecho-Theme-Aria</a></p>
-    <p>当前版本<strong>Ver '.ARIA_VERSION.'</strong></p>
-    <p>查看<a href="https://github.com/Siphils/typecho-theme-Aria/blob/master/README.md#%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95">帮助手册</a> <a href="https://github.com/Siphils/typecho-theme-Aria/issues">issue</a> <a href="https://github.com/Siphils/typecho-theme-Aria/pulls">PR</a></p>
-    <p><button onclick="checkUpdate(this);" class="primary">检查更新</button></p>
+    echo '<div class="tip"><span class="current-ver"><strong><code>Ver '.ARIA_VERSION.'</code></strong></span>
+    <div class="tip-header"><h1>Typecho-Theme-Aria</h1></div>
+    <p>感谢选择使用 <code>Aria</code> </p>
+    <p>查看<a href="https://github.com/Siphils/Typecho-Theme-Aria/blob/master/README.md#%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95">帮助手册</a> <a href="https://github.com/Siphils/Typecho-Theme-Aria/issues">issue</a> <a href="https://github.com/Siphils/Typecho-Theme-Aria/pulls">PR</a></p>
+    <p><button onclick="checkUpdate(this);" class="btn primary" style="position:absolute;right:5px;bottom:5px;">检查更新</button></p>
 </div>';
     $avatarUrl = new Typecho_Widget_Helper_Form_Element_Text('avatarUrl', NULL, NULL, _t('站点头像'), _t('在这里填入一个图片URL地址, 以在网站标题前加上一个头像,需要带上http(s)://'));
     $form->addInput($avatarUrl);
@@ -142,24 +88,30 @@ EOF;
     $form->addInput($cpr);
 
     $navConfig = new Typecho_Widget_Helper_Form_Element_Textarea('navConfig', NULL, 
-        '"archives":{
+        '
+        {
+            "text":"首页",
+            "href":"'.Helper::options()->siteUrl.'",
+            "icon":"icon-aria-home"
+        },
+        {
             "text":"归档",
-            "link":"#",
+            "href":"#",
             "icon":"icon-aria-archives"
         },
-        "guestbook":{
+        {
             "text":"留言",
-            "link":"#",
+            "href":"#",
             "icon":"icon-aria-guestbook"
         },
-        "friends":{
+        {
             "text":"朋友",
-            "link":"#",
+            "href":"#",
             "icon":"icon-aria-friends"
         },
-        "about":{
+        {
             "text":"关于",
-            "link":"#",
+            "href":"#",
             "icon":"icon-aria-about"
         }', 
         _t('导航栏配置'), 
@@ -176,8 +128,8 @@ EOF;
             'showHitokoto' => '页面底部显示一言',
             'usePjax' => '开启PJAX(需要关闭评论反垃圾保护)',
             'useAjaxComment' => '开启AJAX评论',
-            'useFancybox' => '文章/评论图片使用<a href="http://fancyapps.com">fancybox</a>',
-            'useLazyload' => '开启图片懒加载',
+            'useFancybox' => '文章/评论图片使用<a href="http://fancyapps.com" target="_blank">fancybox</a>',
+            'useLazyload' => '开启图片懒加载<a href="https://appelsiini.net/projects/lazyload" target="_blank">lazyload</a>',
             'showQRCode' => '文章底部显示本文链接二维码',
             'useCommentToMail' => '评论邮件回复按钮（需要配合<a href="https://9sb.org/58">CommentToMail</a>使用）',
             'showCommentUA' => '评论显示UserAgent（显示操作系统和浏览器信息）'
@@ -208,7 +160,6 @@ function themeInit($archive) {
 function AriaConfig() {
     $AriaConfig = Typecho_Widget::widget('Widget_Options')->AriaConfig;
     $options = Typecho_Widget::widget('Widget_Options');
-    //print_r($AriaConfig);
     $showHitokoto = isEnabled('showHitokoto');
     $showQRCode = isEnabled('showQRCode');
     $showReward = $options->rewardConfig ? true : false;
@@ -233,63 +184,94 @@ function AriaConfig() {
     echo "<script>window.THEME_CONFIG = $THEME_CONFIG</script>\n";
 }
 
-
 /**
  * 根据配置的JSON数据输出导航栏
  * @param $mode 
- *  {
- *   "archives":{
- *       "text":"归档",
- *       "link":"https://xxx.com",
- *       "icon": "icon-aria-archives"
- *   },
- *   "guestbook":{
- *       "text":"留言",
- *       "link":"https://xxx.com"
- *       "icon":"icon-aria-guestbook"
- *   }
- *  目前可配置的有'archives','guestbook','friends','about'
+ * {
+ *    "text": "归档",
+ *    "href": "",
+ *    "icon": "icon-aria-archives",
+ *    "target": "",
+ *    "sub": {
+ *        "1": {
+ *            "text": "sub-item",
+ *            "href": "",
+ *            "icon": "",
+ *        }
+ *    }
+ * },
+ * {
+ *    "text": "留言",
+ *    "href": ""
+ *          "icon": "icon-aria-guestbook",
+ *    "target": "",
+ *    "sub": [
+ *        {
+ *            "text": "sub-item",
+ *            "href": "",
+ *            "icon": "",
+ *        }
+ *    ]
+ * }
+ * 
+ * 输出的nav-sub  
+ * <ul class="nav-sub">
+ *   <li class="sub-item"><a href="#"><i class="iconfont"></i>text</a></li>
+ *   <li class="sub-item"><a href="#"><i class="iconfont"></i>text</a></li>
+ *   <li class="sub-item"><a href="#"><i class="iconfont"></i>text</a></li>
+ * </ul>
  */
 function showNav($mode) {
-    $data = convertConfigData('navConfig', false);
+    $data = convertConfigData('navConfig', true);
+    if(!$data) 
+        return;
+    $text = null;
+    $href = null;
+    $icon = null;
+    $target = null;
+    $sub = null;
     if($data) {
         $html = '';
         if($mode) {
-            //输出水平导航栏
-            if(array_key_exists('archives', $data)) {
-                //输出‘归档’
-                $html.='<li class="nav-right-item"><a href="'.$data['archives']['link'].'"><i class="iconfont '.$data['archives']['icon'].'"></i>'.$data['archives']['text'].'</a></li>';
-            }
-            if(array_key_exists('guestbook', $data)) {
-                //输出‘留言’
-                $html.='<li class="nav-right-item"><a href="'.$data['guestbook']['link'].'"><i class="iconfont '.$data['guestbook']['icon'].'"></i>'.$data['guestbook']['text'].'</a></li>';
-            }
-            if(array_key_exists('friends', $data)) {
-                //输出‘朋友’
-                $html.='<li class="nav-right-item"><a href="'.$data['friends']['link'].'"><i class="iconfont '.$data['friends']['icon'].'"></i>'.$data['friends']['text'].'</a></li>';
-            }
-            if(array_key_exists('about', $data)) {
-                //输出‘关于’
-                $html.='<li class="nav-right-item"><a href="'.$data['about']['link'].'"><i class="iconfont '.$data['about']['icon'].'"></i>'.$data['about']['text'].'</a></li>';
+            forEach ($data as $v) {
+                $text = array_key_exists('text',$v) ? $v['text'] : "";
+                $href = array_key_exists('href',$v) ? 'href="'.$v['href'].'"' : "";
+                $icon = array_key_exists('icon',$v) ? 'class="iconfont '.$v['icon'].'"' : "";
+                $target = array_key_exists('target',$v) ? 'target="'.$v['target'].'"' : "";
+                $html.="<li class=\"nav-right-item\"><a $href $target><i $icon></i>$text</a>";
+                if(array_key_exists('sub',$v)) {
+                    $html.='<ul class="nav-sub">';
+                    forEach($v['sub'] as $_k => $_v) {
+                        $text = array_key_exists('text',$_v) ? $_v['text'] : "";
+                        $href = array_key_exists('href',$_v) ? 'href="'.$_v['href'].'"' : "";
+                        $icon = array_key_exists('icon',$_v) ? 'class="iconfont '.$_v['icon'].'"' : "";
+                        $target = array_key_exists('target',$_v) ? 'target="'.$_v['target'].'"' : "";
+                        $html.="<li class=\"sub-item\"><a $href $target><i $icon></i>$text</a></li>";
+                    }
+                    $html.="</ul>";
+                }
+                $html.="</li>";
             }
         }
         else {
-            //输出垂直导航栏
-            if(array_key_exists('archives', $data)) {
-                //输出‘归档’
-                $html.='<a href="'.$data['archives']['link'].'"><i class="iconfont '.$data['archives']['icon'].'"></i>'.$data['archives']['text'].'</a>';
-            }
-            if(array_key_exists('guestbook', $data)) {
-                //输出‘留言’
-                $html.='<a href="'.$data['guestbook']['link'].'"><i class="iconfont '.$data['guestbook']['icon'].'"></i>'.$data['guestbook']['text'].'</a>';
-            }
-            if(array_key_exists('friends', $data)) {
-                //输出‘朋友’
-                $html.='<a href="'.$data['friends']['link'].'"><i class="iconfont '.$data['friends']['icon'].'"></i>'.$data['friends']['text'].'</a>';
-            }
-            if(array_key_exists('about', $data)) {
-                //输出‘关于’
-                $html.='<a href="'.$data['about']['link'].'"><i class="iconfont '.$data['about']['icon'].'"></i>'.$data['about']['text'].'</a>';
+            forEach ($data as $v) {
+                $text = array_key_exists('text',$v) ? $v['text'] : "";
+                $href = array_key_exists('href',$v) ? 'href="'.$v['href'].'"' : "";
+                $icon = array_key_exists('icon',$v) ? 'class="iconfont '.$v['icon'].'"' : "";
+                $target = array_key_exists('target',$v) ? 'target="'.$v['target'].'"' : "";
+                $html.="<li class=\"nav-vertical-item\"><a $href $target><i $icon></i>  $text</a>";
+                if(array_key_exists('sub',$v)) {
+                    $html.='<ul class="nav-vertical-sub">';
+                    forEach($v['sub'] as $_k => $_v) {
+                        $text = array_key_exists('text',$_v) ? $_v['text'] : "";
+                        $href = array_key_exists('href',$_v) ? 'href="'.$_v['href'].'"' : "";
+                        $icon = array_key_exists('icon',$_v) ? 'class="iconfont '.$_v['icon'].'"' : "";
+                        $target = array_key_exists('target',$_v) ? 'target="'.$_v['target'].'"' : "";
+                        $html.="<li class=\"vertical-sub-item\"><a $href $target><i $icon></i>  $text</a></li>";
+                    }
+                    $html.="</ul>";
+                }
+                $html.="</li>";
             }
         }
         
@@ -330,7 +312,7 @@ function postOther($archive)
     if($rewardConfig) {
         $html .='<div class="post-reward"><a href="javascript:;" no-pjax ><i class="iconfont icon-aria-reward"></i></a>
             <ul>';
-        foreach( $rewardConfig as $key => $data) {
+        forEach( $rewardConfig as $key => $data) {
             $html.='<li><img no-lazyload src="' . $data . '">'. $key .  '</li>';
         }
         $html.="</ul></div>";
@@ -470,36 +452,38 @@ function getFooterSpan() {
     $data = convertConfigData('footerSpan', true);
     $opt = Typecho_Widget::widget('Widget_Options');
     if(!$data) {
-        $html = '<span><a href="'.$opt->siteUrl.'">'.$opt->title.'</a></span><span><a href="http:\/\/www.typecho.org" title="念念不忘，必有回响。" target="_blank">Typecho</a></span><span><a href="https:\/\/eriri.ink/archives/Typecho-Theme-Aria.html" title="Typecho-Theme-Aria Ver '.ARIA_VERSION.' by Siphils" target="_blank">Aria</a></span>';
+        $html = '<span><a href="'.$opt->siteUrl.'"> • '.$opt->title.'</a></span><span><a href="http:\/\/www.typecho.org" title="念念不忘，必有回响。" target="_blank"> • Typecho</a></span><span><a href="https:\/\/eriri.ink/archives/Typecho-Theme-Aria.html" title="Typecho-Theme-Aria Ver '.ARIA_VERSION.' by Siphils" target="_blank"> • Aria</a></span>';
         echo $html;
         return;
     }
-    $html = '<span><a href="'.$opt->siteUrl.'">'.$opt->title.'</a></span><span><a href="http:\/\/www.typecho.org" title="念念不忘，必有回响。" target="_blank">Typecho</a></span><span><a href="https:\/\/eriri.ink/archives/Typecho-Theme-Aria.html" title="Typecho-Theme-Aria Ver '.ARIA_VERSION.' by Siphils" target="_blank">Aria</a></span>';
-    foreach($data as $val) {
+    $html = '<span><a href="'.$opt->siteUrl.'"> • '.$opt->title.'</a></span><span><a href="http:\/\/www.typecho.org" title="念念不忘，必有回响。" target="_blank"> • Typecho</a></span><span><a href="https:\/\/eriri.ink/archives/Typecho-Theme-Aria.html" title="Typecho-Theme-Aria Ver '.ARIA_VERSION.' by Siphils" target="_blank"> • Aria</a></span>';
+    forEach($data as $val) {
         $tmp = $val;
         if((array)$tmp) {
-            $href = property_exists($val, 'href') ? "href=\"$val->href\"": "";
-            $title = property_exists($val, 'title') ? "title=\"$val->title\"": "";
-            $target = property_exists($val, 'target') ? "target=\"$val->target\"" : "";
-            $text = property_exists($val, 'text') ? $val->text : "";
-            $html .= "<span><a $href $title $target>$text</span>";
+            $href = array_key_exists('href', $val) ? 'href="'. $val['href'] .'"': "";
+            $title = array_key_exists('title', $val) ? 'title="'. $val['title'] .'"': "";
+            $target = array_key_exists('target', $val) ? 'target="'. $val['target'] .'"' : "";
+            $text = array_key_exists('text', $val) ? $val['text'] : "";
+            $html .= "<span><a $href $title $target> • $text</span>";
         }
     }
     echo $html;
 }
 
 /**
- * 显示上一篇详情
- * @return array
+ * 数据库查询上下文
+ * @return mixed
  */
-function thePrev($widget)
-{
+
+ function queryNextPrev($mode, $widget) {
+    //$mode 为真查询上一篇，为假查询下一篇
+    $where = $mode ? 'table.contents.created < ?' : 'table.contents.created > ?';
     $name='thumbnail';
     $thumbnail='str_value';
     $options = Typecho_Widget::widget('Widget_Options');
     $db = Typecho_Db::get();
     $query = $db->select()->from('table.contents')
-    ->where('table.contents.created < ?', $widget->created)
+    ->where($where, $widget->created)
     ->where('table.contents.status = ?', 'publish')
     ->where('table.contents.type = ?', $widget->type)
     ->where('table.contents.password IS NULL')
@@ -523,65 +507,38 @@ function thePrev($widget)
         else {
             $img = getThumbnail();
         }
+        $result=array('img'=>$img,'title'=>$title,'link'=>$link);
+        return $result;
     }
     else {
-        $img = getThumbnail();
-        $title='没有了';
-        $link='#';
+        return false;
     }
-    $result=array('img'=>$img,'title'=>$title,'link'=>$link);
-    
-    //输出html
-    $html = '<div class="post-footer-box half previous"><a href="'.$result["link"].'" rel="prev"><div class="post-footer-thumbnail"><img src="'.$result["img"].'"></div><span class="post-footer-label">Previous Post</span><div class="post-footer-title"><h3>'.$result["title"].'</h3></div></a></div>';
-    echo $html;
-}
+ }
 
-/**
- * 显示下一篇详情
- * @return array
- */
-function theNext($widget)
-{
-    $name='thumbnail';
-    $thumbnail='str_value';
-    $options = Typecho_Widget::widget('Widget_Options');
-    $db = Typecho_Db::get();
-    $query = $db->select()->from('table.contents')
-    ->where('table.contents.created > ?', $widget->created)
-    ->where('table.contents.status = ?', 'publish')
-    ->where('table.contents.type = ?', $widget->type)
-    ->where('table.contents.password IS NULL')
-    ->order('table.contents.created', Typecho_Db::SORT_ASC)
-    ->limit(1);
-    $content = $db->fetchRow($query);
-    if($content) {
-        $content=$widget->filter($content);
-        $title=$content['title'];
-        $link=$content['permalink'];
+ /**
+  * 显示上下篇文章详情
+  */
 
-        $query=$db->select()->from('table.fields')
-        ->where('table.fields.cid = ?', $content['cid'])
-        ->where('table.fields.name = ?', $name)
-        ->limit(1);
-        $content = $db->fetchRow($query);
-        if($content) {
-            $img = $content[$thumbnail] ? $content[$thumbnail] : getThumbnail();
-        }
-        else {
-            $img = getThumbnail();
-        }
+  function theNextPrev($widget) {
+    $html = '';
+    $prevResult = queryNextPrev(true,$widget);
+    $nextResult = queryNextPrev(false,$widget);
+    if(!$prevResult) {
+        //没有上一篇了
+        //只显示下一篇
+        $html .= '<div class="post-footer-box half next" style="width:100%"><a href="'.$nextResult["link"].'" rel="next"><div class="post-footer-thumbnail"><img src="'.$nextResult["img"].'"></div><span class="post-footer-label">Next Post</span><div class="post-footer-title"><h3>'.$nextResult["title"].'</h3></div></a></div>';
+    }
+    else if(!$nextResult) {
+        //没有下一篇
+        //只显示上一篇
+        $html .= '<div class="post-footer-box half previous" style="width:100%"><a href="'.$prevResult["link"].'" rel="prev"><div class="post-footer-thumbnail"><img src="'.$prevResult["img"].'"></div><span class="post-footer-label">Previous Post</span><div class="post-footer-title"><h3>'.$prevResult["title"].'</h3></div></a></div>';
     }
     else {
-        $img = getThumbnail();
-        $title='没有了';
-        $link='#';
+        $html .= '<div class="post-footer-box half previous"><a href="'.$prevResult["link"].'" rel="prev"><div class="post-footer-thumbnail"><img src="'.$prevResult["img"].'"></div><span class="post-footer-label">Previous Post</span><div class="post-footer-title"><h3>'.$prevResult["title"].'</h3></div></a></div>';
+        $html .= '<div class="post-footer-box half next"><a href="'.$nextResult["link"].'" rel="next"><div class="post-footer-thumbnail"><img src="'.$nextResult["img"].'"></div><span class="post-footer-label">Next Post</span><div class="post-footer-title"><h3>'.$nextResult["title"].'</h3></div></a></div>';
     }
-    $result=array('img'=>$img,'title'=>$title,'link'=>$link);
-    //输出html
-    $html = '<div class="post-footer-box half next"><a href="'.$result["link"].'" rel="next"><div class="post-footer-thumbnail"><img src="'.$result["img"].'"></div><span class="post-footer-label">Next Post</span><div class="post-footer-title"><h3>'.$result["title"].'</h3></div></a></div>';
     echo $html;
-
-}
+  }
 
 /**
  * 输出评论回复内容，配合 commentAtContent($coid)一起使用
@@ -733,7 +690,7 @@ function convertConfigData($item, $mode) {
     $data = $options->$item ? $options->$item : "";
     if($data) {
         if($mode)
-            $json = json_decode("[".$data."]");
+            $json = json_decode("[".$data."]",true);
         else
             $json = json_decode(trim("{".$data."}"),true);
         return $json;
@@ -810,3 +767,5 @@ function parseUseragent($ua) {
  function isEnabled($item) {
     return (!empty(Helper::options()->AriaConfig) && in_array($item, Helper::options()->AriaConfig)) ? true : false;
  }
+
+ 

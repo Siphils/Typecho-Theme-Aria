@@ -1,8 +1,7 @@
-# typecho-theme-Aria  
-> The Aria of the Maple Leaves.  
+# Typecho-Theme-Aria  
+> 书写属于自己的篇章  
 
-这是一个十分用心制作的Typecho主题 :)  
-![screenshot](https://github.com/Siphils/typecho-theme-Aria/blob/master/screenshot.png?raw=true)
+![screenshot](https://github.com/Siphils/Typecho-Theme-Aria/blob/master/screenshot.png?raw=true)
 ***  
 ## 使用方法
 ### Typecho版本  
@@ -16,30 +15,31 @@
 ```json  
 "archives": {
     "text": "归档", 
-    "link": "#",
+    "href": "#",
     "icon": "icon-aria-archives"
 }, 
 "about": {
     "text": "关于", 
-    "link": "#",
+    "href": "#",
     "icon": "icon-aria-about"
 }, 
 "guestbook": {
     "text": "留言", 
-    "link": "#",
+    "href": "#",
     "icon": "icon-aria-guestbook"
 }, 
 "friends": {
     "text": "朋友", 
-    "link": "#",
+    "href": "#",
     "icon": "icon-aria-friends"
 }
 ```  
 **新增`icon`的值，在[iconfont](https://iconfont.cn)建立项目后选择`Font Class`的方式，在icon中输入对应的代码，如`icon-test`**  
+**新增'target'的值，填写'_blank'可在新窗口打开**  
 目前仅支持`archives`,`about`,`guestbook`,`friends`四个页面配置信息（可以留空），**最后一项不需要逗号**  
-类似`archives`的即为页面的`slug`,`text`是链接的名称，`link`为链接地址，输出的`html`代码为  
+类似`archives`的即为页面的`slug`,`text`是链接的名称，`href`为链接地址，输出的`html`代码为  
 ```html
-<li class="nav-right-item"><a href="{link}"><i class="iconfont {icon}"></i>{text}</a></li>
+<li class="nav-right-item"><a href="{href}" target="{target}"><i class="iconfont {icon}"></i>{text}</a></li>
 ```  
 ### 文章打赏功能配置 
 需要按照如下方式填写配置信息
@@ -113,6 +113,12 @@
 `text` 为显示的文字, `href` 为链接地址，`target` 设置为`_blank` 时链接在新窗口打开， `title` 为鼠标悬停时显示的文字
 ***  
 ## 更新  
+### 2018-10-2 1.8.0  
+* 增加了对导航二级菜单的支持  
+* 增加了代码高亮块的语言类型提示  
+* 修复了一个底部链接组件的bug  
+* 重写显示上下篇的代码  
+* 微调部分样式  
 ### 2018-9-27 1.7.1  
 * 增加了`底部链接组件`的设置项  
 * 增加了评论的 `useragent` 和对应的设置开关  

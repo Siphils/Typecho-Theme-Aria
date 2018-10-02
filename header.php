@@ -25,7 +25,7 @@
 	<link href="<?php $this->options->themeUrl('assets/OwO/OwO.min.css'); ?>" rel="stylesheet">
 	<link href="<?php $this->options->themeUrl('assets/css/animate.min.css'); ?>" rel="stylesheet">
 	<link href="<?php $this->options->themeUrl('assets/css/iconfont.css'); ?>" rel="stylesheet" >
-	<link href="<?php $this->options->themeUrl('assets/css/style.min.css?v=7b8d35ef65'); ?>" rel="stylesheet">
+	<link href="<?php $this->options->themeUrl('assets/css/style.min.css?v=259b20517c'); ?>" rel="stylesheet">
     <script src="<?php $this->options->themeUrl('assets/js/jquery.min.js'); ?>"></script>
 	<!--[if lt IE 9]>
     <script src="http://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
@@ -37,10 +37,10 @@
 <div id="nav-vertical">
     <span class="close"><i class="iconfont icon-aria-close"></i></span>
     <div id="nav-avatar"><img no-lazyload src="<?php if($this->options->avatarUrl) $this->options->avatarUrl();else $this->options->themeUrl('assets/img/avatar.jpg'); ?>"></div>
-	<a href="<?php $this->options->siteUrl(); ?>">
-		<i class="iconfont icon-aria-home"></i>首页</a>
-	<?php showNav(0); ?>
-	</div>
+    <ul class="nav-vertical-list">
+        <?php showNav(0); ?>
+    </ul>
+</div>
 	<div id="wrapper">
 		<!--[if lt IE 8]>
     <div class="browsehappy" role="dialog"><?php _e('当前网页 <strong>不支持</strong> 你正在使用的浏览器. 为了正常的访问, 请 <a href="http://browsehappy.com/">升级你的浏览器</a>'); ?>.</div>
@@ -52,9 +52,6 @@
     </div>
     <div id="nav-right">
         <ul class="nav-right-list">
-            <li class="nav-right-item">
-                <a href="<?php $this->options->siteUrl(); ?>"><i class="iconfont icon-aria-home"></i>首页</a>
-            </li>
             <?php showNav(1); ?>
         </ul>
     <div id="nav-btns">
