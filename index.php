@@ -6,7 +6,7 @@
  * 
  * @package Aria
  * @author Siphils
- * @version 1.8.0
+ * @version 1.8.1
  * @link https://eriri.ink/archives/Typecho-Theme-Aria.html
  */
 

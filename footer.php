@@ -7,22 +7,22 @@
 <footer id="footer" role="contentinfo">
     <p><i class="iconfont icon-aria-paperboat"></i></p>
     <?php $this->options->userFooter(); ?>
-    <?php if(isEnabled('showHitokoto')): ?><p id="hitokoto"></p><?php endif; ?>
+    <?php if(isEnabled('showHitokoto','AriaConfig')): ?><p id="hitokoto"></p><?php endif; ?>
     <p id="footer-info">&copy; <span><?php echo $this->options->cpr ? $this->options->cpr : date('Y'); ?></span><?php getFooterSpan(); ?></p>
 </footer><!-- end #footer -->
-</div><!-- end #wrapper -->
-<?php if(isEnabled('usePjax')): ?>
+<?php if(isEnabled('usePjax','AriaConfig')): ?>
 <script src="<?php $this->options->themeUrl('assets/js/jquery.pjax.min.js'); ?>"></script>
 <?php endif; ?>
-<?php if(isEnabled('useFancybox')): ?>
+<?php if(isEnabled('useFancybox','AriaConfig')): ?>
 <script src="<?php $this->options->themeUrl('assets/js/jquery.fancybox.min.js'); ?>"></script>
 <?php endif; ?>
 <script src="<?php $this->options->themeUrl('assets/js/highlight.min.js'); ?>"></script>
-<?php if(isEnabled('useLazyload')): ?>
+<?php if(isEnabled('useLazyload','AriaConfig')): ?>
 <script src="<?php $this->options->themeUrl('assets/js/jquery.lazyload.min.js'); ?>"></script>
 <?php endif; ?>
 <script src="<?php $this->options->themeUrl('assets/OwO/OwO.min.js') ?>"></script>
-<script src="<?php $this->options->themeUrl('assets/js/main.min.js?v=f506b2584f'); ?>"></script>
+<?php echo $this->options->userScript ? "<script>".$this->options->userScript."</script>\n" : ""; ?>
+<script src="<?php $this->options->themeUrl('assets/js/main.min.js?v=d8faed7878'); ?>"></script>
 <?php if($this->options->statistics) $this->options->statistics(); ?>
 <?php $this->footer(); ?>
 </body>

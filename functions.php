@@ -1,12 +1,12 @@
 <?php
 if (!defined('__TYPECHO_ROOT_DIR__')) exit;
 
-define('ARIA_VERSION','1.8.0');
+define('ARIA_VERSION','1.8.1');
 
 require_once('lib/Shortcode.php');
 
 function themeConfig($form) {
-    echo '<script>var ARIA_VERSION = "'.ARIA_VERSION.'"</script>';
+    echo '<script>var ARIA_VERSION = "'.ARIA_VERSION.'";</script>';
     echo <<<EOF
     <style>
     form{position:relative;max-width:100%}
@@ -74,12 +74,15 @@ EOF;
 
     $statistics = new Typecho_Widget_Helper_Form_Element_Textarea('statistics', NULL, NULL, _t('统计代码'), _t('在此填入统计的代码(目前统计代码支持谷歌统计和百度统计的重载，若使用其他统计请关闭PJAX否则得到的统计数据不准确)'));
     $form->addInput($statistics);
-
-    $userHeader = new Typecho_Widget_Helper_Form_Element_Textarea('userHeader', NULL, NULL, _t('顶部额外内容'), _t('会加载在<strong>head</strong>标签之前'));
+    
+    $userHeader = new Typecho_Widget_Helper_Form_Element_Textarea('userHeader', NULL, NULL, _t('顶部自定义内容'), _t('会加载在<strong>head</strong>结束标签之前'));
     $form->addInput($userHeader);
 
-    $userFooter = new Typecho_Widget_Helper_Form_Element_Textarea('userFooter', NULL, NULL, _t('底部额外内容'), _t('会加载在<strong>copyright</strong>之前'));
+    $userFooter = new Typecho_Widget_Helper_Form_Element_Textarea('userFooter', NULL, NULL, _t('底部自定义内容'), _t('会加载在<strong>copyright</strong>之前'));
     $form->addInput($userFooter);
+
+    $userScript = new Typecho_Widget_Helper_Form_Element_Textarea('userScript', NULL, NULL, _t('自定义JS'), _t('会加载在main.min.js文件加载之前'));
+    $form->addInput($userScript);
 
     $footerSpan = new Typecho_Widget_Helper_Form_Element_Textarea('footerSpan', NULL, NULL, _t('底部链接组件'), _t('按照格式填写，以英文逗号分隔'));
     $form->addInput($footerSpan);
@@ -123,6 +126,9 @@ EOF;
     , _t('打赏功能配置'), _t('按照格式填写,留空关闭打赏功能'));
     $form->addInput($rewardConfig);
 
+    $hitokotoOrgin = new Typecho_Widget_Helper_Form_Element_Text('hitokotoOrigin', NULL, NULL, _t('自定义「一言」接口地址'), _t('填入接口地址，注意接口需要是只返回一条句子的。如需使用请在开关设置内开启「一言」的显示。留空使用默认接口。如果不知道什么意思留空即可。'));
+    $form->addInput($hitokotoOrgin);
+
     $AriaConfig = new Typecho_Widget_Helper_Form_Element_Checkbox('AriaConfig',
         array(
             'showHitokoto' => '页面底部显示一言',
@@ -152,22 +158,26 @@ function themeFields($layout) {
 
 function themeInit($archive) {
     Helper::options()->commentsMaxNestingLevels = 999;
-    $AriaConfig = Typecho_Widget::widget('Widget_Options')->AriaConfig;
+    Helper::options()->commentsOrder = 'DESC';
+    Helper::options()->commentsAntiSpam = false;
+    Helper::options()->commentsPageDisplay = 'first';
+    $AriaConfig = Helper::options()->AriaConfig;
     Typecho_Plugin::factory('Widget_Abstract_Contents')->contentEx = array('Shortcode','parse');
     Typecho_Plugin::factory('Widget_Abstract_Contents')->excerptEx = array('Shortcode','parse');
 }
 
 function AriaConfig() {
-    $AriaConfig = Typecho_Widget::widget('Widget_Options')->AriaConfig;
-    $options = Typecho_Widget::widget('Widget_Options');
-    $showHitokoto = isEnabled('showHitokoto');
-    $showQRCode = isEnabled('showQRCode');
+    $AriaConfig = Helper::options()->AriaConfig;
+    $options = Helper::options();
+    $showHitokoto = isEnabled('showHitokoto','AriaConfig');
+    $showQRCode = isEnabled('showQRCode','AriaConfig');
     $showReward = $options->rewardConfig ? true : false;
-    $usePjax = isEnabled('usePjax');
-    $useAjaxComment = isEnabled('useAjaxComment');
-    $useFancybox = isEnabled('useFancybox');
-    $useLazyload = isEnabled('useLazyload');
-    $OwOJson= $options->OwOJson ? $options->OwOJson : $options->themeUrl."/assets/OwO/OwO.json";
+    $usePjax = isEnabled('usePjax','AriaConfig');
+    $useAjaxComment = isEnabled('useAjaxComment','AriaConfig');
+    $useFancybox = isEnabled('useFancybox','AriaConfig');
+    $useLazyload = isEnabled('useLazyload','AriaConfig');
+    $OwOJson = $options->OwOJson ? $options->OwOJson : $options->themeUrl."/assets/OwO/OwO.json";
+    $hitokotoOrigin = $options->hitokotoOrigin ? $options->hitokotoOrigin : 'https://v1.hitokoto.cn/?c=a&encode=text';
     $THEME_CONFIG = json_encode((object)array(
         "THEME_VERSION" => ARIA_VERSION,
         "SITE_URL" => $options->siteUrl,
@@ -179,7 +189,8 @@ function AriaConfig() {
         "USE_AJAX_COMMENT" => $useAjaxComment,
         "USE_FANCYBOX" => $useFancybox,
         "USE_LAZYLOAD" => $useLazyload,
-        "OWO_JSON" => $OwOJson
+        "OWO_JSON" => $OwOJson,
+        "HITOKOTO_ORIGIN" => $hitokotoOrigin
     ));
     echo "<script>window.THEME_CONFIG = $THEME_CONFIG</script>\n";
 }
@@ -317,9 +328,9 @@ function showNav($mode) {
 function postOther($archive)
 {
     $html = '<div class="post-other">';
-    $AriaConfig = Typecho_Widget::widget('Widget_Options')->AriaConfig;
+    $AriaConfig = Helper::options()->AriaConfig;
     $rewardConfig = convertConfigData('rewardConfig', false);
-    $showQRCode = isEnabled('showQRCode');
+    $showQRCode = isEnabled('showQRCode','AriaConfig');
     if($rewardConfig) {
         $html .='<div class="post-reward"><a href="javascript:;" no-pjax ><i class="iconfont icon-aria-reward"></i></a>
             <ul>';
@@ -329,7 +340,7 @@ function postOther($archive)
         $html.="</ul></div>";
     }
     if($showQRCode) {
-        $url = Typecho_Widget::widget('Widget_Options')->themeUrl.'/lib/getQRCode.php?url=';
+        $url = Helper::options()->themeUrl.'/lib/getQRCode.php?url=';
         $html.='<div class="post-qrcode"><a href="javascript:;" no-pjax ><i class="iconfont icon-aria-qrcode"></i></a><div>手机上阅读<br><br><img no-lazyload src="' .$url.$archive->permalink . '"></div></div>';
     }
     $html.="</div>";    
@@ -370,7 +381,7 @@ function getPostView($archive){
  */
 function getPermalinkFromCoid($coid) {
     $db = Typecho_Db::get();
-    $options = Typecho_Widget::widget('Widget_Options');
+    $options = Helper::options();
     $contents = Typecho_Widget::widget('Widget_Abstract_Contents');
     $row = $db->fetchRow($db->select('cid, type, author, text')->from('table.comments')->where('coid = ? AND status = ?', $coid, 'approved'));
     if (empty($row)) return 'Comment not found!';
@@ -427,7 +438,7 @@ function pageArchives($post) {
  * 获取背景图片
  */
 function getBackground() {
-    $options = Typecho_Widget::widget('Widget_Options');
+    $options = Helper::options();
     if($options->backgroundUrl) {
         $str = $options->backgroundUrl;
         $imgs = trim($str);
@@ -443,7 +454,7 @@ function getBackground() {
  * 获取随机默认缩略图
  */
 function getThumbnail() {
-    $options = Typecho_Widget::widget('Widget_Options');
+    $options = Helper::options();
     if($options->defaultThumbnail) {
         $str = $options->defaultThumbnail;
         $imgs = trim($str);
@@ -461,7 +472,7 @@ function getThumbnail() {
 
 function getFooterSpan() {
     $data = convertConfigData('footerSpan', true);
-    $opt = Typecho_Widget::widget('Widget_Options');
+    $opt = Helper::options();
     if(!$data) {
         $html = '<span><a href="'.$opt->siteUrl.'"> • '.$opt->title.'</a></span><span><a href="http:\/\/www.typecho.org" title="念念不忘，必有回响。" target="_blank"> • Typecho</a></span><span><a href="https:\/\/eriri.ink/archives/Typecho-Theme-Aria.html" title="Typecho-Theme-Aria Ver '.ARIA_VERSION.' by Siphils" target="_blank"> • Aria</a></span>';
         echo $html;
@@ -487,18 +498,18 @@ function getFooterSpan() {
  */
 
  function queryNextPrev($mode, $widget) {
-    //$mode 为真查询上一篇，为假查询下一篇
     $where = $mode ? 'table.contents.created < ?' : 'table.contents.created > ?';
+    $sorted = $mode ? Typecho_Db::SORT_DESC : Typecho_Db::SORT_ASC;
     $name='thumbnail';
     $thumbnail='str_value';
-    $options = Typecho_Widget::widget('Widget_Options');
+    $options = Helper::options();
     $db = Typecho_Db::get();
     $query = $db->select()->from('table.contents')
     ->where($where, $widget->created)
     ->where('table.contents.status = ?', 'publish')
     ->where('table.contents.type = ?', $widget->type)
     ->where('table.contents.password IS NULL')
-    ->order('table.contents.created', Typecho_Db::SORT_DESC)
+    ->order('table.contents.created', $sorted)
     ->limit(1);
     $content = $db->fetchRow($query);
     if($content) {
@@ -534,7 +545,11 @@ function getFooterSpan() {
     $html = '';
     $prevResult = queryNextPrev(true,$widget);
     $nextResult = queryNextPrev(false,$widget);
-    if(!$prevResult) {
+    if(!$prevResult && !$nextResult) {
+        //第一篇文章，什么也不需要输出
+        $html .= '';
+    }
+    else if(!$prevResult) {
         //没有上一篇了
         //只显示下一篇
         $html .= '<div class="post-footer-box half next" style="width:100%"><a href="'.$nextResult["link"].'" rel="next"><div class="post-footer-thumbnail"><img src="'.$nextResult["img"].'"></div><span class="post-footer-label">Next Post</span><div class="post-footer-title"><h3>'.$nextResult["title"].'</h3></div></a></div>';
@@ -697,7 +712,7 @@ function commentReply($archive) {
  * 用作部分配置
  */
 function convertConfigData($item, $mode) {
-    $options = Typecho_Widget::widget('Widget_Options');
+    $options = Helper::options();
     $data = $options->$item ? $options->$item : "";
     if($data) {
         if($mode)
@@ -775,8 +790,6 @@ function parseUseragent($ua) {
  * 返回设置状态
  */
 
- function isEnabled($item) {
-    return (!empty(Helper::options()->AriaConfig) && in_array($item, Helper::options()->AriaConfig)) ? true : false;
+ function isEnabled($item, $config) {
+    return (!empty(Helper::options()->$config) && in_array($item, Helper::options()->$config)) ? true : false;
  }
-
- 

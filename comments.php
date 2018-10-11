@@ -28,7 +28,7 @@ echo $commentClass;
 			<div class="comment-text"><span class="comment-reply" style="float:right"><?php $comments->reply('<i class="iconfont icon-aria-reply"></i>'); ?></span>
 			<p><?php showCommentContent($comments->coid); ?></p>
 			</div>
-<p class="comment-meta">By <span><?php echo "<a href=\"$comments->url\" rel=\"external nofollow\" target=\"_blank\">$comments->author</a>"; ?></span> at <?php $comments->date('M jS, Y'); ?>. <?php if(isEnabled('showCommentUA')): ?><span class="comment-ua"><?php echo parseUserAgent($comments->agent); ?></span><?php endif; ?></p>
+<p class="comment-meta">By <span><?php echo "<a href=\"$comments->url\" rel=\"external nofollow\" target=\"_blank\">$comments->author</a>"; ?></span> at <?php $comments->date(); ?>. <?php if(isEnabled('showCommentUA','AriaConfig')): ?><span class="comment-ua"><?php echo parseUserAgent($comments->agent); ?></span><?php endif; ?></p>
 		</div>
     </div><!-- 单条评论者信息及内容 -->
     <?php if ($comments->children) { ?> 
@@ -88,14 +88,13 @@ echo $commentClass;
 			<?php else: ?>
 			<div id="comment-info">
 				<p>
-					<!-- <i class="light"></i>  -->
 					<img no-lazyload id="comment-cur-avatar" src="<?php $this->options->themeUrl('assets/img/comment-avatar.jpg'); ?>">
 				</p>
 				<p class="comment-input">
 					<label for="author" class="required">
 						<i class="iconfont icon-aria-username"></i>
 					</label>
-					<input placeholder="*Your Name" type="text" name="author" id="author" class="text" value="<?php $this->remember('author'); ?>"
+					<input placeholder="（必填）昵称" type="text" name="author" id="author" class="text" value="<?php $this->remember('author'); ?>"
 					 required />
 				</p>
 				<p class="comment-input">
@@ -103,7 +102,7 @@ echo $commentClass;
 						<?php endif; ?>>
 						<i class="iconfont icon-aria-email"></i>
 					</label>
-					<input placeholder="*Your email" type="email" name="mail" id="mail" class="text" value="<?php $this->remember('mail'); ?>"
+					<input placeholder="<?php echo $this->options->commentsRequireMail ? '（必填）' : '（选填）';echo '邮箱'; ?>" type="email" name="mail" id="mail" class="text" value="<?php $this->remember('mail'); ?>"
 					 <?php if ($this->options->commentsRequireMail): ?> required
 					<?php endif; ?>/>
 				</p>
@@ -112,7 +111,7 @@ echo $commentClass;
 						<?php endif; ?>>
 						<i class="iconfont icon-aria-link"></i>
 					</label>
-					<input type="url" name="url" id="url" class="text" placeholder="<?php _e('http://'); ?>"
+					<input type="url" name="url" id="url" class="text" placeholder="<?php echo $this->options->commentsRequireURL ? '（必填）' : '（选填）';echo '网站'; ?>"
 					 value="<?php $this->remember('url'); ?>" <?php
 					 if ($this->options->commentsRequireURL): ?> required
 					<?php endif; ?>/>
@@ -130,11 +129,12 @@ echo $commentClass;
 				 rows="8" cols="50" name="text" id="textarea" class="textarea" placeholder="<?php $this->options->placeholder(); ?>"><?php $this->remember('text'); ?></textarea>
 			</p>
 			<div id="comment-footer">
-				<div class="OwO"></div>
+				<div class="OwO">
+				</div><!--end .OwO-->
 				<div class="comment-image">
 					<span><i class="iconfont icon-aria-picture"></i>图片</span>
 				</div>
-				<?php if(isEnabled('useCommentToMail')): ?>
+				<?php if(isEnabled('useCommentToMail','AriaConfig')): ?>
 				<div id="comment-ban-mail" class="ui toggle checkbox">
 					<input name="banmail" type="checkbox" value="stop">
 					<label for="comment-ban-mail">
@@ -143,8 +143,7 @@ echo $commentClass;
 				<?php endif; ?>
 			</div>
 			<center>
-				<button type="submit" class="submit">
-					<i class="iconfont icon-aria-submit"></i> 发射</button>
+				<button type="submit" class="submit"><i class="iconfont icon-aria-submit"></i> 发射</button>
 			</center>
 		</form>
 	</div>

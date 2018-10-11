@@ -53,7 +53,7 @@
 ```  
 **`text`为显示的文字，`href`为链接地址**  
 **新增`icon`的值，在[iconfont](https://iconfont.cn)建立项目后选择`Font Class`的方式，在icon中输入对应的代码，如`icon-test`**  
-**新增'target'的值，填写'_blank'可在新窗口打开**  
+**新增`target`的值，填写`_blank`可在新窗口打开**  
 **`sub` 为子菜单的配置，目前仅支持二级菜单。需要注意格式严格填写，否则不会菜单有输出**
 ### 文章打赏功能配置 
 需要按照如下方式填写配置信息
@@ -68,10 +68,9 @@
 <li src="{qrcodeUrl}">支付宝</li>
 <li src="{qrcodeUrl}">微信</li>
 ```
-### 友情链接页面  
-新建一个页面，选择页面模板`友情链接`, **`slug`设置为`friends`** 
-新建一个友情链接盒子`[link-box][/link-box]`  
-新建一个友情链接`[link-item href="链接地址" title="鼠标悬停时显示文字" img="友情链接图像地址" name="友情链接名称"]`。注意属性都需要按顺序填写，`[link-item]`之间不要有空格（会被解析为`<br>`）。
+### 链接盒子  
+新建一个链接盒子`[link-box][/link-box]`  
+新建一个链接项目`[link-item href="链接地址" title="鼠标悬停时显示文字" img="友情链接图像地址" name="友情链接名称"]`。注意属性都需要按顺序填写，`[link-item]`之间不要有空格。
 每一个`[link-item]`都要被包括在`[link-box][/link-box]`之间，并会被解析为如下`html`格式  
 ```html
 <a href="链接地址" title="鼠标悬停时显示文字" target="_blank">
@@ -92,23 +91,6 @@
 ```sh  
 [link-box][link-item href="https://x.x/" title="悬停时显示我！" img="https://x.x/x.jpg" name="我是名字！"][link-item href="https://x.x/" title="悬停时显示我！" img="https://x.x/x.jpg" name="我是名字！"][/link-box]
 ```  
-输出示例  
-```html  
-<div class="link-box">
-    <a href="https://x.x/" title="悬停时显示我！" target="_blank">
-        <div class="link-item">
-            <img class="link-avatar" src="https://x.x/x.jpg">
-            <span class="link-name">我是名字！</span>
-        </div>
-    </a>
-    <a href="https://x.x/" title="悬停时显示我！" target="_blank">
-        <div class="link-item">
-            <img class="link-avatar" src="https://x.x/x.jpg">
-            <span class="link-name">我是名字！</span>
-        </div>
-    </a>
-</div>
-```  
 ### 归档页面  
 创建一个独立页面并选择使用模板`归档页面 时间轴`,**`slug`设置为`archives`**  
 不需要填写任何内容，写了也不会有输出（逃  
@@ -127,6 +109,16 @@
 `text` 为显示的文字, `href` 为链接地址，`target` 设置为`_blank` 时链接在新窗口打开， `title` 为鼠标悬停时显示的文字
 ***  
 ## 更新  
+### 2018-10-11 1.8.1  
+* 增加了自定义「一言」接口地址的设置项，现在你可以使用自己的接口了  
+* 增加了PJAX重载函数的接口  
+* 现在评论回复日期是根据你自己的设定进行输出了  
+* 修复了一个短代码注册函数的bug  
+* 修复了第一篇文章上下篇的显示bug(若只有一篇文章则不会显示上一篇/下一篇)  
+* 对部分样式的细节进行优化处理  
+* 处理部分css动画  
+* 优化部分js代码  
+* 对文章的代码块进行美化（css风格来自[Mashiro](https://2heng.xin)）  
 ### 2018-10-2 1.8.0  
 * 增加了对导航二级菜单的支持  
 * 增加了代码高亮块的语言类型提示  
