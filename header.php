@@ -25,7 +25,7 @@
 	<link href="<?php $this->options->themeUrl('assets/OwO/OwO.min.css'); ?>" rel="stylesheet">
 	<link href="<?php $this->options->themeUrl('assets/css/animate.min.css'); ?>" rel="stylesheet">
 	<link href="<?php $this->options->themeUrl('assets/css/iconfont.css'); ?>" rel="stylesheet" >
-	<link href="<?php $this->options->themeUrl('assets/css/style.min.css?v=75ec36c67e'); ?>" rel="stylesheet">
+	<link href="<?php $this->options->themeUrl('assets/css/style.min.css?v=9b5a929c0b'); ?>" rel="stylesheet">
     <script src="<?php $this->options->themeUrl('assets/js/jquery.min.js'); ?>"></script>
     <?php if($this->options->userHeader) $this->options->userHeader(); ?>
 	<!--[if lt IE 9]>
@@ -38,9 +38,9 @@
 <div id="wrapper"></div>
 <div id="nav-vertical">
     <span class="close"><i class="iconfont icon-aria-close"></i></span>
-    <div id="nav-avatar"><img no-lazyload src="<?php if($this->options->avatarUrl) $this->options->avatarUrl();else $this->options->themeUrl('assets/img/avatar.jpg'); ?>"></div>
+    <div id="nav-avatar"><img no-lazyload src="<?php echo $this->options->avatarUrl ? $this->options->avatarUrl : __TYPECHO_GRAVATAR_PREFIX__ . md5( strtolower( trim( $this->author->mail ) ) ) . '?d=mp&r=g&s=120;' ?>"></div>
     <ul class="nav-vertical-list">
-        <?php showNav(0); ?>
+        <?php $slugs = getPermalinkFromSlug();showNav(0,$slugs); ?>
     </ul>
 </div>
 		<!--[if lt IE 8]>
@@ -48,12 +48,12 @@
 	<![endif]-->
 <div id="nav-menu" role="navigation">
     <div id="nav-left">
-        <a href="<?php $this->options->siteUrl(); ?>"><img id="site-avatar" no-lazyload src="<?php if($this->options->avatarUrl) $this->options->avatarUrl();else $this->options->themeUrl('assets/img/avatar.jpg'); ?>">
+        <a href="<?php $this->options->siteUrl(); ?>"><img id="site-avatar" no-lazyload src="<?php echo $this->options->avatarUrl ? $this->options->avatarUrl : __TYPECHO_GRAVATAR_PREFIX__ . md5( strtolower( trim( $this->author->mail ) ) ) . '?d=mp&r=g&s=50;' ?>">
 <?php $this->options->title(); ?></a>
     </div>
     <div id="nav-right">
         <ul class="nav-right-list">
-            <?php showNav(1); ?>
+            <?php showNav(1,$slugs); ?>
         </ul>
     <div id="nav-btns">
         <i class="iconfont icon-aria-menu" id="nav-menu-btn"></i>
@@ -69,7 +69,7 @@
     </form>
 </div>
 <div id="pjax-container">
-<style><?php if($this->is('post') || $this->is('page') || $this->is('single')):; ?>#header {height: 70vh;}@media (max-width:768px) {#header {height: 40vh;}}#site-meta {display: none;}<?php endif; ?>#background {width: 100%;height: 100%;background: url(<?php 
+<style><?php if($this->is('post') || $this->is('page') || $this->is('single') || $this->is('archive')):; ?>#header {height: 70vh;}@media (max-width:768px) {#header {height: 40vh;}}#site-meta {display: none;}<?php endif; ?>#background {width: 100%;height: 100%;background: url(<?php 
                     if($this->is('post') || $this->is('page') || $this->is('single'))                         
                         if($this->fields->thumbnail)
                             $this->fields->thumbnail(); 

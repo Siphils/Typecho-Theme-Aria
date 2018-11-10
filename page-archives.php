@@ -29,7 +29,7 @@ if (!defined('__TYPECHO_ROOT_DIR__')) exit;
         </ul>
     </div>
     <div id="timeline-container" class="animated bounceInLeft">
-		<?php $this->widget('Widget_Contents_Post_Recent')->to($post);?>
+		<?php $this->widget('Widget_Contents_Post_Recent','pageSize=10000')->to($post);?>
 		<?php while($post->next()): ?>
 			<?php pageArchives($post); ?>
 		<?php endwhile; ?>

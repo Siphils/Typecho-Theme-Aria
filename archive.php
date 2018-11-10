@@ -39,7 +39,7 @@
                 </div>
                 <ul class="card-meta-bottom">
                     <li class="card-meta-label card-meta-more">
-                        <a href="<?php $this->permalink(); ?>"><i class="iconfont icon-aria-more"></i><i class="iconfont icon-aria-more"></i></a>
+                        <a href="<?php $this->permalink(); ?>" target="_blank"><i class="iconfont icon-aria-more"></i><i class="iconfont icon-aria-more"></i></a>
                     </li>
                     <li class="card-meta-label card-meta-views card-meta-right">
                         <i class="iconfont icon-aria-view"></i> <?php getPostView($this); ?>

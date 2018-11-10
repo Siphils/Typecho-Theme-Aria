@@ -8,7 +8,7 @@
     <p><i class="iconfont icon-aria-paperboat"></i></p>
     <?php $this->options->userFooter(); ?>
     <?php if(isEnabled('showHitokoto','AriaConfig')): ?><p id="hitokoto"></p><?php endif; ?>
-    <p id="footer-info">&copy; <span><?php echo $this->options->cpr ? $this->options->cpr : date('Y'); ?></span><?php getFooterSpan(); ?></p>
+    <p id="footer-info">&copy; <span><?php echo $this->options->cpr ? $this->options->cpr : date('Y'); ?></span><?php getFooterWidget(); ?></p>
 </footer><!-- end #footer -->
 <?php if(isEnabled('usePjax','AriaConfig')): ?>
 <script src="<?php $this->options->themeUrl('assets/js/jquery.pjax.min.js'); ?>"></script>
@@ -22,7 +22,7 @@
 <?php endif; ?>
 <script src="<?php $this->options->themeUrl('assets/OwO/OwO.min.js') ?>"></script>
 <?php echo $this->options->userScript ? "<script>".$this->options->userScript."</script>\n" : ""; ?>
-<script src="<?php $this->options->themeUrl('assets/js/main.min.js?v=d8faed7878'); ?>"></script>
+<script src="<?php $this->options->themeUrl('assets/js/main.min.js?v=f083046d90'); ?>"></script>
 <?php if($this->options->statistics) $this->options->statistics(); ?>
 <?php $this->footer(); ?>
 </body>

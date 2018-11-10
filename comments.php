@@ -72,7 +72,7 @@ echo $commentClass;
 		</div>
 
 		<span id="new-response">
-			<i class="iconfont icon-aria-write"></i> 开始你的表演 </span>
+			<i class="iconfont icon-aria-write"></i> 添加新评论 </span>
 		<!-- New Comments begin -->
 		<form method="post" action="<?php $this->commentUrl() ?>" id="comment-form"
 		 role="form">
@@ -88,7 +88,7 @@ echo $commentClass;
 			<?php else: ?>
 			<div id="comment-info">
 				<p>
-					<img no-lazyload id="comment-cur-avatar" src="<?php $this->options->themeUrl('assets/img/comment-avatar.jpg'); ?>">
+					<img no-lazyload id="comment-cur-avatar" src="<?php echo __TYPECHO_GRAVATAR_PREFIX__ ?>">
 				</p>
 				<p class="comment-input">
 					<label for="author" class="required">

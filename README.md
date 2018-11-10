@@ -3,112 +3,21 @@
 
 ![screenshot](https://github.com/Siphils/Typecho-Theme-Aria/blob/master/screenshot.png?raw=true)
 ***  
-## 使用方法
-### Typecho版本  
-`Typecho 1.1/17.10.30` 版本下测试正常  
-### 安装
-1.下载  
-2.文件夹命名为`Aria`并上传到`/usr/themes/`目录  
-3.后台启用  
-### 导航栏配置  
-需要按照如下方式填写配置信息  
-```json  
-{
-    "text": "首页",
-    "href": "#",
-    "icon": "icon-aria-home"
-},
-{
-    "text": "归档",
-    "href": "#",
-    "icon": "icon-aria-archives",
-    "sub": [
-        {
-            "text": "子菜单1",
-            "href": "",
-            "icon": ""
-        },
-        {
-            "text": "子菜单2",
-            "href": "",
-            "icon": ""
-        }
-    ]
-},
-{
-    "text": "朋友",
-    "href": "#",
-    "icon": "icon-aria-friends"
-},
-{
-    "text": "留言",
-    "href": "#",
-    "icon": "icon-aria-guestbook"
-},
-{
-    "text": "关于",
-    "href": "#",
-    "icon": "icon-aria-about"
-}
-```  
-**`text`为显示的文字，`href`为链接地址**  
-**新增`icon`的值，在[iconfont](https://iconfont.cn)建立项目后选择`Font Class`的方式，在icon中输入对应的代码，如`icon-test`**  
-**新增`target`的值，填写`_blank`可在新窗口打开**  
-**`sub` 为子菜单的配置，目前仅支持二级菜单。需要注意格式严格填写，否则不会菜单有输出**
-### 文章打赏功能配置 
-需要按照如下方式填写配置信息
-```json
-"QQ钱包":"qrcodeUrl",
-"支付宝":"qrcodeUrl",
-"微信":"qrcodeUrl"
-```  
-对应输出
-```html
-<li src="{qrcodeUrl}">QQ钱包</li>
-<li src="{qrcodeUrl}">支付宝</li>
-<li src="{qrcodeUrl}">微信</li>
-```
-### 链接盒子  
-新建一个链接盒子`[link-box][/link-box]`  
-新建一个链接项目`[link-item href="链接地址" title="鼠标悬停时显示文字" img="友情链接图像地址" name="友情链接名称"]`。注意属性都需要按顺序填写，`[link-item]`之间不要有空格。
-每一个`[link-item]`都要被包括在`[link-box][/link-box]`之间，并会被解析为如下`html`格式  
-```html
-<a href="链接地址" title="鼠标悬停时显示文字" target="_blank">
-    <div class="link-item">
-        <img class="link-avatar" src="友情链接图像地址">
-        <span class="link-name">友情链接名称</span>
-    </div>
-</a>
-```  
-**由于Typecho 1.1正式版的编辑器解析问题，需要用`!!!`包裹`[link-box][/link-box]`**，例如  
-```sh
-!!!
-[link-box][/link-box]
-!!!
-```
-***  
-填写示例  
-```sh  
-[link-box][link-item href="https://x.x/" title="悬停时显示我！" img="https://x.x/x.jpg" name="我是名字！"][link-item href="https://x.x/" title="悬停时显示我！" img="https://x.x/x.jpg" name="我是名字！"][/link-box]
-```  
-### 归档页面  
-创建一个独立页面并选择使用模板`归档页面 时间轴`,**`slug`设置为`archives`**  
-不需要填写任何内容，写了也不会有输出（逃  
-### PJAX  
-后台可以选择开启或者关闭  
-如果开启需要在后台关闭`设置->评论->开启反垃圾保护`  
-### AJAX评论  
-后台可以选择开启或者关闭  
-### 底部链接组件  
-配置方法  
-```json
-{"text":"","href":"","target":"","title":""},
-{"text":"","href":"","target":"","title":""}
-```
-*除`text`外均可留空*  
-`text` 为显示的文字, `href` 为链接地址，`target` 设置为`_blank` 时链接在新窗口打开， `title` 为鼠标悬停时显示的文字
+## 使用方法  
+[Wiki](https://eriri.ink/archives/Aria-manual.html)
 ***  
 ## 更新  
+### 2018-11-10 1.8.2  
+* 增加了自定义gravatar头像源的配置，现在你可以选择自己想用的源了  
+* 增加了对Meting和MathJax的PJAX结束后的重载  
+* 导航栏解析新增`slug`参数  
+* 修复了一个归档页面的输出bug  
+* 修复了一个ajax评论的bug  
+* 修复了子菜单超出边框的bug  
+* 现在设置项`头像URL`为空时默认根据用户的邮箱调用gravatar头像  
+* 自定义pjax重载函数从`userAction`更换为`Aria.reloadAction`  
+* 微调部分样式  
+* **修改了导航栏图标的解析，现在使用主题自带的图标需要加上`iconfont`，即完整的一个class**  
 ### 2018-10-11 1.8.1  
 * 增加了自定义「一言」接口地址的设置项，现在你可以使用自己的接口了  
 * 增加了PJAX重载函数的接口  
