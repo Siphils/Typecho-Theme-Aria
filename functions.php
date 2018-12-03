@@ -3,7 +3,7 @@ if (!defined('__TYPECHO_ROOT_DIR__')) {
     exit;
 }
 
-define('ARIA_VERSION', '1.8.2');
+define('ARIA_VERSION', '1.8.3');
 define('__TYPECHO_GRAVATAR_PREFIX__', Helper::options()->gravatarPrefix ? Helper::options()->gravatarPrefix : 'https://cn.gravatar.com/avatar/');
 
 require_once 'lib/Shortcode.php';
@@ -58,7 +58,7 @@ EOF;
     echo '<div class="tip"><span class="current-ver"><strong><code>Ver ' . ARIA_VERSION . '</code></strong></span>
     <div class="tip-header"><h1>Typecho-Theme-Aria</h1></div>
     <p>感谢选择使用 <code>Aria</code> </p>
-    <p>查看<a href="https://github.com/Siphils/Typecho-Theme-Aria/blob/master/README.md#%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95">帮助手册</a> <a href="https://github.com/Siphils/Typecho-Theme-Aria/issues">issue</a> <a href="https://github.com/Siphils/Typecho-Theme-Aria/pulls">PR</a></p>
+    <p>查看<a href="https://github.com/Siphils/Typecho-Theme-Aria/wiki">帮助手册</a> <a href="https://github.com/Siphils/Typecho-Theme-Aria/issues">issue</a> <a href="https://github.com/Siphils/Typecho-Theme-Aria/pulls">PR</a></p>
     <p><button id="check-update" onClick="checkUpdate(this);" class="btn primary" style="position:absolute;right:5px;bottom:5px;">检查更新</button></p>
 </div>';
 
@@ -190,7 +190,7 @@ function AriaConfig()
     $gravatarPrefix = __TYPECHO_GRAVATAR_PREFIX__;
     $THEME_CONFIG = json_encode((object) array(
         "THEME_VERSION" => ARIA_VERSION,
-        "SITE_URL" => $options->siteUrl,
+        "SITE_URL" => rtrim($options->siteUrl,"/"),
         "THEME_URL" => $options->themeUrl,
         "SHOW_HITOKOTO" => $showHitokoto,
         "SHOW_QRCODE" => $showQRCode,
@@ -562,21 +562,17 @@ function theNextPrev($widget)
 /**
  * 输出评论回复内容，配合 commentAtContent($coid)一起使用
  */
-function showCommentContent($coid)
+function showCommentContent($comments)
 {
-    $db = Typecho_Db::get();
-    $result = $db->fetchRow($db->select('text')->from('table.comments')->where('coid = ? AND status = ?', $coid, 'approved'));
-    $text = $result['text'];
-    $atStr = commentAtContent($coid);
-    $_content = Markdown::convert($text);
-    //<p>
-    if ($atStr !== '') {
-        $content = substr_replace($_content, $atStr, 0, 3);
-    } else {
-        $content = $_content;
-    }
+    $options = Helper::options();
+    $atStr = commentAtContent($comments->coid);
+    $text = $comments->content;
 
-    echo $content;
+    if ($atStr !== '') {
+        $text = substr_replace($text, $atStr, 0, 3);
+    }
+    
+    echo $text;
 }
 
 /**
@@ -585,11 +581,11 @@ function showCommentContent($coid)
 function commentAtContent($coid)
 {
     $db = Typecho_Db::get();
-    $prow = $db->fetchRow($db->select('parent')->from('table.comments')->where('coid = ? AND status = ?', $coid, 'approved'));
+    $prow = $db->fetchRow($db->select('parent')->from('table.comments')->where('coid = ?', $coid));
     $parent = $prow['parent'];
     if ($parent != "0") {
         $arow = $db->fetchRow($db->select('author')->from('table.comments')
-                ->where('coid = ? AND status = ?', $parent, 'approved'));
+                ->where('coid = ?', $parent));
         $author = $arow['author'];
         $href = '<p><a href="#comment-' . $parent . '">@' . $author . '</a><br>';
         return $href;
@@ -668,13 +664,6 @@ function commentReply($archive)
                 textarea.focus();
             }
             var inputs=document.getElementsByClassName('comment-input');
-            //console.log(inputs);
-            for(var i=0;i<inputs.length;++i)
-            {
-                //console.log(inputs[i].getElementsByTagName('label'));
-                //inputs[i].getElementsByTagName('label')[0].style.left='18px';
-                //inputs[i].getElementsByTagName('label')[0].style.bottom='22px';
-            }
             return false;
         },
 
@@ -696,7 +685,6 @@ function commentReply($archive)
             //console.log(inputs);
             for(var i=0;i<inputs.length;++i)
             {
-                //console.log(inputs[i].getElementsByTagName('label'));
                 inputs[i].getElementsByTagName('label')[0].style.left='8px';
                 inputs[i].getElementsByTagName('label')[0].style.bottom='12px';
             }

@@ -25,7 +25,7 @@
 	<link href="<?php $this->options->themeUrl('assets/OwO/OwO.min.css'); ?>" rel="stylesheet">
 	<link href="<?php $this->options->themeUrl('assets/css/animate.min.css'); ?>" rel="stylesheet">
 	<link href="<?php $this->options->themeUrl('assets/css/iconfont.css'); ?>" rel="stylesheet" >
-	<link href="<?php $this->options->themeUrl('assets/css/style.min.css?v=9b5a929c0b'); ?>" rel="stylesheet">
+	<link href="<?php $this->options->themeUrl('assets/css/style.min.css?v=064cff8c67'); ?>" rel="stylesheet">
     <script src="<?php $this->options->themeUrl('assets/js/jquery.min.js'); ?>"></script>
     <?php if($this->options->userHeader) $this->options->userHeader(); ?>
 	<!--[if lt IE 9]>

@@ -6,7 +6,7 @@
  * 
  * @package Aria
  * @author Siphils
- * @version 1.8.2
+ * @version 1.8.3
  * @link https://eriri.ink/archives/Typecho-Theme-Aria.html
  */
 
@@ -21,7 +21,7 @@ if (!defined('__TYPECHO_ROOT_DIR__')) exit;
                     <a href="<?php $this->permalink(); ?>"><?php $this->sticky();$this->title(); ?></a>
                 </div>
                 <div class="card-meta-top">
-                    <span class="card-meta-cate"><i class="iconfont icon-aria-category"></i> <?php $this->category(' ',true,'无'); ?></span><span class="card-meta-date"><i class="iconfont icon-aria-date"></i> <?php $this->date('F jS, Y'); ?></span>
+                    <span class="card-meta-cate"><i class="iconfont icon-aria-category"></i> <?php $this->category(' ',true,'无'); ?></span><span class="card-meta-date"><i class="iconfont icon-aria-date"></i> <?php $this->date(); ?></span>
                 </div>
                 <a href="<?php $this->permalink(); ?>">
                     <div class="card-thumbnail lazyload" data-original=<?php if($this->fields->thumbnail)
@@ -42,8 +42,9 @@ if (!defined('__TYPECHO_ROOT_DIR__')) exit;
                         else
                             $this->excerpt(50, '...');
                     ?></div>
+                <div class="card-line"></div>
                 <ul class="card-meta-bottom">
-                    <li class="card-meta-label card-meta-more"><a href="<?php $this->permalink(); ?>" title="Read More" ><i class="iconfont icon-aria-more"></i><i class="iconfont icon-aria-more"></i></a></li>
+                    <li class="card-meta-label card-meta-more"><a href="<?php $this->permalink(); ?>" title="Read More" target="_blank"><i class="iconfont icon-aria-more"></i><i class="iconfont icon-aria-more"></i></a></li>
                     <li class="card-meta-label card-meta-views card-meta-right"><i class="iconfont icon-aria-view"></i> <?php getPostView($this); ?></li>
                     <li class="card-meta-label card-meta-comments card-meta-right"><i class="iconfont icon-aria-comment"></i> <?php $this->commentsNum('%d'); ?></li>
                     <!--li class="card-meta-label card-meta-likes"></li-->

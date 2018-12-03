@@ -1,4 +1,4 @@
-<?php function threadedComments($comments, $options) {
+<?php function threadedComments($comments, $singleCommentOptions) {
     $commentClass = '';
     if ($comments->authorId) {
         if ($comments->authorId == $comments->ownerId) {
@@ -26,14 +26,14 @@ echo $commentClass;
 		</a>
 		<div class="comment-content">
 			<div class="comment-text"><span class="comment-reply" style="float:right"><?php $comments->reply('<i class="iconfont icon-aria-reply"></i>'); ?></span>
-			<p><?php showCommentContent($comments->coid); ?></p>
+			<p><?php if('waiting'==$comments->status) echo '<em>您的评论正等待被审核！</em>'; ?><?php showCommentContent($comments); ?></p>
 			</div>
 <p class="comment-meta">By <span><?php echo "<a href=\"$comments->url\" rel=\"external nofollow\" target=\"_blank\">$comments->author</a>"; ?></span> at <?php $comments->date(); ?>. <?php if(isEnabled('showCommentUA','AriaConfig')): ?><span class="comment-ua"><?php echo parseUserAgent($comments->agent); ?></span><?php endif; ?></p>
 		</div>
     </div><!-- 单条评论者信息及内容 -->
     <?php if ($comments->children) { ?> 
 	<div class="comment-children">
-		<?php $comments->threadedComments($options); ?> 
+		<?php $comments->threadedComments($singleCommentOptions); ?> 
 	</div>
 	<?php } ?> 
 </li>
