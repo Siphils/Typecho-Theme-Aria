@@ -20,7 +20,7 @@
                     <a href="<?php $this->permalink(); ?>"><?php $this->sticky();$this->title(); ?></a>
                 </div>
                 <div class="card-meta-top">
-                    <span class="card-meta-cate"><i class="iconfont icon-aria-category"></i> <?php $this->category(' ',true,'无'); ?></span><span class="card-meta-date"><i class="iconfont icon-aria-date"></i> <?php $this->date('F jS, Y'); ?></span>
+                    <span class="card-meta-cate"><i class="iconfont icon-aria-category"></i> <?php $this->category(' ',true,'无'); ?></span><span class="card-meta-date"><i class="iconfont icon-aria-date"></i> <?php $this->date(); ?></span>
                 </div>
                 <a class="card-thumbnail" href="<?php $this->permalink(); ?>" style="background: url(
                     <?php if($this->fields->thumbnail)

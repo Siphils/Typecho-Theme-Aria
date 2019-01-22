@@ -1,12 +1,19 @@
 # Typecho-Theme-Aria  
-> 书写属于自己的篇章  
+> 书写自己的篇章  
 
 ![screenshot](https://github.com/Siphils/Typecho-Theme-Aria/blob/master/screenshot.png?raw=true)
-***  
 ## 使用方法  
 [Wiki](https://eriri.ink/archives/Aria-manual.html)
-***  
 ## 更新  
+### 2019-1-22 1.8.4  
+* 代码块样式稍做优化  
+* 代码块左上角增加了拷贝代码的按钮  
+* 部分样式稍作修改  
+* 去除了搜索框的背景图  
+* 去除部分冗余代码  
+* 修复了博客信息中Gravatar头像丢失的问题  
+* 修复其他一些小BUG  
+* 增加了文章目录(支持h2-h4三层解析)的功能，文章/页面编辑页面可以选择开启或关闭  
 ### 2018-12-3 1.8.3  
 * 现在点击文章左下角的"Read More"的按钮会在新页面打开文章  
 * 现在首页文章日期格式会按照`后台->设置->阅读->文章日期格式`的设置输出  
@@ -101,11 +108,10 @@
 * 更新了默认随机缩略图的显示  
 * 更新了部分样式  
 * 修复了归档页面输出时光轴的BUG  
-*** 
 ## 使用的开源项目:  
 * [highlight.js](https://highlightjs.org/ "highlight.js")  
-* [Bootstrap grid.css](https://www.bootcss.com/ "Bootstrap grid.css")  
-* [Fancybox](https://fancyapps.com/fancybox/3/ "fancybox")  
+* [Bento Grid System](https://github.com/fenbox/bento "Bento Grid System")  
+* [Fancybox3](https://fancyapps.com/fancybox/3/ "fancybox3")  
 * [jQuery](https://jquery.com/ "jQuery")  
 * [DIYgod/OwO](https://github.com/DIYgod/OwO "OwO")  
 * [headroom.js](https://www.bootcss.com/p/headroom.js/ "headroom.js")  
@@ -113,7 +119,9 @@
 * [NProgress](https://github.com/rstacruz/nprogress "NProgress")  
 * [animate.css](https://daneden.github.io/animate.css/ "animate.css")     
 * [jquery-lazyload](https://appelsiini.net/projects/lazyload/ "jquery-lazyload")  
-*** 
+* [smooth-scroll](https://github.com/cferdinandi/smooth-scroll "smooth-scroll")  
+* [highlightjs-line-numbers](https://wcoder.github.io/highlightjs-line-numbers.js/ "hljs-line-numbers")  
+* [clipboard.js](https://zenorocha.github.io/clipboard.js "clipboard")  
 ## 部分插件推荐（非必需）
 * [CommentToMail](https://9sb.org/58 "CommentToMail")  
 * [SmartSpam](http://www.yovisun.com/archive/typecho-plugin-smartspam.html "SmartSpam")  

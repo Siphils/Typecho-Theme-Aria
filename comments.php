@@ -28,7 +28,7 @@ echo $commentClass;
 			<div class="comment-text"><span class="comment-reply" style="float:right"><?php $comments->reply('<i class="iconfont icon-aria-reply"></i>'); ?></span>
 			<p><?php if('waiting'==$comments->status) echo '<em>您的评论正等待被审核！</em>'; ?><?php showCommentContent($comments); ?></p>
 			</div>
-<p class="comment-meta">By <span><?php echo "<a href=\"$comments->url\" rel=\"external nofollow\" target=\"_blank\">$comments->author</a>"; ?></span> at <?php $comments->date(); ?>. <?php if(isEnabled('showCommentUA','AriaConfig')): ?><span class="comment-ua"><?php echo parseUserAgent($comments->agent); ?></span><?php endif; ?></p>
+<p class="comment-meta">By <span><?php echo $comments->url ? "<a href=\"$comments->url\" rel=\"external nofollow\" target=\"_blank\">$comments->author</a>" : $comments->author; ?></span> at <?php $comments->date(); ?>. <?php if(isEnabled('showCommentUA','AriaConfig')): ?><span class="comment-ua"><?php echo parseUserAgent($comments->agent); ?></span><?php endif; ?></p>
 		</div>
     </div><!-- 单条评论者信息及内容 -->
     <?php if ($comments->children) { ?> 
@@ -98,17 +98,14 @@ echo $commentClass;
 					 required />
 				</p>
 				<p class="comment-input">
-					<label for="mail" <?php if ($this->options->commentsRequireMail): ?> class="required"
-						<?php endif; ?>>
+					<label for="mail" <?php if ($this->options->commentsRequireMail): ?> class="required"<?php endif; ?>>
 						<i class="iconfont icon-aria-email"></i>
 					</label>
 					<input placeholder="<?php echo $this->options->commentsRequireMail ? '（必填）' : '（选填）';echo '邮箱'; ?>" type="email" name="mail" id="mail" class="text" value="<?php $this->remember('mail'); ?>"
-					 <?php if ($this->options->commentsRequireMail): ?> required
-					<?php endif; ?>/>
+					 <?php if ($this->options->commentsRequireMail): ?> required<?php endif; ?>>
 				</p>
 				<p class="comment-input">
-					<label for="url" <?php if ($this->options->commentsRequireURL): ?> class="required"
-						<?php endif; ?>>
+					<label for="url" <?php if ($this->options->commentsRequireURL): ?> class="required"<?php endif; ?>>
 						<i class="iconfont icon-aria-link"></i>
 					</label>
 					<input type="url" name="url" id="url" class="text" placeholder="<?php echo $this->options->commentsRequireURL ? '（必填）' : '（选填）';echo '网站'; ?>"

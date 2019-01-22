@@ -3,7 +3,7 @@ if (!defined('__TYPECHO_ROOT_DIR__')) {
     exit;
 }
 
-define('ARIA_VERSION', '1.8.3');
+define('ARIA_VERSION', '1.8.4');
 define('__TYPECHO_GRAVATAR_PREFIX__', Helper::options()->gravatarPrefix ? Helper::options()->gravatarPrefix : 'https://cn.gravatar.com/avatar/');
 
 require_once 'lib/Shortcode.php';
@@ -151,16 +151,18 @@ EOF;
         '其他设置'
     );
     $form->addInput($AriaConfig->multiMode());
-
+    
 }
 
 function themeFields($layout)
 {
-    $thumbnail = new Typecho_Widget_Helper_Form_Element_Text('thumbnail', null, null, _t('文章/页面缩略图Url'), _t('需要带上http(s)://， 默认会调用主题img目录下的thumnail.jpg'));
-    $previewContent = new Typecho_Widget_Helper_Form_Element_Text('previewContent', null, null, _t('文章预览内容'), _t('设置文章的预览内容，留空自动截取文章前300个字。'));
+    $thumbnail = new Typecho_Widget_Helper_Form_Element_Text('thumbnail', null, null, _t('文章/页面缩略图Url'), _t('需要带上http(s)://'));
+    $previewContent = new Typecho_Widget_Helper_Form_Element_Text('previewContent', null, null, _t('文章预览内容'), _t('设置文章的预览内容，留空自动截取文章前50个字。'));
+    $showTOC = new Typecho_Widget_Helper_Form_Element_Radio('showTOC',array(true=> _t('开启'),false => _t('关闭')),false,_t('文章目录'),_t('仅会解析h2-h4三层标题'));
 
     $layout->addItem($thumbnail);
     $layout->addItem($previewContent);
+    $layout->addItem($showTOC);
 }
 
 function themeInit($archive)
@@ -190,7 +192,7 @@ function AriaConfig()
     $gravatarPrefix = __TYPECHO_GRAVATAR_PREFIX__;
     $THEME_CONFIG = json_encode((object) array(
         "THEME_VERSION" => ARIA_VERSION,
-        "SITE_URL" => rtrim($options->siteUrl,"/"),
+        "SITE_URL" => rtrim($options->siteUrl, "/"),
         "THEME_URL" => $options->themeUrl,
         "SHOW_HITOKOTO" => $showHitokoto,
         "SHOW_QRCODE" => $showQRCode,
@@ -210,7 +212,7 @@ function AriaConfig()
  * 根据配置的JSON数据输出导航栏
  * @param $mode
  */
-function showNav($mode,$slugs)
+function showNav($mode, $slugs)
 {
     $data = convertConfigData('navConfig', true);
     if (!$data) {
@@ -571,7 +573,7 @@ function showCommentContent($comments)
     if ($atStr !== '') {
         $text = substr_replace($text, $atStr, 0, 3);
     }
-    
+
     echo $text;
 }
 
@@ -615,6 +617,7 @@ function commentGravatar($email, $author, $s = 80)
  */
 function commentReply($archive)
 {
+    if($archive->allow('comment')) {
     echo "<script type=\"text/javascript\">
     window.TypechoComment = {
         dom : function (id) {
@@ -681,18 +684,12 @@ function commentReply($archive)
 
             this.dom('cancel-comment-reply-link').style.display = 'none';
             holder.parentNode.insertBefore(response, holder);
-            var inputs=document.getElementsByClassName('comment-input');
-            //console.log(inputs);
-            for(var i=0;i<inputs.length;++i)
-            {
-                inputs[i].getElementsByTagName('label')[0].style.left='8px';
-                inputs[i].getElementsByTagName('label')[0].style.bottom='12px';
-            }
             return false;
         }
     }
 </script>
 ";
+    }
 }
 
 /**
@@ -818,4 +815,14 @@ function getPermalinkFromSlug()
     } else {
         return false;
     }
+}
+
+/**
+ * 获取博主头像
+ */
+
+function getAdminAvatar($size = 50)
+{
+    $mail = Typecho_Db::get()->fetchRow(Typecho_Db::get()->select()->from('table.users')->where('uid = ?', 1))['mail'];
+    echo Helper::options()->avatarUrl ? Helper::options()->avatarUrl : __TYPECHO_GRAVATAR_PREFIX__ . md5(strtolower(trim($mail))) . '?d=mp&r=g&s=' . $size;
 }

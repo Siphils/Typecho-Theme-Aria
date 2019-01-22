@@ -24,8 +24,9 @@
     <?php endif; ?>
 	<link href="<?php $this->options->themeUrl('assets/OwO/OwO.min.css'); ?>" rel="stylesheet">
 	<link href="<?php $this->options->themeUrl('assets/css/animate.min.css'); ?>" rel="stylesheet">
-	<link href="<?php $this->options->themeUrl('assets/css/iconfont.css'); ?>" rel="stylesheet" >
-	<link href="<?php $this->options->themeUrl('assets/css/style.min.css?v=bee1b1f43b'); ?>" rel="stylesheet">
+    <!-- <link href="<?php $this->options->themeUrl('assets/css/iconfont.css'); ?>" rel="stylesheet" > -->
+    <link href="//at.alicdn.com/t/font_671129_n5fp4g699a.css" rel="stylesheet" >
+    <link href="<?php $this->options->themeUrl('assets/css/style.min.css?v=64e4aaa9df'); ?>" rel="stylesheet">
     <script src="<?php $this->options->themeUrl('assets/js/jquery.min.js'); ?>"></script>
     <?php if($this->options->userHeader) $this->options->userHeader(); ?>
 	<!--[if lt IE 9]>
@@ -38,7 +39,7 @@
 <div id="wrapper"></div>
 <div id="nav-vertical">
     <span class="close"><i class="iconfont icon-aria-close"></i></span>
-    <div id="nav-avatar"><img no-lazyload src="<?php echo $this->options->avatarUrl ? $this->options->avatarUrl : __TYPECHO_GRAVATAR_PREFIX__ . md5( strtolower( trim( $this->author->mail ) ) ) . '?d=mp&r=g&s=120;' ?>"></div>
+    <div id="nav-avatar"><img no-lazyload src="<?php getAdminAvatar(150); ?>"></div>
     <ul class="nav-vertical-list">
         <?php $slugs = getPermalinkFromSlug();showNav(0,$slugs); ?>
     </ul>
@@ -48,7 +49,7 @@
 	<![endif]-->
 <div id="nav-menu" role="navigation">
     <div id="nav-left">
-        <a href="<?php $this->options->siteUrl(); ?>"><img id="site-avatar" no-lazyload src="<?php echo $this->options->avatarUrl ? $this->options->avatarUrl : __TYPECHO_GRAVATAR_PREFIX__ . md5( strtolower( trim( $this->author->mail ) ) ) . '?d=mp&r=g&s=50;' ?>">
+        <a href="<?php $this->options->siteUrl(); ?>"><img id="site-avatar" no-lazyload src="<?php getAdminAvatar(50); ?>">
 <?php $this->options->title(); ?></a>
     </div>
     <div id="nav-right">
@@ -61,7 +62,7 @@
     </div>
     </div>
 </div>
-<div id="search-box" class="animated" style="background: #fff url(<?php $this->options->themeUrl('assets/img/search-bg.png') ?>) bottom left no-repeat;">
+<div id="search-box" class="animated" style="background: #fff">
     <span class="close"><i class="iconfont icon-aria-close"></i></span>
     <form id="search" method="post" action="./" role="search">
         <input type="text" name="s" id="search-text" placeholder="想要看什么？" />

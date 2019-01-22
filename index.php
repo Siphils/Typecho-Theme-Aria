@@ -6,7 +6,7 @@
  * 
  * @package Aria
  * @author Siphils
- * @version 1.8.3
+ * @version 1.8.4
  * @link https://eriri.ink/archives/Typecho-Theme-Aria.html
  */
 
@@ -21,7 +21,7 @@ if (!defined('__TYPECHO_ROOT_DIR__')) exit;
                     <a href="<?php $this->permalink(); ?>"><?php $this->sticky();$this->title(); ?></a>
                 </div>
                 <div class="card-meta-top">
-                    <span class="card-meta-cate"><i class="iconfont icon-aria-category"></i> <?php $this->category(' ',true,'无'); ?></span><span class="card-meta-date"><i class="iconfont icon-aria-date"></i> <?php $this->date(); ?></span>
+                    <span class="card-meta-cate"><i class="iconfont icon-aria-category"></i> <?php $this->category(' • ',true,'无'); ?></span><span class="card-meta-date"><i class="iconfont icon-aria-date"></i> <?php $this->date(); ?></span>
                 </div>
                 <a href="<?php $this->permalink(); ?>">
                     <div class="card-thumbnail lazyload" data-original=<?php if($this->fields->thumbnail)
