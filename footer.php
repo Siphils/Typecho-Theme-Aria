@@ -22,7 +22,7 @@
 <?php endif; ?>
 <script src="<?php $this->options->themeUrl('assets/OwO/OwO.min.js') ?>"></script>
 <?php echo $this->options->userScript ? "<script>".$this->options->userScript."</script>\n" : ""; ?>
-<script src="<?php $this->options->themeUrl('assets/js/main.min.js?v=d3cd46698e'); ?>"></script>
+<script src="<?php $this->options->themeUrl('assets/js/main.min.js?v=3683f2ca8c'); ?>"></script>
 <?php if($this->options->statistics) $this->options->statistics(); ?>
 <?php $this->footer(); ?>
 </body>
