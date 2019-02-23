@@ -27,8 +27,7 @@
     <?php endif; ?>
 	<link href="<?php $this->options->themeUrl('assets/OwO/OwO.min.css'); ?>" rel="stylesheet">
 	<link href="<?php $this->options->themeUrl('assets/css/animate.min.css'); ?>" rel="stylesheet">
-    <!-- <link href="<?php $this->options->themeUrl('assets/css/iconfont.css'); ?>" rel="stylesheet" > -->
-    <link rel="stylesheet" href="//at.alicdn.com/t/font_671129_cvupyzvsw4a.css">
+    <link href="<?php $this->options->themeUrl('assets/css/iconfont.css'); ?>" rel="stylesheet" >
     <link href="<?php $this->options->themeUrl('assets/css/style.min.css?v=1fb4afc832'); ?>" rel="stylesheet">
     <script src="<?php $this->options->themeUrl('assets/js/jquery.min.js'); ?>"></script>
     <?php if($this->options->customHeader) $this->options->customHeader(); ?>
