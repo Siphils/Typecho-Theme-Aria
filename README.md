@@ -1,10 +1,22 @@
 # Typecho-Theme-Aria  
 > 书写自己的篇章  
 
-![screenshot](https://github.com/Siphils/Typecho-Theme-Aria/blob/master/screenshot.png?raw=true)
+![screenshot](https://github.com/Siphils/Typecho-Theme-Aria/blob/master/screenshot.png?raw=true)  
 ## 使用方法  
-[Wiki](https://eriri.ink/archives/Aria-manual.html)
+[Wiki](https://eriri.ink/archives/Aria-manual.html)  
 ## 更新  
+### 2019-2-23 1.9.0  
+* **警告：由于部分配置变量名修改，部分配置信息可能丢失，请更新前先做数据库或配置信息备份**  
+* 移除了评论框图片  
+* 移除小部分文件  
+* 大部分代码重写  
+* 文章/评论部分功能解析移至后端  
+* 增加了对MathJax的支持  
+* 增加了对DPlayer的支持  
+* 增加了对目录条目的滚动监听  
+* 增加了文章卡片显示动画  
+* 增加了评论区文章作者标识  
+* Fixed #21  
 ### 2019-1-22 1.8.4  
 * 代码块样式稍做优化  
 * 代码块右上角增加了拷贝代码的按钮  
@@ -114,7 +126,7 @@
 * [Fancybox3](https://fancyapps.com/fancybox/3/ "fancybox3")  
 * [jQuery](https://jquery.com/ "jQuery")  
 * [DIYgod/OwO](https://github.com/DIYgod/OwO "OwO")  
-* [headroom.js](https://www.bootcss.com/p/headroom.js/ "headroom.js")  
+* [headroom.js](http://wicky.nillia.ms/headroom.js/ "headroom.js")  
 * [jquery-pjax](https://github.com/defunkt/jquery-pjax "jquery-pjax")  
 * [NProgress](https://github.com/rstacruz/nprogress "NProgress")  
 * [animate.css](https://daneden.github.io/animate.css/ "animate.css")     
@@ -123,6 +135,6 @@
 * [highlightjs-line-numbers](https://wcoder.github.io/highlightjs-line-numbers.js/ "hljs-line-numbers")  
 * [clipboard.js](https://zenorocha.github.io/clipboard.js "clipboard")  
 ## 部分插件推荐（非必需）
-* [CommentToMail](https://9sb.org/58 "CommentToMail")  
+* [CommentToMail](https://9sb.org/58 "CommentToMail")*链接的文章中最后一个插件*  
 * [SmartSpam](http://www.yovisun.com/archive/typecho-plugin-smartspam.html "SmartSpam")  
 * [Sticky](https://github.com/hitop/typechoSticky "Sticky")

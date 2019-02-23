@@ -15,7 +15,7 @@
         ), '', ''); ?><br><?php echo $this->getDescription(); ?>
     </div>
     <?php while($this->next()): ?>
-            <article itemscope itemtype="http://schema.org/BlogPosting" class="card">
+            <article itemscope itemtype="http://schema.org/BlogPosting" class="card animated wow fadeIn" data-wow-duration="1s" data-wow-offset="10">
                 <div class="card-title">
                     <a href="<?php $this->permalink(); ?>"><?php $this->sticky();$this->title(); ?></a>
                 </div>
@@ -26,7 +26,7 @@
                     <?php if($this->fields->thumbnail)
                             $this->fields->thumbnail();
                         else
-                            echo getThumbnail();
+                            echo Utils::getThumbnail();
                         ?>) center center no-repeat;background-size: 100% auto;">
                 </a>
                 <div class="card-body">
@@ -42,7 +42,7 @@
                         <a href="<?php $this->permalink(); ?>" target="_blank"><i class="iconfont icon-aria-more"></i><i class="iconfont icon-aria-more"></i></a>
                     </li>
                     <li class="card-meta-label card-meta-views card-meta-right">
-                        <i class="iconfont icon-aria-view"></i> <?php getPostView($this); ?>
+                        <i class="iconfont icon-aria-view"></i> <?php Contents::getPostView($this); ?>
                     </li>
                     <li class="card-meta-label card-meta-comments card-meta-right">
                         <i class="iconfont icon-aria-comment"></i> <?php $this->commentsNum('%d'); ?>

@@ -6,7 +6,7 @@
         <div class="post-header">
             <h3 class="post-title"><a href="<?php $this->permalink() ?>" class="post-link"><?php $this->title() ?></a></h3>
             <div class="post-meta">
-                <span class="post-meta-label post-meta-views"><?php getPostView($this); ?>次阅读</span>
+                <span class="post-meta-label post-meta-views"><?php Contents::getPostView($this); ?>次阅读</span>
                 <span class="post-meta-label post-meta-cate"><?php $this->category(' • '); ?></span>
                 <span class="post-meta-label post-meta-date"><?php $this->date(); ?></span>
             </div> 
@@ -15,8 +15,8 @@
             <div class="post-content">
                 <?php $this->content(); ?>
             </div>
-            <?php postOther($this); ?>
-            <div class="post-update"><i class="iconfont icon-aria-date"></i>&nbsp;最后一次更新于<?php echo date($this->options->commentDateFormat,$this->modified) ?></div>
+            <?php Contents::getPostOther($this); ?>
+            <div class="post-update"><i class="iconfont icon-aria-date"></i>&nbsp;最后一次更新于<?php echo date($this->options->postDateFormat,$this->modified) ?></div>
         </div>
         <div class="post-tags">
             <?php $this->tags(' ', true, '<a>None</a>'); ?>
@@ -24,7 +24,7 @@
             <?php //Typecho_Widget::widget('Zan_Action')->showZan($this->cid); ?>
         </div>
         <div class="post-footer nextprev">
-            <?php theNextPrev($this); ?>
+            <?php Contents::theNextPrev($this); ?>
         </div>
     </article>
     <?php $this->need('comments.php'); ?>

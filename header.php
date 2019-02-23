@@ -3,13 +3,15 @@
 <html class="no-js">
 
 <head>
-    <link rel="icon" type="image/ico" href="/favicon.ico">
 	<meta charset="<?php $this->options->charset(); ?>">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
 	<meta name="renderer" content="webkit">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="white">
+    <meta name="apple-mobile-web-app-title" content="<?php $this->options->title() ?>">
 	<!-- 通过自有函数输出HTML头部信息 -->
-	<?php $this->header("generator=&commentReply="); ?>
+	<?php $this->header("commentReply="); ?>
 	<title><?php $this->archiveTitle(array(
             'category'  =>  _t('分类 %s 下的文章'),
             'search'    =>  _t('包含关键字 %s 的文章'),
@@ -19,29 +21,30 @@
 
 	<!-- 使用url函数转换相关路径 -->
 
-	<?php if(isEnabled('useFancybox','AriaConfig')): ?>
+    <link rel="icon" type="image/ico" href="/favicon.ico">
+	<?php if(Utils::isEnabled('enableFancybox','AriaConfig')): ?>
 	<link href="<?php $this->options->themeUrl('assets/css/jquery.fancybox.min.css'); ?>" rel="stylesheet">
     <?php endif; ?>
 	<link href="<?php $this->options->themeUrl('assets/OwO/OwO.min.css'); ?>" rel="stylesheet">
 	<link href="<?php $this->options->themeUrl('assets/css/animate.min.css'); ?>" rel="stylesheet">
     <!-- <link href="<?php $this->options->themeUrl('assets/css/iconfont.css'); ?>" rel="stylesheet" > -->
-    <link href="//at.alicdn.com/t/font_671129_n5fp4g699a.css" rel="stylesheet" >
-    <link href="<?php $this->options->themeUrl('assets/css/style.min.css?v=64e4aaa9df'); ?>" rel="stylesheet">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_671129_cvupyzvsw4a.css">
+    <link href="<?php $this->options->themeUrl('assets/css/style.min.css?v=1fb4afc832'); ?>" rel="stylesheet">
     <script src="<?php $this->options->themeUrl('assets/js/jquery.min.js'); ?>"></script>
-    <?php if($this->options->userHeader) $this->options->userHeader(); ?>
+    <?php if($this->options->customHeader) $this->options->customHeader(); ?>
 	<!--[if lt IE 9]>
     <script src="http://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
     <script src="http://cdn.staticfile.org/respond.js/1.3.0/respond.min.js"></script>
     <![endif]-->
 </head>
 <body>
-<?php AriaConfig(); ?>
-<div id="wrapper"></div>
+<?php Utils::AriaConfig(); ?>
+<div id="wrapper" onclick="toggleNav();"></div>
 <div id="nav-vertical">
-    <span class="close"><i class="iconfont icon-aria-close"></i></span>
-    <div id="nav-avatar"><img no-lazyload src="<?php getAdminAvatar(150); ?>"></div>
+    <a class="close" href="javascript:void(0);" onclick="toggleNav();"><i class="iconfont icon-aria-close"></i></a>
+    <div id="nav-avatar"><img no-lazyload src="<?php Utils::getAdminAvatar(150); ?>"></div>
     <ul class="nav-vertical-list">
-        <?php $slugs = getPermalinkFromSlug();showNav(0,$slugs); ?>
+        <?php $slugs = Utils::getPagesInfo();Utils::showNav(0,$slugs); ?>
     </ul>
 </div>
 		<!--[if lt IE 8]>
@@ -49,15 +52,15 @@
 	<![endif]-->
 <div id="nav-menu" role="navigation">
     <div id="nav-left">
-        <a href="<?php $this->options->siteUrl(); ?>"><img id="site-avatar" no-lazyload src="<?php getAdminAvatar(50); ?>">
+        <a href="<?php $this->options->siteUrl(); ?>"><img id="site-avatar" no-lazyload src="<?php Utils::getAdminAvatar(50); ?>">
 <?php $this->options->title(); ?></a>
     </div>
     <div id="nav-right">
         <ul class="nav-right-list">
-            <?php showNav(1,$slugs); ?>
+            <?php Utils::showNav(1,$slugs); ?>
         </ul>
     <div id="nav-btns">
-        <i class="iconfont icon-aria-menu" id="nav-menu-btn"></i>
+        <i class="iconfont icon-aria-menu" id="nav-menu-btn" onclick="toggleNav();"></i>
         <i class="iconfont icon-aria-search" id="nav-search-btn"></i>
     </div>
     </div>
@@ -75,9 +78,9 @@
                         if($this->fields->thumbnail)
                             $this->fields->thumbnail(); 
                         else
-                            echo getThumbnail();
+                            echo Utils::getThumbnail();
                     else
-                        getBackground();
+                        Utils::getBackground();
                 ?>) center center no-repeat;background-size: cover;z-index: -1;position: relative;}</style>
 <header id="header" class="clearfix animated fadeInDown">
     <div id="site-meta">

@@ -6,7 +6,7 @@
  * 
  * @package Aria
  * @author Siphils
- * @version 1.8.4
+ * @version 1.9.0
  * @link https://eriri.ink/archives/Typecho-Theme-Aria.html
  */
 
@@ -16,7 +16,7 @@ if (!defined('__TYPECHO_ROOT_DIR__')) exit;
 
 <div id="main" class="col-mb-12 col-8 col-offset-2" >
 	<?php while($this->next()): ?>
-            <article itemscope itemtype="http://schema.org/BlogPosting" class="card">
+            <article itemscope itemtype="http://schema.org/BlogPosting" class="card animated wow fadeIn" data-wow-duration="1s" data-wow-offset="10">
                 <div class="card-title">
                     <a href="<?php $this->permalink(); ?>"><?php $this->sticky();$this->title(); ?></a>
                 </div>
@@ -27,13 +27,8 @@ if (!defined('__TYPECHO_ROOT_DIR__')) exit;
                     <div class="card-thumbnail lazyload" data-original=<?php if($this->fields->thumbnail)
                                 $this->fields->thumbnail();
                             else
-                                echo getThumbnail();
-                        ?> style="background: url(
-                        <?php if($this->fields->thumbnail)
-                                $this->fields->thumbnail();
-                            else
-                                echo getThumbnail();
-                        ?>) center center no-repeat;background-size: 100% auto;">
+                                echo Utils::getThumbnail();
+                        ?> style="background:url(<?php $this->options->themeUrl('assets/img/loading.svg') ?>) center center no-repeat;background-size: 100% auto;">
                     </div>
                 </a>
                 <div class="card-body"><?php 
@@ -45,7 +40,7 @@ if (!defined('__TYPECHO_ROOT_DIR__')) exit;
                 <div class="card-line"></div>
                 <ul class="card-meta-bottom">
                     <li class="card-meta-label card-meta-more"><a href="<?php $this->permalink(); ?>" title="Read More" target="_blank"><i class="iconfont icon-aria-more"></i><i class="iconfont icon-aria-more"></i></a></li>
-                    <li class="card-meta-label card-meta-views card-meta-right"><i class="iconfont icon-aria-view"></i> <?php getPostView($this); ?></li>
+                    <li class="card-meta-label card-meta-views card-meta-right"><i class="iconfont icon-aria-view"></i> <?php Contents::getPostView($this); ?></li>
                     <li class="card-meta-label card-meta-comments card-meta-right"><i class="iconfont icon-aria-comment"></i> <?php $this->commentsNum('%d'); ?></li>
                     <!--li class="card-meta-label card-meta-likes"></li-->
                 </ul>

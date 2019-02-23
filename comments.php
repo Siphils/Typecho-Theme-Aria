@@ -26,9 +26,9 @@ echo $commentClass;
 		</a>
 		<div class="comment-content">
 			<div class="comment-text"><span class="comment-reply" style="float:right"><?php $comments->reply('<i class="iconfont icon-aria-reply"></i>'); ?></span>
-			<p><?php if('waiting'==$comments->status) echo '<em>您的评论正等待被审核！</em>'; ?><?php showCommentContent($comments); ?></p>
+			<p><?php if('waiting'==$comments->status) echo '<em>您的评论正等待被审核！</em>'; ?><?php $comments->content(); ?></p>
 			</div>
-<p class="comment-meta">By <span><?php echo $comments->url ? "<a href=\"$comments->url\" rel=\"external nofollow\" target=\"_blank\">$comments->author</a>" : $comments->author; ?></span> at <?php $comments->date(); ?>. <?php if(isEnabled('showCommentUA','AriaConfig')): ?><span class="comment-ua"><?php echo parseUserAgent($comments->agent); ?></span><?php endif; ?></p>
+<p class="comment-meta">By <span><?php echo $comments->url ? "<a href=\"$comments->url\" rel=\"external nofollow\" target=\"_blank\">$comments->author</a>" : $comments->author; ?></span> at <?php $comments->date(); ?>. <?php if(Utils::isEnabled('showCommentUA','AriaConfig')): ?><span class="comment-ua"><?php echo Comments::parseUserAgent($comments->agent); ?></span><?php endif; ?></p>
 		</div>
     </div><!-- 单条评论者信息及内容 -->
     <?php if ($comments->children) { ?> 
@@ -43,9 +43,14 @@ echo $commentClass;
 <?php if (!defined('__TYPECHO_ROOT_DIR__')) exit; ?>
 
 
-<?php commentReply($this); ?>
 <div id="comments">
 	<?php if($this->allow('comment')): ?>
+
+	<?php if ($this->options->commentsAntiSpam): ?>
+	<script>(function(){var a=document.addEventListener?{add:"addEventListener",focus:"focus",load:"DOMContentLoaded"}:{add:"attachEvent",focus:"onfocus",load:"onload"};var c,d,e,f,b=document.getElementById("<?php $this->respondId() ?>");null!=b&&(c=b.getElementsByTagName("form"),c.length>0&&(d=c[0],e=d.getElementsByTagName("textarea")[0],f=!1,null!=e&&"text"==e.name&&e[a.add](a.focus,function(){if(!f){var a=document.createElement("input");a.type="hidden",a.name="_",d.appendChild(a),f=!0,a.value=<?php echo Typecho_Common::shuffleScriptVar($this->security->getToken($this->permalink)) ?>}})))})()</script>
+	<?php endif; ?>
+	<?php Comments::commentReply($this); ?>
+
 	<?php $this->comments()->to($comments); ?>
 	<span id="response">
 		<p>
@@ -88,7 +93,7 @@ echo $commentClass;
 			<?php else: ?>
 			<div id="comment-info">
 				<p>
-					<img no-lazyload id="comment-cur-avatar" src="<?php echo __TYPECHO_GRAVATAR_PREFIX__ ?>">
+					<img no-lazyload id="comment-avatar" src="<?php echo __TYPECHO_GRAVATAR_PREFIX__ ?>">
 				</p>
 				<p class="comment-input">
 					<label for="author" class="required">
@@ -122,16 +127,17 @@ echo $commentClass;
 			<?php endif; ?>
 			<p>
 				<label for="textarea" class="required"></label>
-				<textarea style="background: url('<?php $this->options->themeUrl('assets/img/textarea.gif'); ?>') right bottom no-repeat;background-size: 180px 180px;"
-				 rows="8" cols="50" name="text" id="textarea" class="textarea" placeholder="<?php $this->options->placeholder(); ?>"><?php $this->remember('text'); ?></textarea>
+				<textarea rows="8" cols="50" name="text" id="textarea" class="textarea" placeholder="<?php $this->options->placeholder(); ?>"><?php $this->remember('text'); ?></textarea>
 			</p>
 			<div id="comment-footer">
 				<div class="OwO">
 				</div><!--end .OwO-->
-				<div class="comment-image">
+				<?php if($this->options->commentsMarkdown&&!empty($this->options->commentsHTMLTagAllowed)&&strpos($this->options->commentsHTMLTagAllowed,'img')):?>
+				<div class="comment-image" onclick="document.getElementById('textarea').value+='![图片描述](图片地址)' ">
 					<span><i class="iconfont icon-aria-picture"></i>图片</span>
 				</div>
-				<?php if(isEnabled('useCommentToMail','AriaConfig')): ?>
+				<?php endif; ?>
+				<?php if(Utils::isEnabled('enableCommentToMail','AriaConfig')): ?>
 				<div id="comment-ban-mail" class="ui toggle checkbox">
 					<input name="banmail" type="checkbox" value="stop">
 					<label for="comment-ban-mail">
@@ -145,7 +151,6 @@ echo $commentClass;
 		</form>
 	</div>
 	<?php else: ?>
-        <style>.comment-reply {display:none;}</style>
     <span style="font-size: 20px;display: block;user-select: none;"><i class="iconfont icon-aria-close" sytle="font-size:20px"></i> 评论关闭了哟</span>
     <?php endif; ?>
 </div>
