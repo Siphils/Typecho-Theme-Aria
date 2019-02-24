@@ -108,7 +108,7 @@ echo '<div class="tip"><span class="current-ver"><strong><code>Ver ' . ARIA_VERS
 
     $AriaConfig = new Typecho_Widget_Helper_Form_Element_Checkbox('AriaConfig',
         array(
-            'enablePjax' => '开启PJAX',
+            'enablePjax' => '开启PJAX（启用后会强制关闭评论反垃圾保护）',
             'enableAjaxComment' => '开启AJAX评论',
             'enableFancybox' => '文章/评论图片使用<a href="http://fancyapps.com" target="_blank">fancybox</a>',
             'enableLazyload' => '开启图片懒加载<a href="https://appelsiini.net/projects/lazyload" target="_blank">lazyload</a>',
@@ -144,9 +144,9 @@ function themeInit($archive)
 {
     Helper::options()->commentsMaxNestingLevels = 999;
     Helper::options()->commentsOrder = 'DESC';
-    /* if (Utils::isEnabled('enablePjax', 'AriaConfig')) {
+    if (Utils::isEnabled('enablePjax', 'AriaConfig')) {
         Helper::options()->commentsAntiSpam = false;
-    } */
+    }
 
     //ajax获取评论头像
     if (isset($_GET['action']) == 'ajax_avatar_get' && 'GET' == $_SERVER['REQUEST_METHOD']) {
