@@ -26,7 +26,7 @@
 <?php endif; ?>
 <?php echo $this->options->customScript ? "<script>".$this->options->customScript."</script>\n" : ""; ?>
 <script src="<?php $this->options->themeUrl('assets/js/functions.min.js?v=8b426df9ab'); ?>"></script>
-<script src="<?php $this->options->themeUrl('assets/js/main.min.js?v=b3d876b82e'); ?>"></script>
+<script src="<?php $this->options->themeUrl('assets/js/main.min.js?v=de446d9d66'); ?>"></script>
 <?php if($this->options->statistics) $this->options->statistics(); ?>
 <?php $this->footer(); ?>
 </body>
