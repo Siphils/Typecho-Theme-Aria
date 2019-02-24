@@ -24,12 +24,21 @@ if (!defined('__TYPECHO_ROOT_DIR__')) exit;
                     <span class="card-meta-cate"><i class="iconfont icon-aria-category"></i> <?php $this->category(' • ',true,'无'); ?></span><span class="card-meta-date"><i class="iconfont icon-aria-date"></i> <?php $this->date(); ?></span>
                 </div>
                 <a href="<?php $this->permalink(); ?>">
+                    <?php if(Utils::isEnabled('enableLazyload','AriaConfig')): ?>
                     <div class="card-thumbnail lazyload" data-original=<?php if($this->fields->thumbnail)
                                 $this->fields->thumbnail();
                             else
                                 echo Utils::getThumbnail();
                         ?> style="background:url(<?php $this->options->themeUrl('assets/img/loading.svg') ?>) center center no-repeat;background-size: 100% auto;">
                     </div>
+                    <?php else: ?>
+                    <div class="card-thumbnail" style="background:url(<?php if($this->fields->thumbnail)
+                                $this->fields->thumbnail();
+                            else
+                                echo Utils::getThumbnail();
+                        ?>) center center no-repeat;background-size: 100% auto;">
+                    </div>
+                    <?php endif; ?>
                 </a>
                 <div class="card-body"><?php 
                         if($this->fields->previewContent)
