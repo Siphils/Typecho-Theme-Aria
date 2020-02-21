@@ -16,7 +16,7 @@ if (!defined('__TYPECHO_ROOT_DIR__')) exit;
 
 <div id="main" class="col-mb-12 col-8 col-offset-2" >
 	<?php while($this->next()): ?>
-            <article itemscope itemtype="http://schema.org/BlogPosting" class="card animated wow fadeIn" data-wow-duration="1s" data-wow-offset="10">
+            <article itemscope itemtype="https://schema.org/BlogPosting" class="card animated wow fadeIn" data-wow-duration="1s" data-wow-offset="10">
                 <div class="card-title">
                     <a href="<?php $this->permalink(); ?>"><?php $this->sticky();$this->title(); ?></a>
                 </div>

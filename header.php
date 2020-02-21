@@ -23,13 +23,13 @@
 
     <link rel="icon" type="image/ico" href="/favicon.ico">
 	<?php if(Utils::isEnabled('enableFancybox','AriaConfig')): ?>
-	<link href="<?php $this->options->themeUrl('assets/css/jquery.fancybox.min.css'); ?>" rel="stylesheet">
+	<link href="https://cdn.jsdelivr.net/npm/jquery.fancybox/source/jquery.fancybox.pack.min.js" rel="stylesheet">
     <?php endif; ?>
-	<link href="<?php $this->options->themeUrl('assets/OwO/OwO.min.css'); ?>" rel="stylesheet">
-	<link href="<?php $this->options->themeUrl('assets/css/animate.min.css'); ?>" rel="stylesheet">
-    <link href="<?php $this->options->themeUrl('assets/css/iconfont.css'); ?>" rel="stylesheet" >
+	<link href="https://cdn.jsdelivr.net/gh/Siphils/Typecho-Theme-Aria/assets/OwO/OwO.min.css" rel="stylesheet">
+	<link href="https://cdn.jsdelivr.net/npm/animate.css/animate.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/gh/Siphils/Typecho-Theme-Aria/assets/css/iconfont.css" rel="stylesheet" >
     <link href="<?php $this->options->themeUrl('assets/css/style.min.css?v=213a50a4db'); ?>" rel="stylesheet">
-    <script src="<?php $this->options->themeUrl('assets/js/jquery.min.js'); ?>"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
     <?php if($this->options->customHeader) $this->options->customHeader(); ?>
 	<!--[if lt IE 9]>
     <script src="http://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
