@@ -26,7 +26,7 @@
 	<link href="https://cdn.jsdelivr.net/npm/jquery.fancybox/source/jquery.fancybox.pack.min.js" rel="stylesheet">
     <?php endif; ?>
 	<link href="<?php $this->options->themeUrl('assets/OwO/OwO.min.css'); ?>" rel="stylesheet">
-	<link href="https://cdn.jsdelivr.net/npm/animate.js/dist/scripts/animate.min.js" rel="stylesheet">
+	<link href="https://cdn.jsdelivr.net/npm/animate.css/animate.min.css" rel="stylesheet">
     <link href="<?php $this->options->themeUrl('assets/css/iconfont.css'); ?>" rel="stylesheet" >
     <link href="<?php $this->options->themeUrl('assets/css/style.min.css?v=213a50a4db'); ?>" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
